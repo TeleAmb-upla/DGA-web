@@ -23,8 +23,6 @@ body {
 <body>
 
 <div id="plot01" style="margin-bottom: 50px;"></div>
-<div id="plot02" style="margin-bottom: 50px;"></div>
-
 
 <script> // PLot 01: Total watersheds SCA
 
@@ -41,7 +39,7 @@ var plot01svg = d3.select("#plot01").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     
-d3.csv("Data//total//cuencas_SP_SCA.csv", function(error, data) {
+d3.csv("Data/total/cuencas_SP_SCA.csv", function(error, data) {
 
         var y = d3.scale.ordinal()
     .rangeRoundBands([0, height], .3);
