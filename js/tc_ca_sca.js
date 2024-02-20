@@ -17,7 +17,7 @@ export async function tc_ca_sca() {
         .append("g")
         .attr("transform", "translate(0," + margin.top + ")");
 
-    const data = await d3.csv("csv/total/tc_ca_sca.csv");
+    const data = await d3.csv("csv/total/tc_ca_SCA.csv");
 
     const y = d3.scaleBand()
         .rangeRound([0, height], .3)
