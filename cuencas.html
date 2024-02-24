@@ -28,16 +28,6 @@
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 
-
-  <script type="module"> 
-    import { c_SCA_y } from './js/c_SCA_y.js'; 
-    import { c_SCA_y_t_area } from './js/c_SCA_y_t_area.js'; 
-
-    c_SCA_y();
-    c_SCA_y_t_area();
-
-  </script>
-
 </head>
 
 <body>
@@ -98,7 +88,7 @@
       </p>
 
       <p> Seleccione una cuenca:
-        <select id="select1">
+        <select id="BNA_cod">
             <option value="010">010-Altiplanica</option>
             <option value="023">023-Fronterizas salares Atacama-Socompa</option>
             <option value="024">024-Endorreica entre fronterizas y Salar Atacama</option>
@@ -156,27 +146,275 @@
   <!-- end service section -->
 
 
-  <section>
 
-    <table class="default">
+  <script type="module"> 
+
+
+      import {c_map_location } from './js/c_map_location.js'          // p01
+    import {c_SCA_map } from './js/c_SCA_map.js';                   // p02
+    import {c_SCA_trend_map } from './js/c_SCA_trend_map.js';       // p03
+    import { c_SCA_y } from './js/c_SCA_y.js';                      // p04
+    import { c_SCA_y_t_area } from './js/c_SCA_y_t_area.js';        // p05
+    import { c_SCA_y_elev } from './js/c_SCA_y_elev.js';            // p06
+    import { c_SCA_elev } from './js/c_SCA_elev.js';                // p07
+    import {c_SCA_y_t_elev } from './js/c_SCA_y_t_elev.js';         // p08
+    import { c_elev } from './js/c_elev.js';                        // p09
+    import { c_SCA_y_t_a_elev } from './js/c_SCA_y_t_a_elev.js';    // p10
+    import { c_snowline_y } from './js/c_snowline_y.js';            // p11
+    import { c_SCA_m } from './js/c_SCA_m.js';                      // p12
+    import { c_SCA_m_elev } from './js/c_SCA_m_elev.js';            // p13
+    import {c_SCA_y_m} from './js/c_SCA_y_m.js';                    // p14
+    import {c_SCA_m_trend} from './js/c_SCA_m_trend.js';            // p15
+    import { c_SCA_m_t_area } from './js/c_SCA_m_t_area.js';        // p16
+    import { c_SCA_ym } from './js/c_SCA_ym.js';                    // p17
+    import {c_SCA_ym_elev } from './js/c_SCA_ym_elev.js';           // p18
+    import { c_snowline_ym } from './js/c_snowline_ym.js';          // p19
+
+    //Se obtiene el valor ingresado en el input
+    const input = document.querySelector("#BNA_cod");
+
+    // Cada vez que el valor del input cambie, se actualizará el gráfico con los datos correspondientes
+    let watershed = '';
+
+    input.addEventListener('change', function (event) {
+        watershed = event.target.value;
+
+        // clean de DIv elements
+        document.getElementById("p01").innerHTML = "";
+        document.getElementById("p02").innerHTML = "";
+        document.getElementById("p03").innerHTML = "";
+        document.getElementById("p04").innerHTML = "";
+        document.getElementById("p05").innerHTML = "";
+        document.getElementById("p06").innerHTML = "";
+        document.getElementById("p07").innerHTML = "";
+        document.getElementById("p08").innerHTML = "";
+        document.getElementById("p09").innerHTML = "";
+        document.getElementById("p10").innerHTML = "";
+        document.getElementById("p11").innerHTML = "";
+        document.getElementById("p12").innerHTML = "";
+        document.getElementById("p13").innerHTML = "";
+        document.getElementById("p14").innerHTML = "";
+        document.getElementById("p15").innerHTML = "";
+        document.getElementById("p16").innerHTML = "";
+        document.getElementById("p17").innerHTML = "";
+        document.getElementById("p18").innerHTML = "";
+        document.getElementById("p19").innerHTML = "";
+
+        // run de JS
+        c_map_location(watershed);    // p01
+        c_SCA_trend_map(watershed);   // p02 
+        c_SCA_map(watershed);         // p03
+        c_SCA_y(watershed);           // p04
+        c_SCA_y_t_area(watershed);    // p05
+    	  c_SCA_y_elev(watershed);      // p06
+	      c_SCA_elev(watershed);        // p07
+        c_SCA_y_t_elev(watershed)     // p08	      
+        c_elev(watershed);            // p09
+	      c_SCA_y_t_a_elev(watershed);  // p10
+        c_snowline_y(watershed);      // p11
+        c_SCA_m(watershed);           // p12
+        c_SCA_m_elev(watershed);      // p13
+        c_SCA_y_m(watershed);         // p14
+        c_SCA_m_trend(watershed);     // p15
+        c_SCA_m_t_area(watershed);    // p16
+        c_SCA_ym(watershed);          // p17
+        c_SCA_ym_elev(watershed)      // p18
+        c_snowline_ym(watershed);     // p19
+        
+    })
   
-      <tr>
-   
-        <td style="text-align: top">
-          <img src="images/chile_map.png"></td>
+ 
+   </script>
+
+
+
+
+
+
+
+
+
+
+
+
+<section>
+
+  <table class="default" >
+  
+    <tr>
+      <td rowspan="15" &nbsp VALIGN = Top Align = Left >
+        <div id="p01">
+      </td>
+      <td colspan="10" &nbsp;>
+        <div id="p02">
+      </td>
+      <td colspan="10" &nbsp;>
+        <div id="p03">
+      </td>
+    </tr>
     
-        <td style="text-align: center">
-        <img src="images/BNA_054_maps.png">
-          <div id="Place1"></div>
-          <div id="Place2"></div>
-        </td>
-          
-      </tr>
-     
-    </table>
+    <tr>
+      <td colspan="10" &nbsp;><div id="p04"></div></td>
+      <td colspan="10" &nbsp;><div id="p05"></div></td>
+    </tr>
+   
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td colspan="14" &nbsp;><div id="p06"></div></td>
+      <td><div id="p07"></div></td>
+      <td><div id="p08"></div></td>
+      <td colspan="2" &nbsp;><div id="p09"></div></td>
+      <td colspan="2" &nbsp;><div id="p10"></div></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td colspan="20" &nbsp;><div id="p11"></div></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td colspan="10" &nbsp;><div id="p12"></div></td>
+      <td colspan="10" &nbsp;><div id="p13"></div></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td colspan="14" &nbsp;><div id="p14"></div></td>
+      <td><div id="p15"></div></td>
+      <td colspan="2" &nbsp;><div id="p16"></div></td>
+      <td></td>
+      <td colspan="2" &nbsp;></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td colspan="20" &nbsp;><div id="p17"></div></td>
+    </tr>
+
+    <tr>
+      <td colspan="20" &nbsp;><div id="p18"></div></td>
+    </tr>
+
+    <tr>
+      <td colspan="20" &nbsp;><div id="p19"></div></td>
+    </tr>
+
+  </table>
+
+  <p></p>
   
   </section>
-
 
 
 
