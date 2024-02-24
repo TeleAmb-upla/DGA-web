@@ -2,13 +2,12 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función asincrónica para cargar y dibujar el gráfico
-export async function c_SCA_y() {
+export async function c_SCA_y(watershed) {
     // Select watershed
-    var watershed = "054"
 
     // Ruta para el archivo CSV
-    var text_ini = "csv\\year\\SCA_y_BNA_"
-    var text_end =  ".csv"
+    var text_ini = "csv\\year\\SCA_y_BNA_";
+    var text_end =  ".csv";
 
     var watershed_selected = text_ini.concat(watershed).concat(text_end)
     // Obtener los datos CSV
@@ -20,7 +19,7 @@ export async function c_SCA_y() {
     const height = 450 - margin.top - margin.bottom;
 
     // Crear el elemento SVG
-    var svg = d3.select("#Place1")
+    var svg = d3.select("#p04")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -42,7 +41,7 @@ export async function c_SCA_y() {
 
     // Escala Y
     var y = d3.scaleLinear()
-        .domain([0, 25]) //d3.max(data, d => d.SCA)])
+        .domain([0, 22]) //d3.max(data, d => d.SCA)])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));

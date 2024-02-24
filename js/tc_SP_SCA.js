@@ -108,18 +108,6 @@ export async function tc_SP_SCA(index) {
         .attr("x", -margin.top - 150)
         .text("Cuencas (cod BNA)");
 
-
-// Add title to graph
-svg.append("text")
-.attr("x", 0)
-.attr("y", -25)
-.attr("text-anchor", "center")
-.style("font-size", "14px")
-.attr("font-family","Arial")
-.text("Cobertura nieve (%)");
-
-
-
     const legendData = ["Permanente", "Estacional", "Intermitente"];
     const legendColors = ["blue", "orange", "yellow"];
     const legendTexts = ["Permanente", "Estacional", "Intermitente"];

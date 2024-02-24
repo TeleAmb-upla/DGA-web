@@ -2,10 +2,8 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función asincrónica para cargar y dibujar el gráfico
-export async function c_SCA_y_t_area() {
-    // Select watershed
-    var watershed = "054";
-
+export async function c_SCA_y_t_area(watershed) {
+    
     // Ruta para el archivo CSV
      // Ruta para el archivo CSV
      var text_ini = "csv\\year\\SCA_y_t_area_BNA_"
@@ -22,7 +20,7 @@ export async function c_SCA_y_t_area() {
     const height = 450 - margin.top - margin.bottom;
 
     // Crear el elemento SVG
-    var svg = d3.select("#Place1")
+    var svg = d3.select("#p05")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
