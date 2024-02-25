@@ -3,9 +3,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function c_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 40, left: 90},
-        width = 260 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+
+ const margin = {top: 50, right: 0, bottom: 50, left: 0};
+    const width = 100 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#p09")

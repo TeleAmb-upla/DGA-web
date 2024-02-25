@@ -3,9 +3,10 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Función para dibujar el gráfico 
 export async function c_SCA_y_m(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 25, bottom: 30, left: 40},
-        width = 600 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+
+    const margin = {top: 50, right: 0, bottom: 50, left: 80};
+    const width = 500 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#p14")
@@ -94,8 +95,8 @@ export async function c_SCA_y_m(watershed) {
         .append("rect")
             .attr("x", d => x(d.group))
             .attr("y", d => y(d.variable))
-            .attr("rx", 4)
-            .attr("ry", 4)
+            //.attr("rx", 4)
+            //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", d => myColor(d.value))

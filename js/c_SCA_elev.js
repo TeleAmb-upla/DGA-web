@@ -12,10 +12,13 @@ async function loadData(watershed_selected) {
 }
 
 export async function c_SCA_elev(watershed) {
-    // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 25, bottom: 30, left: 40};
-    const width = 100 - margin.left - margin.right;
-    const height = 450 - margin.top - margin.bottom;
+
+  // set the dimensions and margins of the graph
+    const margin = {top: 50, right: 100, bottom: 50, left: 0};
+    const width = 50 ;
+    const height = 400 - margin.top - margin.bottom;
+
+
 
     // append the svg object to the body of the page
     const svg = d3.select("#p07")
@@ -65,7 +68,7 @@ export async function c_SCA_elev(watershed) {
         .range(["#ffffd9", "#081d58"]);
 
     // create a tooltip
-    const tooltip = d3.select("#Place2")
+    const tooltip = d3.select("#p07")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -104,8 +107,8 @@ export async function c_SCA_elev(watershed) {
           .append("rect")
           .attr("x", function (d) { return x(d.group); })
           .attr("y", function (d) { return y(d.variable); })
-          .attr("rx", 4)
-          .attr("ry", 4)
+          //.attr("rx", 4)
+          //.attr("ry", 4)
           .attr("width", x.bandwidth())
           .attr("height", y.bandwidth())
           .style("fill", function (d) { return myColor(d.value); })
@@ -116,23 +119,9 @@ export async function c_SCA_elev(watershed) {
           .on("mousemove", mousemove)
           .on("mouseleave", mouseleave);
   
-    // Add title to graph
-    svg.append("text")
-        .attr("x", 0)
-        .attr("y", -50)
-        .attr("text-anchor", "left")
-        .style("font-size", "22px")
-        .text("Titulo");
 
-    // Add subtitle to graph
-    svg.append("text")
-        .attr("x", 0)
-        .attr("y", -20)
-        .attr("text-anchor", "left")
-        .style("font-size", "14px")
-        .style("fill", "grey")
-        .style("max-width", 400)
-        .text(" SCA anual 2000-2022 por elevacion");
+
+
 }
 
 

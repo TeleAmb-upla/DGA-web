@@ -2,9 +2,9 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 export async function c_SCA_y_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 25, bottom: 30, left: 40};
-    const width = 600 - margin.left - margin.right;
-    const height = 450 - margin.top - margin.bottom;
+    const margin = {top: 50, right: 0, bottom: 50, left: 80};
+    const width = 500 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#p06")
@@ -54,7 +54,7 @@ export async function c_SCA_y_elev(watershed) {
         .range(["#ffffd9", "#081d58"]);
 
     // create a tooltip
-    const tooltip = d3.select("#Place1")
+    const tooltip = d3.select("#p06")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -93,8 +93,8 @@ export async function c_SCA_y_elev(watershed) {
         .append("rect")
         .attr("x", function (d) { return x(d.group); })
         .attr("y", function (d) { return y(d.variable); })
-        .attr("rx", 4)
-        .attr("ry", 4)
+        //.attr("rx", 4)
+        //.attr("ry", 4)
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
         .style("fill", function (d) { return myColor(d.value); })
@@ -105,23 +105,44 @@ export async function c_SCA_y_elev(watershed) {
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
 
-
-
     // Add title to graph
     svg.append("text")
-        .attr("x", 0)
-        .attr("y", -50)
-        .attr("text-anchor", "left")
-        .style("font-size", "22px")
-        .text("A d3.js heatmap");
+        .attr("x", 100)
+        .attr("y", -20)
+        .attr("text-anchor", "center")
+        .attr("font-family", "Arial")
+        .style("font-size", "20px")
+        .text("Persistencia de nieve por elevacion");
 
     // Add subtitle to graph
     svg.append("text")
-        .attr("x", 0)
-        .attr("y", -20)
-        .attr("text-anchor", "left")
-        .style("font-size", "14px")
+        .attr("x", 200)
+        .attr("y", -5)
+        .attr("text-anchor", "center")
+        .style("font-size", "16px")
+        .attr("font-family", "Arial")
         .style("fill", "grey")
         .style("max-width", 400)
-        .text("Areas con cambio en la SCA 2000-2022");
-}
+        .text("Cuenca: "+ watershed);
+
+    // Etiqueta del eje Y
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-family", "Arial")
+        .attr("font-size", "13")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -50)
+        .attr("x", -100)
+        .text("Elevacion (msnm)");
+
+    // Etiqueta del eje X
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-family", "Arial")
+        .attr("font-size", "13")
+        .attr("x", width / 2 + 30)
+        .attr("y", height + 35)
+        .text("Años");
+
+
+      }

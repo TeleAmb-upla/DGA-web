@@ -3,9 +3,9 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Función para dibujar el gráfico 
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 25, bottom: 30, left: 40},
-        width = 80 - margin.left - margin.right,
-        height = 450 - margin.top - margin.bottom;
+    const margin = {top: 50, right: 100, bottom: 50, left: 0};
+    const width = 50 ;
+    const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#p08")
@@ -94,8 +94,8 @@ export async function c_SCA_y_t_elev(watershed) {
         .append("rect")
             .attr("x", d => x(d.group))
             .attr("y", d => y(d.variable))
-            .attr("rx", 4)
-            .attr("ry", 4)
+            //.attr("rx", 4)
+            //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", d => myColor(d.value))
@@ -105,21 +105,17 @@ export async function c_SCA_y_t_elev(watershed) {
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
-    // Add title to graph
-    svg.append("text")
-            .attr("x", 0)
-            .attr("y", -50)
-            .attr("text-anchor", "left")
-            .style("font-size", "22px")
-            .text("A d3.js heatmap");
+
+
+
+        // Add title to graph
+        svg.append("text")
+        .attr("x", 100)
+        .attr("y", -20)
+        .attr("text-anchor", "center")
+        .attr("font-family", "Arial")
+        .style("font-size", "20px")
+        .text("Persistencia de nieve por elevacion");
     
-    // Add subtitle to graph
-    svg.append("text")
-            .attr("x", 0)
-            .attr("y", -20)
-            .attr("text-anchor", "left")
-            .style("font-size", "14px")
-            .style("fill", "grey")
-            .style("max-width", 400)
-            .text("Tendencia SCA por mes");
+
         }
