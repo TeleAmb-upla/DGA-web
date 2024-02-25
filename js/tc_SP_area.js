@@ -1,4 +1,5 @@
 
+
 // Ahora puedes utilizar D3.js o cualquier otra biblioteca de gráficos para dibujar dentro de este SVG
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -32,7 +33,7 @@ export async function tc_SP_area() {
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisTop(x).ticks(5);
+    const xAxis = d3.axisTop(x).ticks(3);
 
     const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
 
@@ -100,6 +101,14 @@ export async function tc_SP_area() {
         .attr("x2", x(0))
         .attr("y2", height);
 
+// Add title to graph
+svg.append("text")
+.attr("x", 40)
+.attr("y", -25)
+.attr("text-anchor", "center")
+.style("font-size", "14px")
+.attr("font-family","Arial")
+.text("Area (km2)");
 
 
 

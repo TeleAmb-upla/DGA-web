@@ -1,142 +1,160 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export async function tm_sp_area() {
-    const margin = { top: 60, right: 30, bottom: 50, left: 80 };
-    const width = 460 - margin.left - margin.right;
-    const height = 400- margin.top - margin.bottom;
 
-    // append the svg object to the body of the page
-    const svg = d3.select("#Place2")
-    .append("svg")
+  const margin = { top: 50, right: 30, bottom: 30, left: 60 };
+    const width = 500 - margin.left - margin.right;
+    const height = 450 - margin.top - margin.bottom;
+
+    const svg = d3.select("#Place2").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "d3-plot")
-    .append("g")    
+    .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Parse the Data
-    const data = await d3.csv("csv/total/tm_SP_area.csv");
+  var data = [
+    {Macrozona: "Norte",   Intermitente:  21655, Estacional:  2888, Permanente:   25},
+    {Macrozona: "Centro",  Intermitente:   7670, Estacional: 11220, Permanente:   372},
+    {Macrozona: "Sur",     Intermitente:  21822, Estacional:  4023, Permanente:   262},
+    {Macrozona: "Austral", Intermitente: 119255, Estacional: 43143, Permanente: 20077}
+  ];
+  
+   // const data = await d3.csv("csv/total/tc_SP_SCA.csv");
 
-    // List of subgroups = header of the csv files = soil condition here
-    var subgroups = data.columns.slice(1);
+  var series = d3.stack()
+    .keys(["Intermitente","Intermitente","Permanente"])
+    .offset(d3.stackOffsetDiverging)
+    (data);
+  
+  
+  var myColor = d3.scaleOrdinal().domain(series)
+    .range(["yellow","orange","blue"])
+    
+  var x = d3.scaleBand()
+    .domain(data.map(function(d) { return d.Macrozona; }))
+    .rangeRound([margin.left, width - margin.right])
+    .padding(0.1);
+  
+  var y = d3.scaleLinear()
+    .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+    .rangeRound([height - margin.bottom, margin.top]);
+  
+  var z = d3.scaleOrdinal(d3.schemeCategory10);
+  
+svg.append("g")
+  .selectAll("g")
+  .data(series)
+  .enter().append("g")
+  .attr("fill", function(d){return myColor(d)}) // function(d){return myColor(d)} 
+  .selectAll("rect")
+  .data(function(d) { return d; })
+  .enter().append("rect")
+  .attr("width", x.bandwidth)
+  .attr("x", function(d) { return x(d.data.Macrozona); })
+  .attr("y", function(d) { return y(d[1]); })
+  .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+  
+  svg.append("g")
+      .attr("transform", "translate(0," + y(0) + ")")
+      .call(d3.axisBottom(x));
+  
+  svg.append("g")
+      .attr("transform", "translate(" + margin.left + ",0)")
+      .call(d3.axisLeft(y));
+  
+  // Add title to graph
+  svg.append("text")
+          .attr("x", 20)
+          .attr("y", 25)
+          .attr("text-anchor", "center")
+          .style("font-size", "18px")
+          .attr("font-family","Arial")
+          .text("Superficie por persistencia nieve por macrozonas");
+  
+ 
+  // Legend
 
-    // List of groups = species here = value of the first column called group -> I show them on the X axis
-    var groups = d3.map(data, function(d){return(d.group)}).keys()
+  let legX = 75
+  let legY = 80
 
-    // Add X axis
-    var x = d3.scaleBand()
-        .domain(groups)
-        .range([0, width], .3)
-        .padding([0.2])
-        svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).tickSizeOuter(0));
+  svg.append("text")
+  .attr("x", legX)
+  .attr("y", legY-15)
+  .text("Permanencia nieves (%)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
 
-    // Add Y axis
-    var y = d3.scaleLinear()
-    .domain([0, 200000])
-    .range([ height, 0 ]);
-    svg.append("g")
-    .call(d3.axisLeft(y));
+  svg.append("rect")
+      .attr("x", legX)
+      .attr("y", legY)
+      .attr('height', 15)
+      .attr('width', 15)
+      .style("fill", "blue")
 
-       // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
-        .domain(subgroups)
-        .range(['yellow', 'orange', 'blue'])
+  svg.append("rect")
+      .attr("x", legX)
+      .attr("y", legY+25)
+      .attr('height', 15)
+      .attr('width', 15)
+      .style("fill", "orange")
 
-    // stack the data? --> stack per subgroup
-    var stackedData = d3.stack()
-        .keys(subgroups)
-        (data)
+  svg.append("rect")
+      .attr("x", legX)
+      .attr("y", legY+50)
+      .attr('height', 15)
+      .attr('width', 15)
+      .style("fill", "yellow")
 
-    // Show the bars
-    svg.append("g")
-        .selectAll("g")
-        // Enter in the stack data = loop key per key = group per group
-        .data(stackedData)
-        .enter().append("g")
-        .attr("fill", function(d) { return color(d.key); })
-        .selectAll("rect")
-        // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(function(d) { return d; })
-        .enter().append("rect")
-        .attr("x", function(d) { return x(d.data.group); })
-        .attr("y", function(d) { return y(d[1]); })
-        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-        .attr("width", x.bandwidth());
+  svg.append("text")
+      .attr("x", legX+25)
+      .attr("y", legY+10)
+      .text("Permanente (>90)")
+      .style("font-size", "12px")
+      .attr("font-family", "Arial")
+      .attr("alignment-baseline", "middle")
 
-    // Add title to graph
-    svg.append("text")
-        .attr("x", -50)
-        .attr("y", -25)
-        .attr("text-anchor", "center")
-        .style("font-size", "18px")
-        .attr("font-family", "Arial")
-        .text("Superficie de persistencia de nieve por macrozonas");
+  svg.append("text")
+      .attr("x", legX+25)
+      .attr("y", legY+35)
+      .text("Estacional (60 - 90)")
+      .style("font-size", "12px")
+      .attr("font-family", "Arial")
+      .attr("alignment-baseline", "middle")
 
-    // Add X axis label:
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("font-family", "Arial")
-        .attr("font-size", "15")
-        .attr("x", (width / 2) + 30)
-        .attr("y", height + margin.top - 15)
-        .text("Macrozonas");
+  svg.append("text")
+      .attr("x", legX+25)
+      .attr("y", legY+60)
+      .text("Intermitente (5 - 60)")
+      .style("font-size", "12px")
+      .attr("font-family", "Arial")
+      .attr("alignment-baseline", "middle");
+      
+  // Etiqueta del eje X
+  svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("font-family", "Arial")
+      .attr("font-size", "13")
+      .attr("x", 250)
+      .attr("y", 380)
+      .text("Macrozonas");
 
-    // Y axis label:
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("font-family", "Arial")
-        .attr("font-size", "15")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 20)
-        .attr("x", -margin.top - 40)
-        .text("Area (Km2)")
+  // Etiqueta del eje Y
+  svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("font-family", "Arial")
+      .attr("font-size", "13")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 8)
+      .attr("x", -150)
+      .text("Area (km2)");
 
-    // Legend
-    svg.append("rect")
-        .attr("x", 50)
-        .attr("y", 50)
-        .attr('height', 15)
-        .attr('width', 15)
-        .style("fill", "blue")
-
-    svg.append("rect")
-        .attr("x", 50)
-        .attr("y", 75)
-        .attr('height', 15)
-        .attr('width', 15)
-        .style("fill", "orange")
-
-    svg.append("rect")
-        .attr("x", 50)
-        .attr("y", 100)
-        .attr('height', 15)
-        .attr('width', 15)
-        .style("fill", "yellow")
-
-    svg.append("text")
-        .attr("x", 75)
-        .attr("y", 60)
-        .text("Permanente (PN>90%)")
-        .style("font-size", "12px")
-        .attr("font-family", "Arial")
-        .attr("alignment-baseline", "middle")
-
-    svg.append("text")
-        .attr("x", 75)
-        .attr("y", 85)
-        .text("Estacional (60%<PN<90%)")
-        .style("font-size", "12px")
-        .attr("font-family", "Arial")
-        .attr("alignment-baseline", "middle")
-
-    svg.append("text")
-        .attr("x", 75)
-        .attr("y", 110)
-        .text("Intermitente (5%<PN<60%)")
-        .style("font-size", "12px")
-        .attr("font-family", "Arial")
-        .attr("alignment-baseline", "middle");
-
+  function stackMin(serie) {
+    return d3.min(serie, function(d) { return d[0]; });
+  }
+  
+  function stackMax(serie) {
+    return d3.max(serie, function(d) { return d[1]; });
+  }
 }

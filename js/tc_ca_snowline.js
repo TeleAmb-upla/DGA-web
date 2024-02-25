@@ -5,8 +5,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_ca_snowline() {
 
-    const margin = { top: 50, right: 0, bottom: 10, left: 65 };
-    const width = 300 - margin.left - margin.right;
+    const margin = { top: 50, right: 0, bottom: 10, left: 10 };
+    const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
@@ -99,5 +99,16 @@ export async function tc_ca_snowline() {
         .attr("x1", x(0))
         .attr("x2", x(0))
         .attr("y2", height);
+
+
+// Add title to graph
+svg.append("text")
+.attr("x", 20)
+.attr("y", -25)
+.attr("text-anchor", "center")
+.style("font-size", "14px")
+.attr("font-family","Arial")
+.text("Cambio linea de nieve (m)");
+
 
     }

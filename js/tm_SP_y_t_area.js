@@ -4,7 +4,7 @@ export async function tm_SP_y_t_area() {
 
   const margin = { top: 50, right: 30, bottom: 30, left: 60 };
     const width = 500 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const height = 450 - margin.top - margin.bottom;
 
     const svg = d3.select("#Place2").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -68,14 +68,203 @@ var data = [
   
   // Add title to graph
   svg.append("text")
-          .attr("x", 40)
+          .attr("x", 20)
           .attr("y", 25)
           .attr("text-anchor", "center")
           .style("font-size", "18px")
           .attr("font-family","Arial")
           .text("Superficie tendencia de nieve por macrozonas");
   
+  // Legend
   
+  let legX = 100
+  let legY = 75
+
+  svg.append("text")
+  .attr("x", legX)
+  .attr("y", legY-15)
+  .text("Tendencia (%/ano)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#08519c")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+15)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#3182bd")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+30)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#6baed6")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+45)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#9ecae1")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+60)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#c6dbef")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+75)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#eff3ff")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+90)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#fee5d9")
+  
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+105)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#fcae91")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+120)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#fb6a4a")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+135)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#cb181d")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7)
+  .text(">7.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7+15)
+  .text("6.0 - 7.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7+15+15)
+  .text("5.0 - 6.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7+15+15+15)
+  .text("3.0 - 5.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7+15+15+15+15)
+  .text("1.0 - 3.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+23)
+  .attr("y", legY+7+15+15+15+15+15)
+  .text("0.0 - 1.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15)
+  .text("-2.0 - 0.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15)
+  .text("-4.0 - -2.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15)
+  .text("-9.0 - -2.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15)
+  .text("<-9.0")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+
+
+// Etiqueta del eje X
+    svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-family", "Arial")
+    .attr("font-size", "13")
+    .attr("x", 250)
+    .attr("y", 380)
+    .text("Macrozonas");
+
+
+
+    
+// Etiqueta del eje Y
+svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-family", "Arial")
+    .attr("font-size", "13")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 8)
+    .attr("x", -150)
+    .text("Area (km2)");
+
+
+
+
   function stackMin(serie) {
     return d3.min(serie, function(d) { return d[0]; });
   }
