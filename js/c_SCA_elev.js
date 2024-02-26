@@ -15,7 +15,7 @@ export async function c_SCA_elev(watershed) {
 
   // set the dimensions and margins of the graph
     const margin = {top: 50, right: 100, bottom: 50, left: 0};
-    const width = 50 ;
+    const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
 
@@ -119,6 +119,198 @@ export async function c_SCA_elev(watershed) {
           .on("mousemove", mousemove)
           .on("mouseleave", mouseleave);
   
+
+
+
+  // Legend
+  
+  let legX = 30
+  let legY = 30
+
+  svg.append("text")
+  .attr("x", legX)
+  .attr("y", legY-15)
+  .text("PN (%)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#004C99")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+15)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#0084A8")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+30)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#00A884")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+45)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#70A800")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+60)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#E69800")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+75)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#FFAA00")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+90)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#FFD37F")
+  
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+105)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#FFEBBE")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+120)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#FFFFB4")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+135)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "#FFFFE6")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+135+45)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "black")
+
+
+
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7)
+  .text("90 - 100")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15)
+  .text("80 - 90")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15)
+  .text("70 - 80")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15)
+  .text("60 - 70")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15)
+  .text("50 - 60")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15)
+  .text("40 - 50")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15)
+  .text("30 - 40")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15)
+  .text("20 - 30")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15)
+  .text("10 - 20")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15)
+  .text("0 - 10")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30)
+  .text("Nubes (%)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30+15)
+  .text(">30")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
 
 
 

@@ -3,8 +3,8 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Función para dibujar el gráfico 
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 50, right: 100, bottom: 50, left: 0};
-    const width = 50 ;
+    const margin = {top: 50, right: 0, bottom: 50, left: 0};
+    const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
