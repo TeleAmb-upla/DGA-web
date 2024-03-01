@@ -1,13 +1,12 @@
-import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+    import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 // Función para dibujar el gráfico 
 export async function c_SCA_y_m(watershed) {
     // set the dimensions and margins of the graph
 
-    const margin = {top: 50, right: 0, bottom: 50, left: 80};
+    const margin = { top: 80, right: 0, bottom: 60, left: 100 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
-
     // append the svg object to the body of the page
     const svg = d3.select("#p14")
         .append("svg")
@@ -37,10 +36,12 @@ export async function c_SCA_y_m(watershed) {
         .domain(myGroups)
         .padding(0.05);
     svg.append("g")
-        .style("font-size", 15)
+        .style("font-size", 12)
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickSize(0))
-        .select(".domain").remove();
+        .call(d3.axisBottom(x).tickSize(5))
+        .selectAll("text") //manter
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end")
 
     // Build Y scales and axis:
     const y = d3.scaleBand()
@@ -48,17 +49,25 @@ export async function c_SCA_y_m(watershed) {
         .domain(myVars)
         .padding(0.05);
     svg.append("g")
-        .style("font-size", 15)
-        .call(d3.axisLeft(y).tickSize(0))
+        .style("font-size", 12)
+        .call(d3.axisLeft(y).tickSize(5))
         .select(".domain").remove();
 
-    // Build color scale
+    /*// Build color scale
     const myColor = d3.scaleLinear()
         .domain([1,50])
         .range(["#ffffd9", "#081d58"]);
+    */
+        const colorScaleThreshold = d3
+        .scaleThreshold()
+        .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+        .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
+      
+
+
 
     // create a tooltip
-    const tooltip = d3.select("#Place1")
+    const tooltip = d3.select("#p14")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -99,29 +108,50 @@ export async function c_SCA_y_m(watershed) {
             //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .style("fill", d => myColor(d.value))
+            .style("fill",function (d) { return colorScaleThreshold(d.value); })
             .style("stroke-width", 4)
             .style("stroke", "none")
             .style("opacity", 0.8)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
-    // Add title to graph
-    svg.append("text")
-            .attr("x", 0)
-            .attr("y", -50)
-            .attr("text-anchor", "left")
-            .style("font-size", "22px")
-            .text("A d3.js heatmap");
-    
-    // Add subtitle to graph
-    svg.append("text")
-            .attr("x", 0)
-            .attr("y", -20)
-            .attr("text-anchor", "left")
-            .style("font-size", "14px")
+
+
+// Etiqueta title
+            svg.append("text")
+            .attr("text-anchor", "center")
+            .attr("font-family", "Arial")
+            .attr("font-size", "20px")
+            .attr("x", width / 2  - 120)
+            .attr("y", -25)
+            .text("Cobertura de nieve por año y mes");
+
+// Etiqueta SUb titulo
+            svg.append("text")
+            .attr("text-anchor", "center")
+            .attr("font-family", "Arial")
+            .attr("font-size", "16px")
             .style("fill", "grey")
-            .style("max-width", 400)
-            .text("SCA promedio por ano y mes.");
-        
+            .attr("x", width / 2  - 40)
+            .attr("y", -10)
+            .text("Cuenca: "+ watershed);
+
+// Etiqueta del eje X
+            svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("font-family", "Arial")
+            .attr("font-size", "13")
+            .attr("x", width / 2 + 15)
+            .attr("y", height + 40)
+            .text("Años");
+
+// Etiqueta del eje Y
+            svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("font-family", "Arial")
+            .attr("font-size", "13")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -25)
+            .attr("x", -80)
+            .text("Meses");
  }

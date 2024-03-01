@@ -33,7 +33,7 @@ export async function tc_SP_area() {
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisTop(x).ticks(3);
+    const xAxis = d3.axisTop(x).ticks(3); // Varible cambiable
 
     const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
 

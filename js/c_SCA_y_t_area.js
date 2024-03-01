@@ -15,7 +15,7 @@ export async function c_SCA_y_t_area(watershed) {
     const data = await d3.csv(watershed_selected);
 
     // Definir las dimensiones y márgenes del gráfico
-    const margin = { top: 80, right: 30, bottom: 50, left: 50 };
+    const margin = { top: 80, right: 0, bottom: 60, left: 100 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -42,7 +42,7 @@ export async function c_SCA_y_t_area(watershed) {
 
     // Escala Y
     var y = d3.scaleLinear()
-        .domain([0, 600]) //d3.max(data, d => d.area)])
+    .domain([0, 1.05*d3.max(data, function(d) { return +d.area;} )])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
@@ -58,45 +58,44 @@ export async function c_SCA_y_t_area(watershed) {
         .attr("height", d => height - y(0))
         .attr("y", d => y(0));
 
-    // Etiqueta title
-    svg.append("text")
-        .attr("text-anchor", "center")
-        .attr("font-family", "Arial")
-        .attr("font-size", "20px")
-        .attr("x", width / 2  - 120)
-        .attr("y", -25)
-        .text("Areas por tendencia anual");
-    
-    svg.append("text")
-        .attr("text-anchor", "center")
-        .attr("font-family", "Arial")
-        .attr("font-size", "16px")
-        .style("fill", "grey")
-        .attr("x", width / 2  - 40)
-        .attr("y", -10)
-        .text("Cuenca: "+ watershed);
+    // Etiqueta title  X =  Área (km2)
+   // Etiqueta title
+   svg.append("text")
+   .attr("text-anchor", "center")
+   .attr("font-family", "Arial")
+   .attr("font-size", "20px")
+   .attr("x", width / 2  - 120)
+   .attr("y", -25)
+   .text("Superficie por tendencia anual");
 
+   // Etiqueta SUb titulo
+svg.append("text")
+   .attr("text-anchor", "center")
+   .attr("font-family", "Arial")
+   .attr("font-size", "16px")
+   .style("fill", "grey")
+   .attr("x", width / 2  - 40)
+   .attr("y", -10)
+   .text("Cuenca: "+ watershed);
 
+// Etiqueta del eje X
+svg.append("text")
+   .attr("text-anchor", "end")
+   .attr("font-family", "Arial")
+   .attr("font-size", "13")
+   .attr("x", width / 2 + 15)
+   .attr("y", height + 40)
+   .text("Tendencia (%/año)");
 
-
-    // Etiqueta del eje X
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("font-family", "Arial")
-        .attr("font-size", "13")
-        .attr("x", width / 2 + 15)
-        .attr("y", height + 35)
-        .text("Tendencia (%/año)");
-
-    // Etiqueta del eje Y
-    svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("font-family", "Arial")
-        .attr("font-size", "13")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 20)
-        .attr("x", -margin.top - 50)
-        .text("Área (km2)");
+// Etiqueta del eje Y
+svg.append("text")
+   .attr("text-anchor", "end")
+   .attr("font-family", "Arial")
+   .attr("font-size", "13")
+   .attr("transform", "rotate(-90)")
+   .attr("y", -40)
+   .attr("x", -80)
+   .text("Superficie (km2)");
 
     // Animación
     svg.selectAll("rect")

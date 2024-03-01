@@ -14,7 +14,7 @@ export async function c_SCA_y(watershed) {
     const data = await d3.csv(watershed_selected);
 
     // Definir las dimensiones y márgenes del gráfico
-    const margin = { top: 80, right: 0, bottom: 50, left: 80 };
+    const margin = { top: 80, right: 0, bottom: 60, left: 100 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -41,11 +41,11 @@ export async function c_SCA_y(watershed) {
 
     // Escala Y
     var y = d3.scaleLinear()
-        .domain([0, 22]) //d3.max(data, d => d.SCA)])
+        .domain([0, 1.05*d3.max(data, function(d) { return +d.SCA;} )])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
-5    // Barras
+   // Barras
     svg.selectAll("mybar")
         .data(data)
         .enter()
@@ -63,8 +63,9 @@ export async function c_SCA_y(watershed) {
         .attr("font-size", "20px")
         .attr("x", width / 2  - 120)
         .attr("y", -25)
-        .text("Cobertura de nieve por año");
-    
+        .text("Cobertura de nieve promedio");
+     
+        // Etiqueta SUb titulo
     svg.append("text")
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
@@ -89,8 +90,8 @@ export async function c_SCA_y(watershed) {
         .attr("font-family", "Arial")
         .attr("font-size", "13")
         .attr("transform", "rotate(-90)")
-        .attr("y", -25)
-        .attr("x", -80)
+        .attr("y", -30)
+        .attr("x", -50)
         .text("Cobertura de nieve (%)");
 
     // Animación

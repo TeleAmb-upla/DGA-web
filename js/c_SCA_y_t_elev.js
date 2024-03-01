@@ -3,12 +3,12 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Función para dibujar el gráfico 
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 50, right: 0, bottom: 50, left: 0};
+    const margin = {top: 80, right: 100, bottom: 60, left: 0};
     const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select("#p08")
+    const svg = d3.select("#p09")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -110,12 +110,209 @@ export async function c_SCA_y_t_elev(watershed) {
 
         // Add title to graph
         svg.append("text")
-        .attr("x", 100)
-        .attr("y", -20)
+        .attr("x", 0)
+        .attr("y", -25)
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .style("font-size", "20px")
-        .text("Persistencia de nieve por elevacion");
+        .text("Persistencia de nieve ");
     
+
+
+
+  // Legend
+  
+  let legX = 30
+  let legY = 10
+
+  svg.append("text")
+  .attr("x", legX-10)
+  .attr("y", legY-15)
+  .text("Tend (%/año)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#004C99")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+10)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#0084A8")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+20)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#00A884")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+30)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#70A800")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+40)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#E69800")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+50)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#FFAA00")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+60)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#FFD37F")
+  
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+70)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#FFEBBE")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+80)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#FFFFB4")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+90)
+  .attr('height', 10)
+  .attr('width', 10)
+  .style("fill", "#FFFFE6")
+
+  svg.append("rect")
+  .attr("x", legX)
+  .attr("y", legY+135+45)
+  .attr('height', 15)
+  .attr('width', 15)
+  .style("fill", "black")
+
+
+
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5)
+  .text("> 10")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5+10)
+  .text("9 - 10")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5+10+10)
+  .text("8 - 9")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5+10+10+10)
+  .text("7 - 8")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5+10+10+10+10)
+  .text("6 - 7")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+5+10+10+10+10+10)
+  .text("5 - 6")
+  .style("font-size", "9px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15)
+  .text("30 - 40")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15)
+  .text("20 - 30")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15)
+  .text("10 - 20")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15)
+  .text("0 - 10")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30)
+  .text("Nubes (%)")
+  .style("font-size", "12px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+  svg.append("text")
+  .attr("x", legX+20)
+  .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30+15)
+  .text(">30")
+  .style("font-size", "10px")
+  .attr("font-family", "Arial")
+  .attr("alignment-baseline", "middle")
+
+
+
+
+
+
 
         }

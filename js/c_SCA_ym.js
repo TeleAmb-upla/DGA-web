@@ -2,9 +2,9 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 export async function c_SCA_ym(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 10, right: 30, bottom: 30, left: 60};
-    const width = 900 - margin.left - margin.right;
-    const height = 300 - margin.top - margin.bottom;
+    const margin = {top: 50, right: 80, bottom: 50, left: 80};
+    const width = 1000 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select("#p17")
@@ -38,8 +38,9 @@ export async function c_SCA_ym(watershed) {
 
     // Add Y axis
     const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)])
+      .domain([0, 1.05*d3.max(data, d => d.value)])
       .range([height, 0]);
+//      .curve(d3.curveCatmullRom.alpha(0.5));
     svg.append("g")
       .call(d3.axisLeft(y));
 
@@ -53,4 +54,42 @@ export async function c_SCA_ym(watershed) {
         .x(d => x(d.date))
         .y(d => y(d.value))
       );
+
+      // Etiqueta title
+    svg.append("text")
+    .attr("text-anchor", "center")
+    .attr("font-family", "Arial")
+    .attr("font-size", "20px")
+    .attr("x", width / 2  - 120)
+    .attr("y", -25)
+    .text("Cobertura de nieves por año y mes");
+ 
+    // Etiqueta SUb titulo
+svg.append("text")
+    .attr("text-anchor", "center")
+    .attr("font-family", "Arial")
+    .attr("font-size", "16px")
+    .style("fill", "grey")
+    .attr("x", width / 2  - 40)
+    .attr("y", -10)
+    .text("Cuenca: "+ watershed);
+
+// Etiqueta del eje X
+svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-family", "Arial")
+    .attr("font-size", "13")
+    .attr("x", width / 2 + 15)
+    .attr("y", height + 40)
+    .text("Años");
+
+// Etiqueta del eje Y
+svg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-family", "Arial")
+    .attr("font-size", "13")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -40)
+    .attr("x", -80)
+    .text("Cobertura de nieve (%)");
 }

@@ -14,7 +14,7 @@ async function loadData(watershed_selected) {
 export async function c_SCA_elev(watershed) {
 
   // set the dimensions and margins of the graph
-    const margin = {top: 50, right: 100, bottom: 50, left: 0};
+    const margin = {top: 80, right: 100, bottom: 60, left: 0};
     const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
@@ -50,7 +50,7 @@ export async function c_SCA_elev(watershed) {
     svg.append("g")
       .style("font-size", 15)
       .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(x).tickSize(0))
+      .call(d3.axisBottom(x).tickSize(0).tickFormat(function (d) { return ''; }))
       .select(".domain").remove();
 
     // Build Y scales and axis:
@@ -59,13 +59,22 @@ export async function c_SCA_elev(watershed) {
       .domain(myVars)
       .padding(0.05);
     svg.append("g")
-      .style("font-size", 15)
+      .style("font-size", 7)
       .call(d3.axisLeft(y).tickSize(0))
       .select(".domain").remove();
 
     // Build color scale
     const myColor = d3.scaleLinear().domain([1, 50])
         .range(["#ffffd9", "#081d58"]);
+
+const colorScaleThreshold = d3
+  .scaleThreshold()
+  .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+  .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
+
+
+
+
 
     // create a tooltip
     const tooltip = d3.select("#p07")
@@ -111,8 +120,8 @@ export async function c_SCA_elev(watershed) {
           //.attr("ry", 4)
           .attr("width", x.bandwidth())
           .attr("height", y.bandwidth())
-          .style("fill", function (d) { return myColor(d.value); })
-          .style("stroke-width", 4)
+          .style("fill", function (d) { return colorScaleThreshold(d.value); })
+          .style("stroke-width", 1)
           .style("stroke", "none")
           .style("opacity", 0.8)
           .on("mouseover", mouseover)
@@ -124,7 +133,7 @@ export async function c_SCA_elev(watershed) {
 
   // Legend
   
-  let legX = 30
+  let legX = 40
   let legY = 30
 
   svg.append("text")

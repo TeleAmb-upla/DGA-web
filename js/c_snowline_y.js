@@ -4,8 +4,8 @@ import * as d3 from "https://cdn.skypack.dev/d3@7";
 // Definir la función asíncrona para cargar y dibujar el gráfico
 export async function c_snowline_y(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 10, right: 30, bottom: 40, left: 60};
-    const width = 460 - margin.left - margin.right;
+    const margin = {top: 80, right: 0, bottom: 60, left: 100};
+    const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
@@ -53,7 +53,7 @@ export async function c_snowline_y(watershed) {
 
     // Add Y axis
     var y = d3.scaleLinear()
-    .domain([menor, d3.max(data, function(d) { return +d.value; })])
+    .domain([menor*0.95, 1.02*d3.max(data, function(d) { return +d.value; })])
     .range([ height, 0 ]);
   svg.append("g")
     .call(d3.axisLeft(y));
@@ -67,16 +67,36 @@ export async function c_snowline_y(watershed) {
         .attr("d", d3.line()
             .x(function(d) { return x(d.date); })
             .y(function(d) { return y(d.value); })
+            .curve(d3.curveCatmullRom.alpha(0.5))
         );
 
-    // Add X axis label
+
+
+          // Etiqueta title
     svg.append("text")
-        .attr("text-anchor", "end")
+        .attr("text-anchor", "center")
         .attr("font-family", "Arial")
-        .attr("font-size", "13")
-        .attr("x", width / 2 + 20)
-        .attr("y", height + margin.top + 30)
-        .text("Años");
+        .attr("font-size", "20px")
+        .attr("x", width / 2  - 120)
+        .attr("y", -25)
+        .text("Elevación línea de nieve anual");
+          // Etiqueta SUb titulo
+    svg.append("text")
+        .attr("text-anchor", "center")
+        .attr("font-family", "Arial")
+        .attr("font-size", "16px")
+        .style("fill", "grey")
+        .attr("x", width / 2  - 40)
+        .attr("y", -10)
+        .text("Cuenca: "+ watershed);
+        // Etiqueta del eje X
+      svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("font-family", "Arial")
+      .attr("font-size", "13")
+      .attr("x", width / 2 + 15)
+      .attr("y", height + 40)
+      .text("Años");
 
     // Y axis label
     svg.append("text")
@@ -84,7 +104,7 @@ export async function c_snowline_y(watershed) {
         .attr("font-family", "Arial")
         .attr("font-size", "13")
         .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 20)
-        .attr("x", -margin.top - 50)
-        .text("Elevación línea de nieve (msnm)");
+        .attr("y", -margin.left + 55)
+        .attr("x", -margin.top + 50)
+        .text("Elevación de línea de nieve (msnm)");
 }

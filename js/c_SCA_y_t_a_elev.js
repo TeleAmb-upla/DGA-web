@@ -1,19 +1,19 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export async function c_SCA_y_t_a_elev(watershed) {
-  const margin = { top: 50, right: 20, bottom: 10, left: 65 };
+  const margin = { top: 80, right: 100, bottom: 60, left: 0 };
   const width = 200 - margin.left - margin.right;
-  const height = 350 - margin.top - margin.bottom;
+  const height = 400 - margin.top - margin.bottom;
 
-  const y = d3.scaleBand().rangeRound([0, height]).padding(0.3);
+  const y = d3.scaleBand().rangeRound([0, height]).padding(0);
 
   const x = d3.scaleLinear().rangeRound([0, width]);
 
   const color = d3.scaleOrdinal().range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
 
-  const xAxis = d3.axisTop(x);
+  const xAxis = d3.axisTop(x).ticks(3);
 
-  const yAxis = d3.axisLeft(y);
+  const yAxis = d3.axisLeft(y).tickFormat(function(d){ return ''; });
 
   const svg = d3.select("#p10").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -23,6 +23,7 @@ export async function c_SCA_y_t_a_elev(watershed) {
 
   color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
+  
   // Select watershed
 
 
@@ -107,4 +108,26 @@ export async function c_SCA_y_t_a_elev(watershed) {
 
   const movesize = width / 2 - startp.node().getBBox().width / 2;
   d3.selectAll(".legendbox").attr("transform", `translate(${movesize},0)`);
+    // Etiqueta title
+    svg.append("text")
+        .attr("text-anchor", "center")
+        .attr("font-family", "Arial")
+        .attr("font-size", "20px")
+        .attr("x", 0)
+        .attr("y", -25)
+        .text("Tendencia");
+     
+        /*/// Etiqueta SUb titulo
+    svg.append("text")
+        .attr("text-anchor", "center")
+        .attr("font-family", "Arial")
+        .attr("font-size", "16px")
+        .style("fill", "grey")
+        .attr("x", width / 2  - 40)
+        .attr("y", -10)
+        .text("Cuenca: "+ watershed);
+*/
+
+
+
 }

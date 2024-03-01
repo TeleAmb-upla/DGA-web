@@ -1,12 +1,12 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 export async function c_SCA_m_t_area(watershed) {
-    const margin = { top: 50, right: 20, bottom: 10, left: 65 };
+    const margin = {top: 80, right: 100, bottom: 60, left: 0};
     const width = 200 - margin.left - margin.right;
-    const height = 350 - margin.top - margin.bottom;
+    const height = 400 - margin.top - margin.bottom;
 
     const y = d3.scaleBand()
-        .rangeRound([0, height], .3);
+        .rangeRound([0, height]);
 
     const x = d3.scaleLinear()
         .rangeRound([0, width]);
@@ -14,9 +14,9 @@ export async function c_SCA_m_t_area(watershed) {
     const color = d3.scaleOrdinal()
         .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
 
-    const xAxis = d3.axisTop(x);
+    const xAxis = d3.axisTop(x).ticks(3); //TICKS 
 
-    const yAxis = d3.axisLeft(y);
+    const yAxis = d3.axisLeft(y).tickFormat(function (d){ return'';})
 
     const svg = d3.select("#p16").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -115,4 +115,23 @@ export async function c_SCA_m_t_area(watershed) {
 
     const movesize = width / 2 - startp.node().getBBox().width / 2;
     d3.selectAll(".legendbox").attr("transform", "translate(" + movesize + ",0)");
-}
+    // Etiqueta title
+    svg.append("text")
+    .attr("text-anchor", "center")
+    .attr("font-family", "Arial")
+    .attr("font-size", "20px")
+    .attr("x", 0)
+    .attr("y", -25)
+    .text("Area/Tendencia");
+
+    /*// Add subtitle to graph
+    svg.append("text")
+    .attr("x", 0)
+    .attr("y", -20)
+    .attr("text-anchor", "left")
+    .style("font-size", "14px")
+    .style("fill", "grey")
+    .style("max-width", 400)
+    .text("Cuenca: "+ watershed);
+    */
+    }
