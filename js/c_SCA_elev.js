@@ -1,3 +1,5 @@
+
+
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 // Función async para cargar los datos
@@ -15,7 +17,7 @@ export async function c_SCA_elev(watershed) {
 
   // set the dimensions and margins of the graph
     const margin = {top: 80, right: 100, bottom: 60, left: 0};
-    const width = 25 ;
+    const width = 120 - margin.left - margin.right ;
     const height = 400 - margin.top - margin.bottom;
 
 

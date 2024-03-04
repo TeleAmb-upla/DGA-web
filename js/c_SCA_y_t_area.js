@@ -1,15 +1,19 @@
 // Importar D3.js desde CDN
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+// Importar la paleta de colores
+import { myColor } from './myColor.js';
+
+
+
 // Función asincrónica para cargar y dibujar el gráfico
 export async function c_SCA_y_t_area(watershed) {
     
     // Ruta para el archivo CSV
-     // Ruta para el archivo CSV
-     var text_ini = "csv\\year\\SCA_y_t_area_BNA_"
-     var text_end =  ".csv"
+    var text_ini = "csv\\year\\SCA_y_t_area_BNA_"
+    var text_end =  ".csv"
  
-     var watershed_selected = text_ini.concat(watershed).concat(text_end)
+    var watershed_selected = text_ini.concat(watershed).concat(text_end)
 
     // Obtener los datos CSV
     const data = await d3.csv(watershed_selected);
@@ -54,9 +58,11 @@ export async function c_SCA_y_t_area(watershed) {
         .append("rect")
         .attr("x", d => x(d.Sen_slope))
         .attr("width", x.bandwidth())
-        .attr("fill", "#69b3a2")
+        .attr("fill", d => myColor(d.Sen_slope)) // Usar la paleta de colores aquí
         .attr("height", d => height - y(0))
-        .attr("y", d => y(0));
+        .attr("y", d => y(0))
+        .attr("stroke", "black") // Color del borde
+        .attr("stroke-width", 0.5); // Ancho del borde
 
     // Etiqueta title  X =  Área (km2)
    // Etiqueta title
@@ -93,7 +99,7 @@ svg.append("text")
    .attr("font-family", "Arial")
    .attr("font-size", "13")
    .attr("transform", "rotate(-90)")
-   .attr("y", -40)
+   .attr("y", -50)
    .attr("x", -80)
    .text("Superficie (km2)");
 
@@ -105,5 +111,3 @@ svg.append("text")
         .attr("height", d => height - y(d.area))
         .delay((d, i) => i * 100);
 }
-
-

@@ -2,6 +2,25 @@
 <html>
 
 <head>
+
+
+
+  <style>
+    #map { height: 250px; 
+           width: 250px;}
+  </style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+
+
+
   <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -100,49 +119,49 @@
 
       <p> Seleccione una cuenca:
         <select id="BNA_cod">
-            <option value="010">010-Altiplanica</option>
+            <option value="010">010-Altiplánica</option>
             <option value="023">023-Fronterizas salares Atacama-Socompa</option>
             <option value="024">024-Endorreica entre fronterizas y Salar Atacama</option>
             <option value="030">030-Endorreica entre frontera y vertiente del Pacifico</option>
-            <option value="038">038-Rio Huasco</option>
-            <option value="043">043-Rio Elqui</option>
-            <option value="045">045-Rio Limari</option>
-            <option value="047">047-Rio Choapa</option>
-            <option value="051">051-Rio Petorca</option>
-            <option value="052">052-Rio Ligua</option>
-            <option value="054">054-Rio Aconcagua</option>
-            <option value="057">057-Rio Maipo</option>
-            <option value="060">060-Rio Rapel</option>
-            <option value="071">071-Rio Mataquito</option>
-            <option value="073">073-Rio Maule</option>
-            <option value="081">081-Rio Itata</option>
-            <option value="083">083-Rio Bio-Bio</option>
-            <option value="091">091-Rio Imperial</option>
-            <option value="094">094-Rio Tolten</option>
-            <option value="101">101-Rio Valdivia</option>
-            <option value="103">103-Rio Bueno</option>
-            <option value="104">104-Cuencas e islas entre rios Buenos y rio Puelo</option>
-            <option value="105">105-Rio Puelo</option>
-            <option value="106">106-Costeras entre Rio Puelo y Rio Yelcho</option>
-            <option value="107">107-Rio Yelcho</option>
-            <option value="108">108-Costeras entre Rio Yelcho y limite regional</option>
-            <option value="110">110-Rio Palena y costeras limite decima region</option>
-            <option value="111">111-Costeras e islas entre Rio Palena y Rio Aysen</option>
-            <option value="112">112-Archipielago de las Gauitecas y de los Chonos</option>
-            <option value="113">113-Rio Aysen</option>
-            <option value="114">114-Costeras e islas entre Rio Aysen y Canal General Martinez</option>
-            <option value="115">115-Rio Baker</option>
-            <option value="116">116-Costeras e islas entre Rio Baker y Rio Pascua</option>
-            <option value="117">117-Rio Pascua</option>
-            <option value="118">118-Costeras entre Rio Pascua y limite regional</option>
-            <option value="119">119-Cuenca del Pacifico</option>
-            <option value="120">120-Costaras entre limite regional y Seno Andrew</option>
-            <option value="121">121-Islas entre limite regional y canal Ancho</option>
-            <option value="122">122-Costeras entre Seno Andrew y Rio Hollemberg</option>
-            <option value="123">123-Islas entre Canales COncepcion y Estrecho de Magallanes</option>
-            <option value="124">124-Costeras e islas Rio Hollemberg</option>
+            <option value="038">038-Río Huasco</option>
+            <option value="043">043-Río Elqui</option>
+            <option value="045">045-Río Limari</option>
+            <option value="047">047-Río Choapa</option>
+            <option value="051">051-Río Petorca</option>
+            <option value="052">052-Río Ligua</option>
+            <option value="054">054-Río Aconcagua</option>
+            <option value="057">057-Río Maipo</option>
+            <option value="060">060-Río Rapel</option>
+            <option value="071">071-Río Mataquito</option>
+            <option value="073">073-Río Maule</option>
+            <option value="081">081-Río Itata</option>
+            <option value="083">083-Río Bio-Bio</option>
+            <option value="091">091-Río Imperial</option>
+            <option value="094">094-Río Tolten</option>
+            <option value="101">101-Río Valdivia</option>
+            <option value="103">103-Río Bueno</option>
+            <option value="104">104-Cuencas e islas entre ríos Buenos y río Puelo</option>
+            <option value="105">105-Río Puelo</option>
+            <option value="106">106-Costeras entre Río Puelo y Río Yelcho</option>
+            <option value="107">107-Río Yelcho</option>
+            <option value="108">108-Costeras entre Río Yelcho y límite regional</option>
+            <option value="110">110-Río Palena y costeras límite decima region</option>
+            <option value="111">111-Costeras e islas entre Río Palena y Río Aysen</option>
+            <option value="112">112-Archipielago de las Guaitecas y de los Chonos</option>
+            <option value="113">113-Río Aysen</option>
+            <option value="114">114-Costeras e islas entre Río Aysen y Canal General Martinez</option>
+            <option value="115">115-Río Baker</option>
+            <option value="116">116-Costeras e islas entre Río Baker y Río Pascua</option>
+            <option value="117">117-Río Pascua</option>
+            <option value="118">118-Costeras entre Río Pascua y límite regional</option>
+            <option value="119">119-Cuenca del Pacífico</option>
+            <option value="120">120-Costaras entre límite regional y Seno Andrew</option>
+            <option value="121">121-Islas entre límite regional y canal Ancho</option>
+            <option value="122">122-Costeras entre Seno Andrew y Río Hollemberg</option>
+            <option value="123">123-Islas entre Canales Concepción y Estrecho de Magallanes</option>
+            <option value="124">124-Costeras e islas Río Hollemberg</option>
             <option value="125">125-Costeras entre Laguna Blanca y Estrecho de Magallanes</option>
-            <option value="126">126-Vertiente del Atlantico</option>
+            <option value="126">126-Vertiente del Atlántico</option>
             <option value="127">127-Islas del Sur Estrecho de Magallanes</option>
             <option value="128">128-Tierra del Fuego</option>
             <option value="129">129-Islas del sur Canal Beagle y Territorio Antartico</option>
@@ -160,29 +179,28 @@
 
   <script type="module"> 
 
-
-      import {c_map_location } from './js/c_map_location.js'          // p01
+    import {c_map_location } from './js/c_map_location.js'          // p01
     import {c_SCA_map } from './js/c_SCA_map.js';                   // p02
     import {c_SCA_trend_map } from './js/c_SCA_trend_map.js';       // p03
     import { c_SCA_y } from './js/c_SCA_y.js';                      // p04
     import { c_SCA_y_t_area } from './js/c_SCA_y_t_area.js';        // p05
     import { c_SCA_y_elev } from './js/c_SCA_y_elev.js';            // p06
     import { c_SCA_elev } from './js/c_SCA_elev.js';                // p07
-    import {c_SCA_y_t_elev } from './js/c_SCA_y_t_elev.js';         // p08
-    import { c_elev } from './js/c_elev.js';                        // p09
-    import { c_SCA_y_t_a_elev } from './js/c_SCA_y_t_a_elev.js';    // p10
+    import {c_SCA_y_t_elev } from './js/c_SCA_y_t_elev.js';         // p09
+    import { c_elev } from './js/c_elev.js';                        // p08
+    //import { c_SCA_y_t_a_elev } from './js/c_SCA_y_t_a_elev.js';    // p10
     import { c_snowline_y } from './js/c_snowline_y.js';            // p11
     import { c_SCA_m } from './js/c_SCA_m.js';                      // p12
     import { c_SCA_m_elev } from './js/c_SCA_m_elev.js';            // p13
     import {c_SCA_y_m} from './js/c_SCA_y_m.js';                    // p14
     import {c_SCA_m_trend} from './js/c_SCA_m_trend.js';            // p15
-    import { c_SCA_m_t_area } from './js/c_SCA_m_t_area.js';        // p16
+    //import { c_SCA_m_t_area } from './js/c_SCA_m_t_area.js';      // p16
     import { c_SCA_ym } from './js/c_SCA_ym.js';                    // p17
     import {c_SCA_ym_elev } from './js/c_SCA_ym_elev.js';           // p18
     import { c_snowline_ym } from './js/c_snowline_ym.js';          // p19
-
+    import { leyenda_PN } from './js/leyenda_PN.js';                      // leyenda_2
     //Se obtiene el valor ingresado en el input
-    const input = document.querySelector("#BNA_cod");
+    const input = document.querySelector("#BNA_cod"); 
 
     // Cada vez que el valor del input cambie, se actualizará el gráfico con los datos correspondientes
     let watershed = '';
@@ -200,16 +218,17 @@
         document.getElementById("p07").innerHTML = "";
         document.getElementById("p08").innerHTML = "";
         document.getElementById("p09").innerHTML = "";
-        document.getElementById("p10").innerHTML = "";
+        //document.getElementById("p10").innerHTML = "";
         document.getElementById("p11").innerHTML = "";
         document.getElementById("p12").innerHTML = "";
         document.getElementById("p13").innerHTML = "";
         document.getElementById("p14").innerHTML = "";
         document.getElementById("p15").innerHTML = "";
-        document.getElementById("p16").innerHTML = "";
+        //document.getElementById("p16").innerHTML = "";
         document.getElementById("p17").innerHTML = "";
         document.getElementById("p18").innerHTML = "";
         document.getElementById("p19").innerHTML = "";
+        document.getElementById("leyenda_PN").innerHTML = "";
 
         // run de JS
         c_map_location(watershed);    // p01
@@ -221,31 +240,22 @@
 	      c_SCA_elev(watershed);        // p07
         c_SCA_y_t_elev(watershed)     // p08	      
         c_elev(watershed);            // p09
-	      c_SCA_y_t_a_elev(watershed);  // p10
+	      //c_SCA_y_t_a_elev(watershed);  // p10
         c_snowline_y(watershed);      // p11
         c_SCA_m(watershed);           // p12
         c_SCA_m_elev(watershed);      // p13
         c_SCA_y_m(watershed);         // p14
         c_SCA_m_trend(watershed);     // p15
-        c_SCA_m_t_area(watershed);    // p16
+        //c_SCA_m_t_area(watershed);    // p16
         c_SCA_ym(watershed);          // p17
         c_SCA_ym_elev(watershed)      // p18
         c_snowline_ym(watershed);     // p19
+        leyenda_PN(watershed);           // leyenda_2
         
     })
   
  
    </script>
-
-
-
-
-
-
-
-
-
-
 
 
 <section>
@@ -256,10 +266,10 @@
       <td rowspan="15" &nbsp VALIGN = Top Align = Left >
         <div id="p01">
       </td>
-      <td colspan="10" &nbsp;>
+      <td colspan="10" &nbsp VALIGN = Top Align = middle>
         <div id="p02">
       </td>
-      <td colspan="10" &nbsp;>
+      <td colspan="10" &nbsp VALIGN = Top Align = middle>
         <div id="p03">
       </td>
     </tr>
@@ -380,6 +390,7 @@
 
     <tr>
       <td colspan="14" &nbsp;><div id="p14"></div></td>
+      <td colspan="leyenda_PN" &nbsp;><div id="leyenda_PN"></div></td>
       <td><div id="p15"></div></td>
       <td colspan="2" &nbsp;><div id="p16"></div></td>
       <td></td>
@@ -516,6 +527,20 @@
           </div>
         </div>
         
+
+        <div id="map"></div>
+        <script>
+            const map = L.map('map').setView([-33.021059, -71.641600], 13);
+        const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        const marker = L.marker([-33.021059, -71.641600]).addTo(map);
+        marker.bindPopup("TeleAmb").openPopup();       
+        </script>
+        </div>
+
+
       </div>
     </div>
   </section>

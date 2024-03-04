@@ -1,5 +1,11 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
+
+// Importar la paleta de colores
+import { myColor } from './myColor.js';
+
+import { leyenda_tend } from './leyenda_tend.js'; //  './Leyenda.js' con la ruta correcta a archivo de leyenda
+
 // Función para dibujar el gráfico 
 export async function c_SCA_m_trend(watershed) {
     // set the dimensions and margins of the graph
@@ -50,10 +56,18 @@ export async function c_SCA_m_trend(watershed) {
         .call(d3.axisLeft(y).tickSize(0))
         .select(".domain").remove();
 
-    // Build color scale
+
+   /*     // Colores de leyenda
+    const myColor = d3
+        .scaleThreshold()
+        .domain([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+        .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
+
+// Colores morado
+   /* // Build color scale
     const myColor = d3.scaleLinear()
         .domain([-8,8])
-        .range(["red", "blue"]);
+        .range(["red", "blue"]);*/
 
     // create a tooltip
     const tooltip = d3.select("#Place1")
@@ -124,4 +138,7 @@ export async function c_SCA_m_trend(watershed) {
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
 */
+
+ //Add the legend
+ leyenda_tend(svg, myColor);
         }

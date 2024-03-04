@@ -4,8 +4,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 export async function c_elev(watershed) {
     // set the dimensions and margins of the graph
 
-const margin = { top: 80, right: 0, bottom: 60, left: 0 };
-    const width = 100 - margin.left - margin.right;
+const margin = { top: 80, right: 0, bottom: 60, left: 80 };
+    const width = 200 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
     // append the svg object to the body of the page
     const svg = d3.select("#p08")
@@ -42,10 +42,17 @@ const margin = { top: 80, right: 0, bottom: 60, left: 0 };
         .domain(data.map(d => d.Elevation))
         .range([height, 0])
         .padding(0.1);
-    svg.append("g")
-        .call(d3.axisLeft(y))
-        .selectAll("text")
-        .style("font-size", "7px"); 
+
+        const yAxis = d3.axisLeft(y)
+        .tickValues(y.domain().filter(function(d,i){ return !(i%5)}));
+      
+      const gX = svg.append("g").call(yAxis);
+
+
+    //svg.append("g")
+    //    .call(d3.axisLeft(y))
+    //    .selectAll("text")
+    //    .style("font-size", "7px"); 
 
     // Bars
     svg.selectAll("myRect")
@@ -56,7 +63,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 0 };
         .attr("y", d => y(d.Elevation))
         .attr("width", d => x(d.Area))
         .attr("height", y.bandwidth())
-        .attr("fill", "#69b3a2");
+        .attr("fill", "#FFAA00");
 
     // Título principal del gráfico
      // Etiqueta title

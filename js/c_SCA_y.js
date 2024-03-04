@@ -1,5 +1,7 @@
 // Importar D3.js desde CDN
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+// Importar la paleta de colores
+
 
 // Función asincrónica para cargar y dibujar el gráfico
 export async function c_SCA_y(watershed) {
@@ -52,7 +54,7 @@ export async function c_SCA_y(watershed) {
         .append("rect")
         .attr("x", d => x(d.Year))
         .attr("width", x.bandwidth())
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#004C99")
         .attr("height", d => height - y(0))
         .attr("y", d => y(0));
 

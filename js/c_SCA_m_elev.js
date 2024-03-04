@@ -91,8 +91,9 @@ export async function c_SCA_m_elev(watershed) {
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px");
-
+        .style("padding", "5px") 
+        
+        
     // Three 
     const mouseover = function(event, d) {
         tooltip.style("opacity", 1);
@@ -120,8 +121,8 @@ export async function c_SCA_m_elev(watershed) {
         .append("rect")
             .attr("x", d => x(d.group))
             .attr("y", d => y(d.variable))
-            .attr("rx", 4)
-            .attr("ry", 4)
+            //.attr("rx", 4)
+            //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill",  function (d) {return colorScaleThreshold(d.value); })
