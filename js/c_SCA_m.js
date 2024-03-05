@@ -40,7 +40,7 @@ export async function c_SCA_m(watershed) {
 
         // Add Y axis
         var y = d3.scaleLinear()
-          .domain([0, 1.2*d3.max(data, function(d) { return +d.y; })]) // Eje Y cambiar
+          .domain([0, 1.2*d3.max(data, function(d) { return +d.CI_right; })]) // Eje Y cambiar
           .range([ height, 0 ]);
 
         svg.append("g")
@@ -76,9 +76,9 @@ export async function c_SCA_m(watershed) {
           .attr("text-anchor", "center")
           .attr("font-family", "Arial")
           .attr("font-size", "20px")
-          .attr("x", 0)
+          .attr("x", 70)
           .attr("y", -25)
-          .text("Cobertura de nieve mensual (2000-2023)");
+          .text("Cobertura de nieve mensual");
         // Etiqueta SUb titulo
 
           svg.append("text")

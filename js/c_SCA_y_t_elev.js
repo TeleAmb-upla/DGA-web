@@ -7,7 +7,7 @@ import { leyenda_tend } from './leyenda_tend.js'; //  './Leyenda.js' con la ruta
 // Función para dibujar el gráfico 
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 100, bottom: 60, left: 0};
+    const margin = {top: 80, right: 100, bottom: 60, left: 100};
     const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
@@ -42,7 +42,10 @@ export async function c_SCA_y_t_elev(watershed) {
     svg.append("g")
         .style("font-size", 15)
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickSize(0))
+        //.call(d3.axisBottom(x).tickSize(0))
+
+        .call(d3.axisBottom(x).tickSize(0).tickFormat(function (d) { return ''; }))
+
         .select(".domain").remove();
 
     // Build Y scales and axis:
@@ -50,10 +53,17 @@ export async function c_SCA_y_t_elev(watershed) {
         .range([ height, 0 ])
         .domain(myVars)
         .padding(0.05);
-    svg.append("g")
-        .style("font-size", 15)
-        .call(d3.axisLeft(y).tickSize(0))
-        .select(".domain").remove();
+
+    const yAxis = d3.axisLeft(y)
+        .tickValues(y.domain().filter(function(d,i){ return !(i%5)}));
+      
+      const gX = svg.append("g").call(yAxis);
+
+
+    //svg.append("g")
+    //    .style("font-size", 15)
+    //    .call(d3.axisLeft(y).tickSize(0))
+    //    .select(".domain").remove();
 
     // create a tooltip
     const tooltip = d3.select("#Place1")
@@ -96,12 +106,24 @@ export async function c_SCA_y_t_elev(watershed) {
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", d => myColor(d.value))
-            .style("stroke-width", 4)
+            .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
+
+
+    // Etiqueta del eje Y
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-family", "Arial")
+        .attr("font-size", "13")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -80)
+        .text("Elevación (msnm)");
+
 
     // Add title to graph
     svg.append("text")
@@ -110,7 +132,19 @@ export async function c_SCA_y_t_elev(watershed) {
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .style("font-size", "20px")
-        .text("Persistencia de nieve ");
+        .text("Tendencia");
+
+
+            // Etiqueta SUb titulo
+            svg.append("text")
+            .attr("text-anchor", "center")
+            .attr("font-family", "Arial")
+            .attr("font-size", "16px")
+            .style("fill", "grey")
+            .attr("x", width / 2  - 20)
+            .attr("y", -10)
+            .text("Cuenca: "+ watershed);
+    
 
      //Add the legend
      leyenda_tend(svg, myColor);

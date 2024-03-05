@@ -9,7 +9,7 @@ import { leyenda_tend } from './leyenda_tend.js'; //  './Leyenda.js' con la ruta
 // Función para dibujar el gráfico 
 export async function c_SCA_m_trend(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 100, bottom: 60, left: 0};
+    const margin = {top: 80, right: 100, bottom: 60, left: 80};
     const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
@@ -126,9 +126,10 @@ export async function c_SCA_m_trend(watershed) {
         .attr("font-size", "20px")
         .attr("x", 0)
         .attr("y", -25)
-        .text("Tendencia SCA");
-     
-      /*  // Etiqueta SUb titulo
+        .text("Tendencia");
+
+
+        // Etiqueta SUb titulo
     svg.append("text")
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
@@ -137,7 +138,7 @@ export async function c_SCA_m_trend(watershed) {
         .attr("x", width / 2  - 40)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
-*/
+
 
  //Add the legend
  leyenda_tend(svg, myColor);

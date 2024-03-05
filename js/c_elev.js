@@ -71,20 +71,20 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
      .attr("text-anchor", "center")
      .attr("font-family", "Arial")
      .attr("font-size", "20px")
-     .attr("x", 10)
+     .attr("x", -50)
      .attr("y", -25)
-     .text("Area");
+     .text("Área por elevación");
   
-    /*// Etiqueta SUb titulo
+// Etiqueta SUb titulo
     svg.append("text")
         .attr("text-anchor", "bot")
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 40)
+        .attr("x", width / 2  - 50)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
-*/
+
 
 // Etiqueta del eje X
 svg.append("text")
@@ -95,6 +95,15 @@ svg.append("text")
    .attr("y", height + 40)
    .text("Area (km2)");
 
+    // Etiqueta del eje Y
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-family", "Arial")
+        .attr("font-size", "13")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -80)
+        .text("Elevación (msnm)");
 
 
 }

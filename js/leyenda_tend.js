@@ -18,14 +18,14 @@ export async function leyenda_tend(svg){
    // set the dimensions and margins of the graph
    
   let legX = 50
-  let legY = 10
+  let legY = 20
 
   // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
   svg.append("text")
-  .attr("x", legX-10)
+  .attr("x", legX-20)
   .attr("y", legY-15)
-  .text("Tend (%/año)") // El texto que se mostrará
-  .style("font-size", "9px") // Tamaño de la fuente del texto
+  .text("Tendencia (%/año)") // El texto que se mostrará
+  .style("font-size", "11px") // Tamaño de la fuente del texto
   .attr("font-family", "Arial") // Fuente del texto
   .attr("alignment-baseline", "middle") // Alineación vertical del texto
 
@@ -62,8 +62,8 @@ export async function leyenda_tend(svg){
   svg.append("rect")
     .attr("x", legX)
     .attr("y", legY + colorScale.domain().length * 10 + 40)
-    .attr('height', 15)
-    .attr('width', 15)
+    .attr('height', 10)
+    .attr('width', 10)
     
 
   // Agregar un elemento de texto a la leyenda en las coordenadas especificadas

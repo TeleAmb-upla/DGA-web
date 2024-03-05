@@ -36,7 +36,7 @@ export async function c_SCA_y_m(watershed) {
         .domain(myGroups)
         .padding(0.05);
     svg.append("g")
-        .style("font-size", 12)
+        .style("font-size", 10)
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x).tickSize(5))
         .selectAll("text") //manter
@@ -49,7 +49,7 @@ export async function c_SCA_y_m(watershed) {
         .domain(myVars)
         .padding(0.05);
     svg.append("g")
-        .style("font-size", 12)
+        .style("font-size", 10)
         .call(d3.axisLeft(y).tickSize(5))
         .select(".domain").remove();
 
@@ -109,7 +109,7 @@ export async function c_SCA_y_m(watershed) {
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill",function (d) { return colorScaleThreshold(d.value); })
-            .style("stroke-width", 4)
+            .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
             .on("mouseover", mouseover)

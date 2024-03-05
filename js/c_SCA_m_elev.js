@@ -48,10 +48,11 @@ export async function c_SCA_m_elev(watershed) {
         .domain(myGroups)
         .padding(0.05);
     svg.append("g")
-        .style("font-size", 15)
+        .style("font-size", 12)
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x).tickSize(3));
-     
+        //.call(d3.axisBottom(x).tickSize(0).tickFormat(function (d) { return ''; }));
+
 
     // Build Y scales and axis:
     const y = d3.scaleBand()
@@ -126,7 +127,7 @@ export async function c_SCA_m_elev(watershed) {
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill",  function (d) {return colorScaleThreshold(d.value); })
-            .style("stroke-width", 4)
+            .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
             .on("mouseover", mouseover)

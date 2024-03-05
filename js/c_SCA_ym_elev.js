@@ -3,8 +3,7 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Función para dibujar el gráfico 
 export async function c_SCA_ym_elev(watershed) {
     // set the dimensions and margins of the graph
-
-     const margin = {top: 50, right: 80, bottom: 50, left: 80};
+    const margin = {top: 50, right: 80, bottom: 50, left: 80};
     const width = 1000 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -27,49 +26,42 @@ export async function c_SCA_ym_elev(watershed) {
     const data = await d3.csv(watershed_selected);
 
     // Labels
-    const myGroups = Array.from(new Set(data.map(d => d.group)));
+    const myGroups = Array.from(new Set(data.map(d => d.group))); // mantiene solo el primer mes de cada año
     const myVars = Array.from(new Set(data.map(d => d.variable)));
 
     // Build X scales and axis:
+// esto fue lo que fui cambiando freddy 
     const x = d3.scaleBand()
-        .range([ 0, width ])
-        .domain(myGroups)
-        .padding(0.05);
-    svg.append("g")
-        .style("font-size", 15)
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickSize(0))
-        .select(".domain").remove();
-
+    .range([ 0, width ])
+    .domain(myGroups)
+    .padding(0.05);
+svg.append("g")
+    .style("font-size", 10)
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x).tickFormat(function(d) { // crea eje x
+        const dateParts = d.split("-"); // divide las fechas
+        const year = dateParts[0]; //extrae los años 
+        const month = dateParts[1]; //extrae los meses
+        const day = dateParts[2]; //extrae los dias
+        if (month === "1" && day === "1") { // primer dia del primer mes
+            return year; // que aparezca solo el año
+        } else {
+            return "";
+        }
+    }));
     // Build Y scales and axis:
     const y = d3.scaleBand()
         .range([ height, 0 ])
         .domain(myVars)
         .padding(0.05);
-
-
-
-
-
-        const yAxis = d3.axisLeft(y)
+    const yAxis = d3.axisLeft(y)
         .tickValues(y.domain().filter(function(d,i){ return !(i%5)}));
-      
-      const gX = svg.append("g").call(yAxis);
+    const gX = svg.append("g").call(yAxis);
   
-
-
-
-    /*// Build color scale
-    const myColor = d3.scaleLinear()
-        .domain([1,50])
-        .range(["#ffffd9", "#081d58"]);
-        */
-        const colorScaleThreshold = d3
+    const colorScaleThreshold = d3
         .scaleThreshold()
         .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
         .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
-
-
 
     // create a tooltip
     const tooltip = d3.select("#Place1")
@@ -109,8 +101,6 @@ export async function c_SCA_ym_elev(watershed) {
         .append("rect")
             .attr("x", d => x(d.group))
             .attr("y", d => y(d.variable))
-            //.attr("rx", 4)
-            //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return colorScaleThreshold(d.value); })
@@ -120,7 +110,8 @@ export async function c_SCA_ym_elev(watershed) {
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
-            
+
+
     // Add title to graph
    // Etiqueta title
    svg.append("text")
