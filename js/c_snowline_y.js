@@ -15,12 +15,9 @@ export async function c_snowline_y(watershed) {
             .attr("height", height + margin.top + margin.bottom)
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
     // Text to create .csv file
     const text_ini = "csv//year//snowline_y_BNA_";
     const text_end = ".csv";
-
     // .csv file
     const watershed_selected = text_ini.concat(watershed).concat(text_end);
 
@@ -28,7 +25,6 @@ export async function c_snowline_y(watershed) {
     const data = await d3.csv(watershed_selected, function(d) {
         return { date: d.date, value: +d.value };
     });
-
     // Add X axis
     const x = d3.scaleBand()
         .range([0, width])
@@ -42,21 +38,37 @@ export async function c_snowline_y(watershed) {
         .style("text-anchor", "end");
 
         // Prueba QUIERO QUE PARTA DESDE EL MENOR VALOR Y 
-        let menor = data[0].value;
+   
+
+    let menor = data[0].value;
 
     data.forEach(element => {
       if(element.value < menor){
-        menor = element.value;
+        menor = element.value*.95;
       }
     });
+    
+    let mayor = data[0].value;
+    
+    data.forEach(element => {
+      if(element.value > mayor){
+        mayor = element.value*1.02;
+      }
+    });
+    
+    //console.log(menor)
+    //console.log(mayor)
 
 
     // Add Y axis
+
+    const Ymax = [menor, mayor];
     var y = d3.scaleLinear()
-    .domain([menor*0.95, 1.02*d3.max(data, function(d) { return +d.value; })])
+    .domain(Ymax)
     .range([ height, 0 ]);
   svg.append("g")
     .call(d3.axisLeft(y));
+// Filtrar los valores máximos para los años 2000 a 2023
 
     // Add the line
     svg.append("path")
@@ -70,8 +82,49 @@ export async function c_snowline_y(watershed) {
             .curve(d3.curveCatmullRom.alpha(0.5))
         );
 
+// Agrupar los datos por año y calcular el valor máximo para cada año
+const groupedData = d3.group(data, d => d.value);
+
+// Suponiendo que 'data' es un array de objetos con 'date' y 'value'
+let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, n = data.length; //número total de registros en los datos.
+
+data.forEach(d => {
+    let year = +d.date; // Convertir la fecha a número, si es necesario
+    let value = d.value;
+    sumX += year;
+    sumY += value;
+    sumXY += year * value;
+    sumX2 += year * year;
+});
+
+let slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+let intercept = (sumY - slope * sumX) / n;
+
+// Ahora puedes usar 'slope' e 'intercept' para calcular y dibujar tu línea de tendencia
+
+var Y_ini_max = 2000*(slope) + (intercept);
+var Y_fin_max = 2023*(slope) + (intercept);
 
 
+//console.log(Y_ini_max)  
+//console.log(Y_fin_max) 
+
+const Y_sti_ini_max = ((Y_ini_max - mayor)/ (menor-mayor)) *height; 
+const Y_sti_fin_max = ((Y_fin_max - mayor) / (menor-mayor)) *height;
+// Añadir la línea de tendencia para el promedio de los valores máximos
+svg.append("line")
+    .attr("class", "trendline")
+    .attr("x1", 0)
+    .attr("y1", Y_sti_ini_max)
+    .attr("x2", width)
+    .attr("y2", Y_sti_fin_max)
+    .attr("stroke", "red")
+    .attr("stroke-width", 1);
+
+
+
+
+        
           // Etiqueta title
     svg.append("text")
         .attr("text-anchor", "center")
@@ -79,7 +132,7 @@ export async function c_snowline_y(watershed) {
         .attr("font-size", "20px")
         .attr("x", width / 2  - 120)
         .attr("y", -25)
-        .text("Elevación línea de nieve anual");
+        .text("8. Elevación línea de nieve anual");
           // Etiqueta SUb titulo
     svg.append("text")
         .attr("text-anchor", "center")

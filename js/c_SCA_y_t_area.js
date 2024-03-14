@@ -72,7 +72,7 @@ export async function c_SCA_y_t_area(watershed) {
    .attr("font-size", "20px")
    .attr("x", width / 2  - 120)
    .attr("y", -25)
-   .text("Superficie por tendencia anual");
+   .text("5. Superficie por tendencia anual");
 
    // Etiqueta SUb titulo
 svg.append("text")
@@ -94,6 +94,8 @@ svg.append("text")
    .text("Tendencia (%/año)");
 
 // Etiqueta del eje Y
+// Texto "Superficie (km"
+// Texto "Superficie (km"
 svg.append("text")
    .attr("text-anchor", "end")
    .attr("font-family", "Arial")
@@ -101,8 +103,27 @@ svg.append("text")
    .attr("transform", "rotate(-90)")
    .attr("y", -50)
    .attr("x", -80)
-   .text("Superficie (km2)");
+   .text("Superficie (km");
 
+// Texto "2)" en superíndice
+svg.append("text")
+   .attr("text-anchor", "end")
+   .attr("font-family", "Arial")
+   .attr("font-size", "10")  // Tamaño más pequeño para el superíndice
+   .attr("transform", "rotate(-90)")
+   .attr("y", -50 - 3)  // Posición ajustada para el superíndice
+   .attr("x", -80 + 7)  // Posición ajustada para el superíndice
+   .text("2");
+
+// Texto ")" en tamaño normal
+svg.append("text")
+   .attr("text-anchor", "end")
+   .attr("font-family", "Arial")
+   .attr("font-size", "13")
+   .attr("transform", "rotate(-90)")
+   .attr("y", -50)
+   .attr("x", -80 + 11)  // Posición ajustada para seguir al superíndice
+   .text(")");
     // Animación
     svg.selectAll("rect")
         .transition()

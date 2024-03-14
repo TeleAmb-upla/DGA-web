@@ -30,7 +30,6 @@ export async function c_SCA_ym_elev(watershed) {
     const myVars = Array.from(new Set(data.map(d => d.variable)));
 
     // Build X scales and axis:
-// esto fue lo que fui cambiando freddy 
     const x = d3.scaleBand()
     .range([ 0, width ])
     .domain(myGroups)
@@ -43,12 +42,30 @@ svg.append("g")
         const year = dateParts[0]; //extrae los años 
         const month = dateParts[1]; //extrae los meses
         const day = dateParts[2]; //extrae los dias
-        if (month === "1" && day === "1") { // primer dia del primer mes
+        if (month === "01" && day === "01") { // primer dia del primer mes
             return year; // que aparezca solo el año
         } else {
-            return "";
+            if (month == "02" && day == "01" && year =="2000") { // primer dia del primer mes
+                return year; // que aparezca solo el año
+            } else {
+                return "";
+            }
         }
-    }));
+    }))
+    .selectAll("line")  // selecciona todas las marcas de línea
+    .attr("y2", function(d) {
+        const dateParts = d.split("-"); // divide las fechas
+        const year = dateParts[0]; //extrae los años 
+        const month = dateParts[1]; //extrae los meses
+        const day = dateParts[2]; //extrae los dias
+        if ((month === "01" && day === "01") || (month == "02" && day == "01" && year =="2000")) { // primer dia del primer mes
+            return 8; // que la línea sea más larga
+        } else {
+            return 4; // que la línea sea más corta
+        }
+    });
+
+
     // Build Y scales and axis:
     const y = d3.scaleBand()
         .range([ height, 0 ])
@@ -64,7 +81,7 @@ svg.append("g")
         .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
 
     // create a tooltip
-    const tooltip = d3.select("#Place1")
+    const tooltip = d3.select("#p18")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
@@ -74,33 +91,41 @@ svg.append("g")
         .style("border-radius", "5px")
         .style("padding", "5px");
 
-    // Three 
-    const mouseover = function(event, d) {
-        tooltip.style("opacity", 1);
-        d3.select(this)
-            .style("stroke", "black")
-            .style("opacity", 1);
-    };
-    const mousemove = function(event, d) {
-        tooltip
-            .html(`The exact value of<br>this cell is: ${d.value}`)
-            .style("left", `${d3.pointer(event)[0]+70}px`)
-            .style("top", `${d3.pointer(event)[1]}px`);
-    };
-    const mouseleave = function(event, d) {
-        tooltip.style("opacity", 0);
-        d3.select(this)
-            .style("stroke", "none")
-            .style("opacity", 0.8);
-    };
-
+// Tres funciones que cambian la información sobre herramientas cuando el usuario pasa el cursor/mueve/sale de una celda
+var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  }
+  var mousemove = function (event, d) {
+    var value = Number(d.value); // Convertir cadena a número
+    var dateComponents = d.group.split("-"); // Dividir la fecha
+    var yearMonth = dateComponents[0] + "-" + dateComponents[1]; // Reconstruir la fecha
+    tooltip
+        .html( "Fecha: " + yearMonth + "<br>" 
+              + "Elevación: " + d.variable + "<br>" 
+              + "Persistencia: " + value.toFixed(1) + " unidades"  // Definir cantidad de decimales
+             )
+        .style("left", (event.pageX + 30) + "px") 
+        .style("top", (event.pageY - 28) + "px")  // Ajustar posición para evitar solapamiento
+  }
+  
+  var mouseleave = function(d) {
+    tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  }
     // Add the squares
     svg.selectAll()
-        .data(data, d => `${d.group}:${d.variable}`)
+        .data(data, function (d) { return d.group + ':' + d.variable; })
         .enter()
         .append("rect")
-            .attr("x", d => x(d.group))
-            .attr("y", d => y(d.variable))
+        .attr("x", function (d) { return x(d.group); })
+        .attr("y", function (d) { return y(d.variable); })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill", function (d) { return colorScaleThreshold(d.value); })
@@ -120,7 +145,7 @@ svg.append("g")
    .attr("font-size", "20px")
    .attr("x", 200)
    .attr("y", -25)
-   .text("Persistencia de nieve por año, mes y elevación");
+   .text("15. Persistencia de nieve por año, mes y elevación");
 
    // Etiqueta SUb titulo
 svg.append("text")
@@ -139,7 +164,7 @@ svg.append("text")
    .attr("font-size", "13")
    .attr("x", width / 2 + 15)
    .attr("y", height + 40)
-   .text("Años");
+   .text("Año-Mes");
 
 // Etiqueta del eje Y
 svg.append("text")
@@ -161,7 +186,7 @@ svg.append("text")
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY-15)
-  .text("PN (%)")
+  .text("Nieve (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
@@ -329,7 +354,7 @@ svg.append("text")
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30)
-  .text("Nubes (%)")
+  .text("Nube (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")

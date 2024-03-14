@@ -1,6 +1,6 @@
 
 
-// LEYENDA COMO JS SOLO ES LA LEYE
+// 
 
 
 // Importar la biblioteca D3.js desde un CDN
@@ -41,7 +41,7 @@ export async function leyenda_PN(){
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY-15)
-  .text("PN (%)")
+  .text("Nieve (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
@@ -201,16 +201,16 @@ export async function leyenda_PN(){
   svg.append("text")
   .attr("x", legX+20)
   .attr("y", legY+7+15+15+15+15+15+15+15+15+15)
-  .text("0 - 10")
+  .text(" 0 - 10")
   .style("font-size", "10px")
   .attr("font-family", "Arial")
-  .attr("alignment-baseline", "middle")
+  .attr("alignment-baseline", "baseline")
 
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30)
-  .text("Nubes (%)")
-  .style("font-size", "12px")
+  .text("Nube (%)")
+  .style("font-size", "10px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
 

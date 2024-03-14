@@ -6,7 +6,7 @@ export async function tm_sp_area() {
     const width = 500 - margin.left - margin.right;
     const height = 450 - margin.top - margin.bottom;
 
-    const svg = d3.select("#Place2").append("svg")
+    const svg = d3.select("#p08").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "d3-plot")
@@ -14,10 +14,10 @@ export async function tm_sp_area() {
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var data = [
-    {Macrozona: "Norte",   Intermitente:  21655, Estacional:  2888, Permanente:   25},
-    {Macrozona: "Centro",  Intermitente:   7670, Estacional: 11220, Permanente:   372},
-    {Macrozona: "Sur",     Intermitente:  21822, Estacional:  4023, Permanente:   262},
-    {Macrozona: "Austral", Intermitente: 119255, Estacional: 43143, Permanente: 20077}
+    {Macrozona: "Norte",   Intermitente:  24173, Estacional:  3374, Permanente:   15},
+    {Macrozona: "Centro",  Intermitente:   8979, Estacional: 12154, Permanente:   436},
+    {Macrozona: "Sur",     Intermitente:  24044, Estacional:  3691, Permanente:   275},
+    {Macrozona: "Austral", Intermitente: 183726, Estacional: 52435, Permanente: 24642}
   ];
   
    // const data = await d3.csv("csv/total/tc_SP_SCA.csv");
@@ -81,7 +81,7 @@ svg.append("g")
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY-15)
-  .text("Permanencia nieves (%)")
+  .text("Permanencia nieve (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
@@ -141,14 +141,29 @@ svg.append("g")
       .text("Macrozonas");
 
   // Etiqueta del eje Y
-  svg.append("text")
+  var text = svg.append("text")
       .attr("text-anchor", "end")
       .attr("font-family", "Arial")
       .attr("font-size", "13")
       .attr("transform", "rotate(-90)")
       .attr("y", 8)
       .attr("x", -150)
-      .text("Area (km2)");
+      
+      text.append("tspan")
+      .text("Área de nieve (km");
+             
+      text.append("tspan")
+      .attr("baseline-shift", "super")
+      .attr("font-size", "10px")
+      .text("2");
+     
+      text.append("tspan")
+      .attr("baseline-shift", "baseline")
+      .attr("font-size", "14px")
+      .text(")");
+     
+
+
 
   function stackMin(serie) {
     return d3.min(serie, function(d) { return d[0]; });

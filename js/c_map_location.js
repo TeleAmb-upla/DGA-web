@@ -4,7 +4,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 export async function c_map_location(watershed) {
     
     // Text to create .png file
-    const text_ini = "images/chile_map_location_BNA_";
+    const text_ini = "images//chile_map_location_BNA//chile_map_location_BNA_";
     const text_end = ".png";
 
     // .png file

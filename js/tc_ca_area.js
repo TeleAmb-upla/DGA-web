@@ -4,12 +4,12 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_ca_area() {
 
-    const margin = { top: 50, right: 0, bottom: 10, left: 10 };
+    const margin = { top: 50, right: 0, bottom: 40, left: 10 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
-    const svg = d3.select("#Place1").append("svg")
+    const svg = d3.select("#p05").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
@@ -31,7 +31,7 @@ export async function tc_ca_area() {
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisTop(x).ticks(5);
+    const xAxis = d3.axisBottom(x).ticks(5);
 
     const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
 
@@ -62,6 +62,7 @@ export async function tc_ca_area() {
 
     svg.append("g")
         .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")") // saca la linea del eje X
         .call(xAxis);
 
     svg.append("g")
@@ -100,13 +101,28 @@ export async function tc_ca_area() {
         .attr("y2", height);
 
 // Add title to graph
-svg.append("text")
-.attr("x", 20)
-.attr("y", -25)
-.attr("text-anchor", "center")
-.style("font-size", "14px")
-.attr("font-family","Arial")
-.text("Cambio area nieves (km2)");
+
+ // TITULO PARA AGREGARLE EL ELEVADO AL 2
+ var text = svg.append("text")
+ .attr("x", 40)
+ .attr("y", 540)
+ .attr("text-anchor", "center")
+ .style("font-size", "14px")
+ .attr("font-family","Arial");
+
+ text.append("tspan")
+ .text("Área de nieve (km");
+
+ text.append("tspan")
+ .attr("baseline-shift", "super")
+ .attr("font-size", "10px")
+ .text("2");
+
+ text.append("tspan")
+ .attr("baseline-shift", "baseline")
+ .attr("font-size", "14px")
+ .text(")");
+
 
 
     }

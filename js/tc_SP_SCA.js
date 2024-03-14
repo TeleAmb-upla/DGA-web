@@ -4,12 +4,12 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función para dibujar el gráfico 
 export async function tc_SP_SCA(index) {
-    const margin = { top: 50, right: 0, bottom: 10, left: 65 };
+    const margin = { top: 50, right: 0, bottom: 40, left: 65 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
-    const svg = d3.select("#Place1").append("svg")
+    const svg = d3.select("#p02").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
@@ -31,7 +31,10 @@ export async function tc_SP_SCA(index) {
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisTop(x).ticks(5);
+    const xAxis = d3.axisBottom(x) //para abajo la etiqueta
+    .ticks(5)
+    .tickFormat(function(d) { return Math.abs(d); }); // pasen de - a +
+
 
     const yAxis = d3.axisLeft(y);
 
@@ -59,10 +62,12 @@ export async function tc_SP_SCA(index) {
     x.domain([min_val * 1.1, 0]);
   
     y.domain(data.map(function(d) { return d.Question; }));
-
+    
     svg.append("g")
-        .attr("class", "x axis")
-        .call(xAxis);
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")") // saca la linea del eje X
+    .call(xAxis);
+
 
     svg.append("g")
         .attr("class", "y axis")
@@ -92,12 +97,14 @@ export async function tc_SP_SCA(index) {
         .style("fill", "#F5F5F5")
         .attr("class", function(d,index) { return index % 2 == 0 ? "even" : "uneven"; });
 
-    svg.append("g")
+        svg.append("g")
         .attr("class", "y axis")
         .append("line")
         .attr("x1", x(0))
         .attr("x2", x(0))
-        .attr("y2", height);
+        .attr("y2", height)
+        .style("stroke", "transparent");
+    
 
     svg.append("text")
         .attr("text-anchor", "end")
@@ -111,12 +118,12 @@ export async function tc_SP_SCA(index) {
 
 // Add title to graph
 svg.append("text")
-.attr("x", 0)
-.attr("y", -25)
+.attr("x", -10)
+.attr("y", 540)
 .attr("text-anchor", "center")
 .style("font-size", "14px")
 .attr("font-family","Arial")
-.text("Cobertura nieve (%)");
+.text("Cobertura de nieve (%)");
 
 
 
@@ -127,14 +134,14 @@ svg.append("text")
     for (let i = 0; i < legendData.length; i++) {
         svg.append("rect")
             .attr("x", 9)
-            .attr("y", 19 + 22 * i)
+            .attr("y", 19 + 25 * i)
             .attr('height', 8)
             .attr('width', 8)
             .style("fill", legendColors[i]);
 
         svg.append("text")
             .attr("x", 21)
-            .attr("y", 24 + 22 * i)
+            .attr("y", 17 + 22 * i)
             .text(legendTexts[i])
             .style("font-size", "11px")
             .attr("font-family", "Arial")

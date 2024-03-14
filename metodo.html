@@ -105,148 +105,246 @@ crossorigin=""></script>
   <section >
     <div class="container">
       <div class="custom_heading-container">
-        <h3 class=" ">
-          Metodologia utilizada
+        <h3 class="" style="margin: 20px 0;"> <!-- Aquí '20px' es la separación arriba y abajo -->
+          Metodología utilizada
         </h3>
       </div>
-      <p class="">
+      <p style=text-align:justify;>
         El área de estudio considera el total del territorio nacional continental de Chile (~756,000 km2). Los datos satelitales provienen del programa Moderate Resolution Imaging Spectroradiometer (MODIS), producto diario de Snow Cover Daily L3, versión 6.1 de las plataformas satelitales Terra MOD10A1 (Terra) y MYD10A1 (Aqua) (Hall et al., 2016). Estos productos satelitales poseen una resolución espacial de 500 m, desde los años 2000 (MOD10A1) y 2002 (MYD10A1) hasta nuestros días, con resolución temporal diaria. Los productos de nieve a partir de imágenes MODIS son ampliamente utilizados global y regional para para la estimación y el análisis espaciotemporal de la cobertura de nieve en diferentes partes del mundo (Kour et al., 2016; Riggs et al., 2006; Saavedra, 2016; Saavedra et al., 2017; Shafiq et al., 2019; Tang et al., 2013). En donde los patrones de la cubierta de nieve y su variabilidad estacional son útiles tanto para forzar como para evaluar modelos hidrológicos (Fassnacht et al., 2012; Martinec et al., 2008), y los patrones de la cubierta de nieve pueden ayudar a identificar señales climáticas (Barnett et al., 2005; Brown and Mote, 2009).
       </p>
 
-      <p class="">
-        Además, se adquirió un Modelo Digital de Elevación de 30 metros de resolución espacial para la zona de estudio a partir de la Shuttle Radar Topography Mission (SRTM) para la estimación de la línea de nieve.
+      <p style=text-align:justify;>
+        Todo el análisis se realizó en la plataforma Google Earth Engine (GEE, https://earthengine.google.com/platform/) que permite el análisis geoespacial en la nube que contiene un catálogo público de imágenes satelitales, topografía y otros conjuntos de datos ambientales y brinda capacidades de computación masivas (Gorelick et al., 2017; Mahdianpari et al., 2020). Además, se adquirió un Modelo Digital de Elevación de 30 metros de resolución espacial para la zona de estudio a partir de la Shuttle Radar Topography Mission (SRTM) para la estimación de la línea de nieve.
       </p>
 
-      <p class="">
-        Todo el análisis se realizó en la plataforma Google Earth Engine (GEE, https://earthengine.google.com/platform/) que permite el análisis geoespacial en la nube que contiene un catálogo público de imágenes satelitales, topografía y otros conjuntos de datos ambientales y brinda capacidades de computación masivas (Gorelick et al., 2017; Mahdianpari et al., 2020).
+      <p style=text-align:justify;>
+        El producto de nieves MOD10A1 y MYD10A ofrece la banda “NDSI_Snow_Cover” que corresponde al valor del Índice Diferencial Normalizado de Nieve (NDSI) creados a partir de la normalización de las bandas roja e infrarroja de onda corta para detectar nieves y llevado a una escala porcentual de 0-100%. La banda de NDSI se transformó a un producto binario clasificando cualquier píxel como nieve (100) con un NDSI mayor a 40% y como no nieve (50) los valores bajo este umbral Este método compara a nivel de píxel para rellenar la información faltante de un producto con el otro para generar un producto Terra y Aqua combinados (TAC) siguiendo las reglas presentadas en la Tabla 1.
       </p>
 
-      <p class="">
-        El producto de nieves MOD10A1 y MYD10A ofrece la banda “NDSI_Snow_Cover” que corresponde al valor del Índice Diferencial Normalizado de Nieve (NDSI) creados a partir de la normalización de las bandas roja e infrarroja de onda corta para detectar nieves y llevado a una escala porcentual de 0-100%. La banda de NDSI se transformó a un producto binario clasificando cualquier píxel como nieve (100) con un NDSI mayor a 40% y como no nieve (50) los valores bajo este umbral.
+      <p style=text-align:justify;>
+        <b>Tabla 1.</b> Valores para la toma decisión para la construcción del producto Terra y Aqua combinados (TAC) a partir de los datos de Terra y Aqua (Elaboración propia).
       </p>
 
 
+      <style>
+        table.default {
+          border-collapse: collapse;
+          margin: 0 auto; /* Esto centra la tabla */
+        }
+        th, td {
+          border: 1px solid black;
+          padding: 2px;
+          /* text-align: center; */ /* Eliminado para justificar a la izquierda */
+        }
+      </style>
+      </head>
+      <body>
+      <table class="default" border="1">
+        <tr>
+          <th>Terra</th>
+          <th>Aqua</th>
+          <th>TAC</th>
+        </tr>
+        <tr>
+          <td>No Data</td>
+          <td>No Data</td>
+          <td>No Data</td>
+        </tr>
+        <tr>
+          <td>No Data</td>
+          <td>No Nieve</td>
+          <td>No Nieve</td>
+        </tr>
+        <tr>
+          <td>No data</td>
+          <td>Nieve</td>
+          <td>Nieve</td>
+        </tr>
+        <tr>
+          <td>No nieve</td>
+          <td>Nieve</td>
+          <td>Nieve</td>
+        </tr>
+        <tr>
+          <td>No nieve</td>
+          <td>No Nieve</td>
+          <td>No Nieve</td>
+        </tr>
+        <tr>
+          <td>Nieve</td>
+          <td>Nieve</td>
+          <td>Nieve</td>
+        </tr>
+        <tr>
+          <td>Nieve</td>
+          <td>No Nieve</td>
+          <td>Nieve</td>
+        </tr>
+        <tr>
+          <td>Nieve</td>
+          <td>No Data</td>
+          <td>Nieve</td>
+        </tr>
+        <tr>
+          <td>No Nieve</td>
+          <td>No Data</td>
+          <td>No Nieve</td>
+        </tr>
+      </table>
 
+    </p>
+    </p>
 
+      <p style=text-align:justify;>
+        A partir de la base de datos resultante de la fusión Terra y Aqua, se procesa el segundo paso de reducción de nubes. El Paso 2 ejecuta una serie de reglas en un orden específico: 
+      </p>
 
-
+      <div>
+        <ul>
+          <li> <p style=text-align:justify;> <b>Ecuación N°1:</b>  A partir de un día con nubes se observa el día anterior y el día siguiente. Si ambos días (anterior y posterior) poseen la misma información (nieve o no nieve) se completa con esa información. Si uno de los dos posee nieves, se asigna como nieve. Si uno de los días anterior o posterior está con nubes, se procede a la ecuación dos.</li>
+          <li> <p style=text-align:justify;><b>Ecuación N°2:</b> Se toman en cuenta dos días antes y un día después. Se aplican los mismos criterios para reemplazar el píxel con nubes. Si uno de los días anteriores o posteriores está con nubes, se procede a la ecuación tres.</li>
+          <li> <p style=text-align:justify;><b>Ecuación N°3:</b> Se toman en cuenta un día antes y dos días después. Se aplican los mismos criterios para reemplazar el píxel con nubes.  Si uno de los días anteriores o posteriores está con nubes, se procede al Paso 3.  </li>
+        </ul>
+      </div>
+    </p>
     </div>
     </div>
   </section>
 
   <!-- end service section -->
 
-  <!-- info section -->
-  <section class="info_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info-logo">
-            <h2>
-              Cobertura nieve
-            </h2>
-            <p>
-              Es un proyecto ejecutado por el Laboratorio de Teledeteccion Ambiental (TeleAmb) del la Universidad de Playa Ancha (UPLA)
-            </p>
-          </div>
+   <!-- info section -->
+<section class="info_section layout_padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Cobertura nieve
+          </h2>
+          <p style="text-align: rigth;">
+            Es un proyecto ejecutado por el Laboratorio de Teledetección Ambiental (TeleAmb) de la Universidad de Playa Ancha (UPLA)
+          </p>
         </div>
-        <div class="col-md-3">
-          <div class="info-nav">
-            <h4>
-              Navigacion
-            </h4>
-            <ul>
-              <li>
-                <a href="index.html">
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="nacional.html">
-                  Nacional
-                </a>
-              </li>
-              <li>
-                <a href="cuencas.html">
-                  Cuencas
-                </a>
-              </li>
-              <li>
-                <a href="metodo.html">
-                  Metodologia
-                </a>
-              </li>
-              <li>
-                <a href="equipo.html">
-                  Equipo
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info-contact">
-            <h4>
-              Informacion de contacto
-            </h4>
-            <div class="location">
-              <h6>
-                Ubicacion:
-              </h6>
-              <a href="">
-                <img src="images/location.png" alt="">
-                <span>
-                  Subida Carvallo 270, Playa Ancha, Valparaiso, Chile
-                </span>
+      </div>
+
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Navegación
+          </h2>
+          <ul>
+            <li>
+              <a href="index.html">
+                Inicio
               </a>
-            </div>
-            <div class="call">
-              <h6>
-                Contacto:
-              </h6>
-              <a href="">
-                <img src="images/telephone.png" alt="">
-                <span>
-                  ( +056 0000000000 )
-                </span>
+            </li>
+            <li>
+              <a href="nacional.html">
+                Nacional
               </a>
-            </div>
+            </li>
+            <li>
+              <a href="cuencas.html">
+                Cuencas
+              </a>
+            </li>
+            <li>
+              <a href="metodo.html">
+                Metodología
+              </a>
+            </li>
+            <li>
+              <a href="equipo.html">
+                Equipo
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Contacto
+          </h2>
+          <div class="location">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+              Subida Carvallo 270, Playa Ancha, Valparaíso, Chile
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="call">
+            <a href="">
+              <img src="images/telephone.png" alt="">
+              <span>
+                +56322205511
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="mail">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+                teleamb@upla.cl
+              </span>
+            </a>
           </div>
         </div>
- 
-        <div id="map"></div>
-        <script>
-            const map = L.map('map').setView([-33.021059, -71.641600], 13);
+      </div>
+
+      <div id="map"></div>
+      <script>
+        const map = L.map('map').setView([-33.021059, -71.641600], 13);
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         const marker = L.marker([-33.021059, -71.641600]).addTo(map);
         marker.bindPopup("TeleAmb").openPopup();       
-        </script>
-        </div>
-
-
-
-      </div>
+      </script>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- end info_section -->
 
 
-
-  <!-- end info_section -->
-
-  <!-- footer section -->
-  <section class="container-fluid footer_section">
-    <p>
-      Copyright &copy; 2019 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </section>
-  <!-- footer section -->
-
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 </body>
 
+</html>
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logos Alineados</title>
+  <style>
+    header {
+      text-align: left;
+      position: relative;
+    }
+    img {
+      
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <header>
+      <img src="images\Imagenes_logo/DGA.jpg" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+      <img src="images\Imagenes_logo/UPLA.png" alt="Logo de mi sitio web" style="left: calc(660px); top: 60px; max-width: 270px">
+      <img src="images\Imagenes_logo/TeleAmb.png" alt="Logo de mi sitio web" style="left: calc(1015px); top: 40px; max-width: 290px">
+      <img src="images\Imagenes_logo/HUB-LOGO COLOR.jpg" alt="Logo de mi sitio web" style="left: calc(1370px); top: 40px; max-width: 170px">
+    </header>
+</body>
 </html>

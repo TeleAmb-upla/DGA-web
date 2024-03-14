@@ -7,7 +7,18 @@
   <style>
     #map { height: 250px; 
            width: 250px;}
+          
+  
+
   </style>
+
+
+
+
+
+
+
+
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
 integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -56,15 +67,17 @@ crossorigin=""></script>
     import { tc_ca_snowline } from './js/tc_ca_snowline.js';
     import { tm_sp_area } from './js/tm_sp_area.js';
     import { tm_SP_y_t_area } from './js/tm_SP_y_t_area.js';
+    import { tc_max_SP } from './js/tc_max_SP.js';
 
 
-    tc_SP_SCA();
-    tc_SP_area();
-    tc_ca_sca();
-    tc_ca_area();
-    tc_ca_snowline();
-    tm_sp_area();
-    tm_SP_y_t_area();
+    tc_SP_SCA();  //p2
+    tc_SP_area(); //p3
+    tc_ca_sca();  //p4
+    tc_ca_area(); //p5
+    tc_ca_snowline(); //p6
+    tc_max_SP(); //p7
+    tm_sp_area(); //p8
+    tm_SP_y_t_area();  //p9
 
 </script>
 
@@ -133,12 +146,12 @@ crossorigin=""></script>
           Analisis nacional
         </h3>
       </div>
-      <p class="">
-        Se colectaron casi 16 mil imágenes de Terra (2000-2023) y Aqua (2002-2023) para analizar la variabilidad espacio temporal de la cobertura de nieve sobre las 101 cuencas del BNA. Se fusionaron las imágenes de Aqua y Terra de un mismo día para reducir la presencia de nubes en un 10%. Se estableció la frecuencia de nieve por pixel para todo el periodo de medición y se analizó la información a escala anual. Se resumió la información para todas las cuencas y se seleccionaron aquellas cuencas que presentaron al menos un 5% cobertura promedio en el periodo de medición o que poseen al menos área con un 5% de frecuencia de nieve anualmente para establecer una representación de la línea de nieve. Bajo este criterio se seleccionaron un total de 46 cuencas. Se evaluó la permanencia de nieve como intermitente si se encuentra entre un 5 y 30% de frecuencia, como estacional entre un 30 y 90 % de frecuencia y como permanente sobre un 90% de frecuencia. Un 33% de la superficie nacional continental posee algún nivel de permanencia de nieve.
+      <p style=text-align:justify;>
+        Se colectaron casi 16 mil imágenes de Terra (2000-2023) y Aqua (2002-2023) para analizar la variabilidad espacio temporal de la cobertura de nieve sobre las 101 cuencas del BNA. Se fusionaron las imágenes de Aqua y Terra de un mismo día para reducir la presencia de nubes en un 10%. Se estableció la frecuencia de nieve por pixel para todo el periodo de medición y se analizó la información a escala anual. Se resumió la información para todas las cuencas y se seleccionaron aquellas cuencas que presentaron al menos un 5% cobertura promedio en el periodo de medición y que poseen al menos área con un 5% de frecuencia de nieve anualmente para establecer una representación de la línea de nieve. Bajo este criterio se seleccionaron un total de 46 cuencas. Se evaluó la permanencia de nieve como intermitente si se encuentra entre un 5 y 30% de frecuencia, como estacional entre un 30 y 90 % de frecuencia y como permanente sobre un 90% de frecuencia. Un 33% de la superficie nacional continental posee algún nivel de permanencia de nieve.
       </p>
 
-      <p class="">
-        Se identificaron áreas con disminución y aumento significativos en la frecuencia anual de nieves, concentrándose la reducción entre las latitudes 29-34° S y el aumento en las Macrozonas Sur y Austral. Sin embargo, se advierte que las altas presencias de nubes podrían afectar estos datos, sugiriendo la necesidad de reducir la interferencia de las nubes antes de realizar conclusiones más sólidas. Se estableció una representación de la línea de nieve promedio anual y se evaluó en cada cuenca seleccionada. La mayor elevación se encontró en la zona sur de la Macrozona Sur y el Norte de la Macrozona Central (29-34° S), con valores entre 20-30 metros de elevación por año de medición.
+      <p style=text-align:justify;>
+        Se identificaron áreas con disminución y aumento significativos en la frecuencia anual de nieves, concentrándose la reducción entre las latitudes 29-34° S y el aumento en las Macrozonas Sur y Austral. Sin embargo, se advierte que las altas presencias de nubes podrían afectar estos datos, sugiriendo la necesidad de reducir la interferencia de las nubes antes de realizar conclusiones más sólidas. Se estableció una representación de la línea de nieve promedio anual y se evaluó en cada cuenca seleccionada. El mayor aumento en la elevación de la línea de nieve se encontró en la zona sur de la Macrozona Sur y el Norte de la Macrozona Central (29-34° S), con valores entre 20-30 metros de elevación por año de medición.
 
       </p>
 
@@ -154,22 +167,43 @@ crossorigin=""></script>
 
 <section>
 
-  <table class="default">
 
-    <tr>
- 
-      <td><img src="images/chile_map.png">
-      </td>
-  
-      <td>
-        <div id="Place1"></div>
-        <div id="Place2"></div>
+  <table style="width:80%">
+    <tr >
+      <td rowspan="3" style="vertical-align: top;">
+        <div id="p01">
+            <img src="images/chile_map.png">
+        </div>
     </td>
+    
+      <th colspan="2"> <div class="custom_heading-test">
+                 Persistencia de nieve 2000-2023
         
+      </div>  </th>
+      <th colspan="3">  <div class="custom_heading-test">
+        Cambios acumulado 2000-2023 </div> </th>
+     
+        <th> Título Test </th>
+  
     </tr>
+    <tr>
+      <td><div id="p02"></td>
+      <td><div id="p03"></td>
+      <td><div id="p04"></td>
+      <td><div id="p05"></td>
+      <td><div id="p06"></td>
+      <td><div id="p07"></td>
    
-  </table>
+    </tr>
+    <tr>
+      <td colspan="3"><div id="p08"></td>
+      <td colspan="3"><div id="p09"></td>
+      
+  
+    </tr>
 
+
+</table>
 </section>
 
 
@@ -199,7 +233,7 @@ crossorigin=""></script>
         <div class="col-md-3">
           <div class="info-nav">
             <h4>
-              Navigacion
+              Navegación
             </h4>
             <ul>
               <li>

@@ -27,7 +27,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
 
     // Add X axis
     const x = d3.scaleLinear()
-        .domain([0, 1.05*d3.max(data, function(d) { return +d.Area;} )])
+        .domain([0, 1.05*d3.max(data, function(d) { return +d.area;} )])
         .range([0, width])
 
     svg.append("g")
@@ -39,7 +39,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
 
     // Y axis
     const y = d3.scaleBand()
-        .domain(data.map(d => d.Elevation))
+        .domain(data.map(d => d.elevation))
         .range([height, 0])
         .padding(0.1);
 
@@ -60,7 +60,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
         .enter()
         .append("rect")
         .attr("x", x(0))
-        .attr("y", d => y(d.Elevation))
+        .attr("y", d => y(d.elevation))
         .attr("width", d => x(d.Area))
         .attr("height", y.bandwidth())
         .attr("fill", "#FFAA00");
@@ -71,9 +71,9 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
      .attr("text-anchor", "center")
      .attr("font-family", "Arial")
      .attr("font-size", "20px")
-     .attr("x", -50)
+     .attr("x", -70)
      .attr("y", -25)
-     .text("Área por elevación");
+     .text("7. Área por elevación");
   
 // Etiqueta SUb titulo
     svg.append("text")
@@ -87,13 +87,28 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
 
 
 // Etiqueta del eje X
-svg.append("text")
-   .attr("text-anchor", "end")
-   .attr("font-family", "Arial")
-   .attr("font-size", "13")
-   .attr("x", width / 2 + 15)
+
+   var text = svg.append("text")
+   .attr("x", width / 18)
    .attr("y", height + 40)
-   .text("Area (km2)");
+   .attr("text-anchor", "center")
+   .style("font-size", "14px")
+   .attr("font-family","Arial");
+
+   text.append("tspan")
+   .text("Área (km");
+
+   text.append("tspan")
+   .attr("baseline-shift", "super")
+   .attr("font-size", "10px")
+   .text("2");
+
+   text.append("tspan")
+   .attr("baseline-shift", "baseline")
+   .attr("font-size", "14px")
+   .text(")");
+
+
 
     // Etiqueta del eje Y
     svg.append("text")

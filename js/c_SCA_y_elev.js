@@ -27,6 +27,7 @@ export async function c_SCA_y_elev(watershed) {
     // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
     const myGroups = Array.from(new Set(data.map(d => d.group)));
     const myVars = Array.from(new Set(data.map(d => d.variable)));
+   
 
     // Build X scales and axis:
     const x = d3.scaleBand()
@@ -46,23 +47,13 @@ export async function c_SCA_y_elev(watershed) {
       .range([height, 0])
       .domain(myVars)
       .padding(0.05);
-
-
-    const yAxis = d3.axisLeft(y)
+   const yAxis = d3.axisLeft(y)
       .tickValues(y.domain().filter(function(d,i){ return !(i%5)}));
     
     const gX = svg.append("g").call(yAxis);
 
 
-    //svg.append("g")
-     // .style("font-size", "10px")//Modifica el tamaño de la letra 
-     // .call(d3.axisLeft(y).tickSize(3)) // linea pequeña de los ejes
-
-    // Build color scale
-    const myColor = d3.scaleLinear().domain([1, 50])
-        .range(["#ffffd9", "#081d58"]);
-
-const colorScaleThreshold = d3
+    const colorScaleThreshold = d3
   .scaleThreshold()
   .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
   .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
@@ -78,28 +69,34 @@ const colorScaleThreshold = d3
         .style("border-radius", "5px")
         .style("padding", "5px");
 
-    // Three function that change the tooltip when user hover / move / leave a cell
-    const mouseover = function (event, d) {
-        tooltip.style("opacity", 1);
-        d3.select(this)
-            .style("stroke", "black")
-            .style("opacity", 1);
-    };
+  // Tres funciones que cambian la información sobre herramientas cuando el usuario pasa el cursor/mueve/sale de una celda
+    var mouseover = function(d) {
+      tooltip
+        .style("opacity", 1)
+      d3.select(this)
+        .style("stroke", "black")
+        .style("opacity", 1)
+    }
+    var mousemove = function (event, d) {
+      var value = Number(d.value); // era una cadena y habla que pasarla a numero
+      tooltip
+          .html( "Elevación: " + d.variable + "<br>" 
+               + "Persistencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
+               + "Año: " + d.group)
+          .style("left", (event.pageX + 30) + "px") 
+          .style("top", (event.pageY) + "px")
+    }
+    
+       
+    var mouseleave = function(d) {
+      tooltip
+        .style("opacity", 0)
+      d3.select(this)
+        .style("stroke", "none")
+        .style("opacity", 0.8)
+    }
 
-    const mousemove = function (event, d) {
-        tooltip
-            .html("The exact value of<br>this cell is: " + d.value)
-            .style("left", (d3.pointer(event)[0] + 70) + "px")
-            .style("top", (d3.pointer(event)[1]) + "px");
-    };
-
-    const mouseleave = function (event, d) {
-        tooltip.style("opacity", 0);
-        d3.select(this)
-            .style("stroke", "none")
-            .style("opacity", 0.8);
-    };
-
+    
     // add the squares
     svg.selectAll()
         .data(data, function (d) { return d.group + ':' + d.variable; })
@@ -126,7 +123,7 @@ const colorScaleThreshold = d3
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .style("font-size", "20px")
-        .text("Persistencia de nieve por elevación");
+        .text("6. Persistencia de nieve por elevación");
 
     // Add subtitle to graph
     svg.append("text")

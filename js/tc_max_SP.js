@@ -1,24 +1,23 @@
 
-
 // Ahora puedes utilizar D3.js o cualquier otra biblioteca de gráficos para dibujar dentro de este SVG
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función para dibujar el gráfico 
-export async function tc_SP_area() {
+export async function tc_max_SP() {
 
-    const margin = { top: 50, right: 0, bottom: 40, left: 65 };
+    const margin = { top: 50, right: 0, bottom: 40, left: 10 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
-    const svg = d3.select("#p03").append("svg")
+    const svg = d3.select("#p07").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
         .append("g")
         .attr("transform", "translate(0," + margin.top + ")");
 
-    const data = await d3.csv("csv/total/tc_SP_area.csv");
+    const data = await d3.csv("csv/total/tc_max_SP.csv");
 
     const y = d3.scaleBand()
         .rangeRound([0, height], .3)
@@ -26,14 +25,16 @@ export async function tc_SP_area() {
         .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
 
     const x = d3.scaleLinear()
-        .rangeRound([0, width]);
+        .rangeRound([15, width]);
 
     const color = d3.scaleOrdinal()
-        .range(["blue", "orange", "yellow", "orange", "blue"]);
+                .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisBottom(x).ticks(3); // Varible cambiable
+    const xAxis = d3.axisBottom(x)
+    .ticks(5)
+    //.tickFormat(function(d) { return d*(-1); });
 
     const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
 
@@ -43,7 +44,7 @@ export async function tc_SP_area() {
         d["Neither agree nor disagree"] = +d[3];
         d["Agree"] = +d[4];
         d["Strongly agree"] = +d[5];
-        let x0 = -1 * (d["Disagree"] + d["Strongly disagree"]);
+        let x0 = -1*(d["Neither agree nor disagree"]/2+d["Disagree"]+d["Strongly disagree"]);
         let idx = 0;
         d.boxes = color.domain().map(function(name) {
             return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1] };
@@ -58,7 +59,7 @@ export async function tc_SP_area() {
         return d.boxes["4"].x1;
     });
 
-    x.domain([0, 25000]);
+    x.domain([min_val, max_val]).nice();
   
     y.domain(data.map(function(d) { return d.Question; }));
 
@@ -103,27 +104,14 @@ export async function tc_SP_area() {
         .attr("y2", height);
 
 
-       
+// Add title to graph
+svg.append("text")
+.attr("x", 30)
+.attr("y", 540)
+.attr("text-anchor", "center")
+.style("font-size", "14px")
+.attr("font-family","Arial")
+.text("Anomalias max SCA 2023");
 
-    // TITULO PARA AGREGARLE EL ELEVADO AL 2
-        var text = svg.append("text")
-        .attr("x", 40)
-        .attr("y", 540)
-        .attr("text-anchor", "center")
-        .style("font-size", "14px")
-        .attr("font-family","Arial");
-
-        text.append("tspan")
-        .text("Área (km");
-
-        text.append("tspan")
-        .attr("baseline-shift", "super")
-        .attr("font-size", "10px")
-        .text("2");
-
-        text.append("tspan")
-        .attr("baseline-shift", "baseline")
-        .attr("font-size", "14px")
-        .text(")");
 
     }

@@ -6,7 +6,7 @@ export async function tm_SP_y_t_area() {
     const width = 500 - margin.left - margin.right;
     const height = 450 - margin.top - margin.bottom;
 
-    const svg = d3.select("#Place2").append("svg")
+    const svg = d3.select("#p09").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .attr("id", "d3-plot")
@@ -20,7 +20,7 @@ var data = [
     {Macrozona: "Austral", D9:      0, D9_4:   -29.2, D4_2:  -241.2, D2_0: -1656.8, I0_1: 0, I1_3: 32137.2, I3_5: 2813.2, I5_6: 179.3, I6_7: 67.2, I7: 25.9}
   ];
   
-  // const data = await d3.csv("csv/total/tc_SP_SCA.csv");
+  // const data = await d3.csv("csv/total/tm_SP_y_t_area.csv");
 
 
   var series = d3.stack()
@@ -83,7 +83,7 @@ var data = [
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY-15)
-  .text("Tendencia (%/ano)")
+  .text("Tendencia (%/año)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
@@ -249,19 +249,28 @@ var data = [
     .attr("y", 380)
     .text("Macrozonas");
 
-
-
     
 // Etiqueta del eje Y
-svg.append("text")
-    .attr("text-anchor", "end")
-    .attr("font-family", "Arial")
-    .attr("font-size", "13")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 8)
-    .attr("x", -150)
-    .text("Area (km2)");
+var text = svg.append("text")
+.attr("text-anchor", "end")
+.attr("font-family", "Arial")
+.attr("font-size", "13")
+.attr("transform", "rotate(-90)")
+.attr("y", 8)
+.attr("x", -150)
 
+text.append("tspan")
+.text("Área de nieve (km");
+       
+text.append("tspan")
+.attr("baseline-shift", "super")
+.attr("font-size", "10px")
+.text("2");
+
+text.append("tspan")
+.attr("baseline-shift", "baseline")
+.attr("font-size", "14px")
+.text(")");
 
 
 

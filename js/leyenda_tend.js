@@ -22,36 +22,35 @@ export async function leyenda_tend(svg){
 
   // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
   svg.append("text")
-  .attr("x", legX-20)
+  .attr("x", legX-18)
   .attr("y", legY-15)
   .text("Tendencia (%/año)") // El texto que se mostrará
   .style("font-size", "11px") // Tamaño de la fuente del texto
   .attr("font-family", "Arial") // Fuente del texto
   .attr("alignment-baseline", "middle") // Alineación vertical del texto
 
-  // Para cada valor en el dominio de la escala de colores
   colorScale.domain().forEach((value, i) => {
     // Agregar un rectángulo a la leyenda en las coordenadas especificadas
     svg.append("rect")
-      .attr("x", legX)
+      .attr("x", legX-25 )
       .attr("y", legY + i * 10)
       .attr('height', 10)
       .attr('width', 10)
       .style("fill", colorScale(value)) // El color del rectángulo será el color correspondiente en la escala de colores
-
-    // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
-    svg.append("text")
-      .attr("x", legX + 20)
-      .attr("y", legY + i * 10 + 5)
-      .text(value === -10 ? `<${value}` : value === 10 ? `>${value}` : `${value} - ${value + 1}`) // El texto que se mostrará
-      .style("font-size", "9px") // Tamaño de la fuente del texto
-      .attr("font-family", "Arial") // Fuente del texto
-      .attr("alignment-baseline", "middle") // Alineación vertical del texto
-  })
+  // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
+  svg.append("text")
+  .attr("x", legX + 13)
+  .attr("y", legY + i * 10 + 5)
+  .attr("text-anchor", "end")  
+  .text(value === -10 ? `<${value}` : value === 10 ? `>${value}` : `${value < 0 ? ' ' : ''}${value} - ${value + 1 < 10 ? ' ' : ''}${value + 1}`) // El texto que se mostrará
+  .style("font-size", "9px") // Tamaño de la fuente del texto
+  .attr("font-family", "Arial") // Fuente del texto
+  .attr("alignment-baseline", "middle") // Alineación vertical del texto
+})
 
   // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
   svg.append("text")
-  .attr("x", legX)
+  .attr("x", legX-25)
   .attr("y", legY + colorScale.domain().length * 10 + 30)
   .text("Nubes (%)") // El texto que se mostrará
   .style("font-size", "12px") // Tamaño de la fuente del texto
@@ -60,7 +59,7 @@ export async function leyenda_tend(svg){
 
   // Agregar un rectángulo negro a la leyenda en las coordenadas especificadas
   svg.append("rect")
-    .attr("x", legX)
+    .attr("x", legX-25)
     .attr("y", legY + colorScale.domain().length * 10 + 40)
     .attr('height', 10)
     .attr('width', 10)
@@ -68,7 +67,7 @@ export async function leyenda_tend(svg){
 
   // Agregar un elemento de texto a la leyenda en las coordenadas especificadas
   svg.append("text")
-  .attr("x", legX + 20)
+  .attr("x", legX -13)
   .attr("y", legY + colorScale.domain().length * 10 + 45)
   .text(">30") // El texto que se mostrará
   .style("font-size", "10px") // Tamaño de la fuente del texto

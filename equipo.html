@@ -3,7 +3,6 @@
 
 <head>
 
-
   <style>
     #map { height: 250px; 
            width: 250px;}
@@ -17,6 +16,7 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
+
 
 
 
@@ -77,7 +77,7 @@ crossorigin=""></script>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav  ">
-                <li class="nav-item ">
+                <li class="nav-item active">
                   <a class="nav-link" href="index.html">Inicio<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
@@ -87,9 +87,9 @@ crossorigin=""></script>
                   <a class="nav-link" href="cuencas.html">Cuencas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="metodo.html">Metodologia</a>
+                  <a class="nav-link" href="metodo.html">Metodología</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="equipo.html">Equipo</a>
                 </li>
               </ul>
@@ -102,133 +102,236 @@ crossorigin=""></script>
   </div>
 
   <!-- service section -->
-
   <section >
     <div class="container">
       <div class="custom_heading-container">
-        <h3 class=" ">
+        <h3 class="" style="margin: 20px 0;"> 
           Equipo de trabajo
         </h3>
       </div>
-      <p class="">
-        Se compone de...
-      </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- end service section -->
-
-  <!-- info section -->
-  <section class="info_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info-logo">
-            <h2>
-              Cobertura nieve
-            </h2>
-            <p>
-              Es un proyecto ejecutado por el Laboratorio de Teledeteccion Ambiental (TeleAmb) del la Universidad de Playa Ancha (UPLA)
-            </p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info-nav">
-            <h4>
-              Navigacion
-            </h4>
-            <ul>
-              <li>
-                <a href="index.html">
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="nacional.html">
-                  Nacional
-                </a>
-              </li>
-              <li>
-                <a href="cuencas.html">
-                  Cuencas
-                </a>
-              </li>
-              <li>
-                <a href="metodo.html">
-                  Metodologia
-                </a>
-              </li>
-              <li>
-                <a href="equipo.html">
-                  Equipo
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info-contact">
-            <h4>
-              Informacion de contacto
-            </h4>
-            <div class="location">
-              <h6>
-                Ubicacion:
-              </h6>
-              <a href="">
-                <img src="images/location.png" alt="">
-                <span>
-                  Subida Carvallo 270, Playa Ancha, Valparaiso, Chile
-                </span>
-              </a>
+   
+        <style>
+            .contenedor-personas {
+                display: flex;
+                flex-wrap: wrap; 
+                margin: auto; /* Centrar el contenedor */
+            }
+            .persona {
+                width: 320px; /* Ancho individual */
+                margin: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                overflow: hidden; 
+            }
+            .persona img {
+              
+                width: 100%; 
+                height: auto; /* Ajusta automáticamente la altura */
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+            .descripcion {
+                padding: 10px;
+                padding-top: 5px; /* Padding superior */
+                padding-bottom: 15px; /* Padding inferior */
+                margin: 12px; /* Compensar el aumento de tamaño */
+                font-size: 14px; /* Tamaño de fuente */
+                text-align: center; /* Centrar el texto */
+            }
+            h4 {
+                font-size: 25px; /* Tamaño de fuente para los títulos */
+                margin-bottom: 15px; /* Espacio entre el título y el párrafo */
+            }
+          </style>
+   
+    <div class="contenedor-personas">
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Freddy_Saavedra.png"> 
+            <div class="descripcion">
+                <h4><b>Freddy Saavedra</b></h4>
+                <p>Ingeniero agrónomo, PhD en Ciencias de la Tierra en Colorado State University, posee experiencia en manejo de imágenes satelitales específicamente en productos de nieve e hidrología. Actualmente se desempeña como académico titular de la carrera de Geografía de la Universidad de Playa Ancha.</p>
             </div>
-            <div class="call">
-              <h6>
-                Contacto:
-              </h6>
-              <a href="">
-                <img src="images/telephone.png" alt="">
-                <span>
-                  ( +056 0000000000 )
-                </span>
-              </a>
-            </div>
-          </div>
         </div>
         
-        <div id="map"></div>
-        <script>
-            const map = L.map('map').setView([-33.021059, -71.641600], 13);
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Ana_Hernandez.png"> 
+            <div class="descripcion">
+                <h4><b>Ana Hernández-Duarte</b></h4>
+                <p>Arquitecta, MSc. en Desarrollo Regional y Medio Ambiente, Dra(c) en Ciencias Ambientales de la Universidad de Playa Ancha, con experiencia en manejo de imágenes satelitales para el estudio de cambios de cobertura terrestre y de perturbaciones ecológicas. Es académica de la carrera de Geografía de la Universidad de Playa Ancha.</p>
+            </div>
+        </div>
+    
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Carlos_Romero.png"> 
+            <div class="descripcion">
+                <h4><b>Carlos Romero</b></h4>
+                <p>Geógrafo, DEA Gestión ambiental Universitat de Barcelona, Especialista en percepción remota, SIG y geomorfología fluvial, Profesor Asociado e investigador en la Facultad de Ciencias Naturales y Exactas de la Universidad de Playa Ancha., Consultor Senior de empresas de ingeniería y medioambiente.</p>
+            </div>
+        </div>
+    
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Valentina_Contreras.png"> 
+            <div class="descripcion">
+                <h4><b>Valentina Contreras</b></h4>
+                <p>Geógrafa de la Universidad de Playa Ancha, con experiencia en la utilización de imágenes satelitales en estudios de cambios de cultivos frutícolas y cobertura de nieve. Además, ha desarrollado investigaciones relacionadas con la implementación de Soluciones Basadas en la Naturaleza. En la actualidad, ejerce como asistente de investigación en el Laboratorio de Teledetección Ambiental (TeleAmb)  de la Universidad de Playa Ancha.
+                </p>
+            </div>
+        </div>
+    
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Javier_Medina.png"> 
+            <div class="descripcion">
+                <h4><b>Javier Medina </b></h4>
+                <p>Geólogo de la Universidad Andrés Bello (Viña del Mar), con experiencia en procesamiento de imágenes satelitales para temas de nieve y contaminación atmosférica. Su interés se centra en el uso de análisis multiespectral e hiperespectral en ciencias ambientales. Es Asistente de investigación en el Laboratorio de Teledetección Ambiental (TeleAmb) de la Universidad de Playa Ancha.
+                </p>
+            </div>
+        </div>
+    
+        <div class="persona">
+            <img src="images\Imagenes_equipo/Pablo_Arancibia.jpeg"> 
+            <div class="descripcion">
+                <h4><b>Pablo Arancibia </b></h4>
+                <p>Geógrafo de la Universidad de Playa Ancha, con experiencia en procesamiento de imágenes satelitales y aplicación de técnicas de ciencia de datos para el diseño y desarrollo de páginas web. Es ayudante académico en el laboratorio de teledetección ambiental (TeleAmb) en la Universidad de Playa Ancha (UPLA).
+                </p>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+ <!-- info section -->
+<section class="info_section layout_padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Cobertura nieve
+          </h2>
+          <p style="text-align: rigth;">
+            Es un proyecto ejecutado por el Laboratorio de Teledetección Ambiental (TeleAmb) de la Universidad de Playa Ancha (UPLA)
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Navegación
+          </h2>
+          <ul>
+            <li>
+              <a href="index.html">
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a href="nacional.html">
+                Nacional
+              </a>
+            </li>
+            <li>
+              <a href="cuencas.html">
+                Cuencas
+              </a>
+            </li>
+            <li>
+              <a href="metodo.html">
+                Metodología
+              </a>
+            </li>
+            <li>
+              <a href="equipo.html">
+                Equipo
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Contacto
+          </h2>
+          <div class="location">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+              Subida Carvallo 270, Playa Ancha, Valparaíso, Chile
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="call">
+            <a href="">
+              <img src="images/telephone.png" alt="">
+              <span>
+                +56322205511
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="mail">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+                teleamb@upla.cl
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="map"></div>
+      <script>
+        const map = L.map('map').setView([-33.021059, -71.641600], 13);
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         const marker = L.marker([-33.021059, -71.641600]).addTo(map);
         marker.bindPopup("TeleAmb").openPopup();       
-        </script>
-        </div>
-
-
-      </div>
+      </script>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- end info_section -->
 
 
 
-  <!-- end info_section -->
-
-  <!-- footer section -->
-  <section class="container-fluid footer_section">
-    <p>
-      Copyright &copy; 2019 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </section>
-  <!-- footer section -->
-
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 </body>
 
 </html>
+
+

@@ -3,7 +3,6 @@
 // Función para dibujar el gráfico 
 export async function c_SCA_y_m(watershed) {
     // set the dimensions and margins of the graph
-
     const margin = { top: 80, right: 0, bottom: 60, left: 100 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
@@ -14,22 +13,17 @@ export async function c_SCA_y_m(watershed) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
-
     // Text to create .csv file
     const text_ini = "csv//yearMonth//SCA_y_m_BNA_";
     const text_end =  ".csv";
-
     // .csv file
     const watershed_selected = text_ini.concat(watershed).concat(text_end);
-
     // Read the data
     const data = await d3.csv(watershed_selected);
-
     // Labels
     const myGroups = Array.from(new Set(data.map(d => d.group)));
     const myVars = Array.from(new Set(data.map(d => d.variable)));
-
-
+   
     // Build X scales and axis:
     const x = d3.scaleBand()
         .range([ 0, width ])
@@ -52,21 +46,11 @@ export async function c_SCA_y_m(watershed) {
         .style("font-size", 10)
         .call(d3.axisLeft(y).tickSize(5))
         .select(".domain").remove();
-
-    /*// Build color scale
-    const myColor = d3.scaleLinear()
-        .domain([1,50])
-        .range(["#ffffd9", "#081d58"]);
-    */
-        const colorScaleThreshold = d3
+         const colorScaleThreshold = d3
         .scaleThreshold()
         .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
         .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
-      
-
-
-
-    // create a tooltip
+         // create a tooltip
     const tooltip = d3.select("#p14")
         .append("div")
         .style("opacity", 0)
@@ -76,27 +60,30 @@ export async function c_SCA_y_m(watershed) {
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px");
-
-    // Three 
-    const mouseover = function(event, d) {
-        tooltip.style("opacity", 1);
-        d3.select(this)
-            .style("stroke", "black")
-            .style("opacity", 1);
-    };
-    const mousemove = function(event, d) {
-        tooltip
-            .html(`The exact value of<br>this cell is: ${d.value}`)
-            .style("left", `${d3.pointer(event)[0]+70}px`)
-            .style("top", `${d3.pointer(event)[1]}px`);
-    };
-    const mouseleave = function(event, d) {
-        tooltip.style("opacity", 0);
-        d3.select(this)
-            .style("stroke", "none")
-            .style("opacity", 0.8);
-    };
-
+// Tres
+        var mouseover = function(d) {
+            tooltip
+              .style("opacity", 1)
+            d3.select(this)
+              .style("stroke", "black")
+              .style("opacity", 1)
+          }
+         var mousemove = function (event, d) {
+            var value = Number(d.value); 
+            tooltip
+                .html(  "Persistencia: " + value.toFixed(1) + "<br>" 
+                     +  "Mes: " + d.variable + "<br>"
+                     +  "Año: " + d.group + "<br>")
+                .style("left", (event.pageX + 30) + "px") 
+                .style("top", (event.pageY) + "px")
+          }
+         var mouseleave = function(d) {
+            tooltip
+              .style("opacity", 0)
+            d3.select(this)
+              .style("stroke", "none")
+              .style("opacity", 0.8)
+          }
     // Add the squares
     svg.selectAll()
         .data(data, d => `${d.group}:${d.variable}`)
@@ -104,8 +91,6 @@ export async function c_SCA_y_m(watershed) {
         .append("rect")
             .attr("x", d => x(d.group))
             .attr("y", d => y(d.variable))
-            //.attr("rx", 4)
-            //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
             .style("fill",function (d) { return colorScaleThreshold(d.value); })
@@ -115,16 +100,14 @@ export async function c_SCA_y_m(watershed) {
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
-
-
 // Etiqueta title
             svg.append("text")
             .attr("text-anchor", "center")
             .attr("font-family", "Arial")
             .attr("font-size", "20px")
-            .attr("x", width / 2  - 120)
+            .attr("x", width / 2  - 140)
             .attr("y", -25)
-            .text("Cobertura de nieve por año y mes");
+            .text("12. Cobertura de nieve por año y mes");
 
 // Etiqueta SUb titulo
             svg.append("text")
@@ -143,7 +126,7 @@ export async function c_SCA_y_m(watershed) {
             .attr("font-size", "13")
             .attr("x", width / 2 + 15)
             .attr("y", height + 40)
-            .text("Años");
+            .text("Año");
 
 // Etiqueta del eje Y
             svg.append("text")
@@ -154,4 +137,7 @@ export async function c_SCA_y_m(watershed) {
             .attr("y", -25)
             .attr("x", -80)
             .text("Meses");
- }
+
+
+
+}

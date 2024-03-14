@@ -78,7 +78,7 @@ export async function c_SCA_m(watershed) {
           .attr("font-size", "20px")
           .attr("x", 70)
           .attr("y", -25)
-          .text("Cobertura de nieve mensual");
+          .text("10. Cobertura de nieve mensual");
         // Etiqueta SUb titulo
 
           svg.append("text")
@@ -97,7 +97,7 @@ export async function c_SCA_m(watershed) {
           .attr("font-size", "13")
           .attr("x", width / 2 + 15)
           .attr("y", height + 40)
-          .text("Meses");
+          .text("Mes");
 
         // Etiqueta del eje Y
           svg.append("text")

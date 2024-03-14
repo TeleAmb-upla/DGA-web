@@ -90,26 +90,31 @@ const colorScaleThreshold = d3
         .style("padding", "5px");
 // Three function that change the tooltip when user hover / move / leave a cell
 
-        const mouseover = function (event, d) {
-          tooltip.style("opacity", 1);
-          d3.select(this)
-              .style("stroke", "black")
-              .style("opacity", 1);
-      };
-  
-      const mousemove = function (event, d) {
-          tooltip
-              .html("The exact value of<br>this cell is: " + d.value)
-              .style("left", (d3.pointer(event)[0] + 70) + "px")
-              .style("top", (d3.pointer(event)[1]) + "px");
-      };
-  
-      const mouseleave = function (event, d) {
-          tooltip.style("opacity", 0);
-          d3.select(this)
-              .style("stroke", "none")
-              .style("opacity", 0.8);
-      };
+var mouseover = function(d) {
+  tooltip
+    .style("opacity", 1)
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1)
+}
+var mousemove = function (event, d) {
+  var value = Number(d.value); // era una cadena y habla que pasarla a numero
+  tooltip
+      .html( "Elevación: " + d.variable + "<br>" 
+           + "Persistencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
+           )
+      .style("left", (event.pageX + 30) + "px") 
+      .style("top", (event.pageY) + "px")
+}
+
+   
+var mouseleave = function(d) {
+  tooltip
+    .style("opacity", 0)
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+}
   
       // add the squares
       svg.selectAll()
@@ -141,7 +146,7 @@ const colorScaleThreshold = d3
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY-15)
-  .text("PN (%)")
+  .text("Nieve (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
@@ -309,7 +314,7 @@ const colorScaleThreshold = d3
   svg.append("text")
   .attr("x", legX)
   .attr("y", legY+7+15+15+15+15+15+15+15+15+15+30)
-  .text("Nubes (%)")
+  .text("Nube (%)")
   .style("font-size", "12px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
