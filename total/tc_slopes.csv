@@ -1,0 +1,3 @@
+﻿cod_BNA,SCA_y_slope,SCA_y_slope_sign,SCA_ym_slope,SCA_ym_sign,SCA_ym_min_slope,SCA_ym_min_sign,SCA_ym_max_slope,SCA_ym_max_sign,snowline_y_slope,snowline_y_slope_sign,snowline_ym_slope,snowline_ym_sign,snowline_ym_min_slope,snowline_ym_min_sign,snowline_ym_max_slope,snowline_ym_max_sign
+BNA_052,1,0.5,1,0.5,2,0.5,5,0.5,20,0.5,20,0.5,50,0.5,20,0.5
+BNA_054,2,0.001,2,0.001,5,0.001,10,0.001,30,0.001,30,0.001,100,0.001,60,0.001
