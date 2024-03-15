@@ -109,7 +109,7 @@ svg.append("line")
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 40)
+        .attr("x", width / 2  - 80)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
     // Etiqueta del eje X
@@ -136,37 +136,42 @@ svg.append("line")
         .attr("y", d => y(d.SCA))
         .attr("height", d => height - y(d.SCA))
         .delay((d, i) => i * 100);
-// SENSLOPE
 
-// Ruta para el archivo CSV
-// SENSLOPE
 // Ruta para el archivo CSV
 var sen_slope_csv = "csv\\sen_slope\\sen_slope_completo.csv";
 
 // Obtener los datos CSV
 const sen_slope_s = await d3.csv(sen_slope_csv);
 
-console.log(sen_slope_s); // Imprime todos los datos para verificar que se cargaron correctamente
+//console.log(sen_slope_s); 
 
 // Buscar el valor de SCA_Sen para el COD_CUEN correspondiente
 const filaEncontrada = sen_slope_s.find(d => d.COD_CUEN === `BNA_${watershed}`);
 
-console.log(`BNA_${watershed}`); // Verifica que el COD_CUEN buscado es el correcto
-console.log(filaEncontrada); // Imprime el objeto encontrado para verificar su estructura
+//console.log(`BNA_${watershed}`); 
+//console.log(filaEncontrada); 
 
 // VAlor de la comuna:SCA_SEN
     const valorSCA_Sen = filaEncontrada.SCA_Sen;
-    console.log(valorSCA_Sen);
+   // console.log(valorSCA_Sen);
     // Crear un elemento de texto en el SVG para mostrar el valor
-    svg.append("text")
-       .attr("x", 60) // Ajustar según sea necesario
-       .attr("y", 0) // Ajustar según sea necesario
-       .text(valorSCA_Sen)
-       .attr("font-family", "Arial")
-       .attr("font-size", "11px")
+ var text =  svg.append("text")
+       .attr("x", + 255) 
+       .attr("y", - 10) 
+        .attr("font-family", "Arial")
+       .attr("font-size", "13")
        .attr("fill", "black")
-       .text("Sen_Slope:" + valorSCA_Sen);
+    // Agregar el texto 
+text.append("tspan")
+.text("Sen Slope: ");
 
+      // Crear un tspan 
+text.append("tspan")
+.text(valorSCA_Sen)
+.attr("fill", "red");
 
+// %
+text.append("tspan")
+.text(" (%/año)");
 
 }

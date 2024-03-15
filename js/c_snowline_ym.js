@@ -227,4 +227,66 @@ svg.append("line")
         .attr("y", -40)
         .attr("x", -80)
         .text("Altura de la linea de nieve (m)");
+
+
+// Ruta para el archivo CSV
+// Ruta para el archivo CSV
+var sen_slope_csv = "csv\\sen_slope\\sen_slope_sca_ym_bna.csv";
+
+// Obtener los datos CSV
+const sen_slope_s = await d3.csv(sen_slope_csv);
+
+// Buscar el valor de SCA_Sen para el COD_CUEN correspondiente
+const filaEncontrada = sen_slope_s.find(d => d.COD_CUEN === `BNA_${watershed}`);
+
+// Obtener el valor de ValorSen_Max
+const valorSen_Max = filaEncontrada.snowline_max_sen; // columna del csv
+
+// Crear un elemento de texto en el SVG para mostrar el texto "Sen Slope Maximo:"
+var text = svg.append("text")
+    .attr("x", 100) 
+    .attr("y", -10) 
+    .attr("font-family", "Arial")
+    .attr("font-size", 13)
+    .attr("fill", "black");
+
+// Agregar el texto 
+text.append("tspan")
+    .text("Sen Slope Maximo: ");
+
+// Crear un tspan 
+text.append("tspan")
+    .text(valorSen_Max)
+    .attr("fill", "red");
+
+    text.append("tspan")
+    .text(" (m/año)");
+    
+   // VALORES MINIMO
+ const valorSen_min = filaEncontrada.snowline_min_sen; // columna del csv
+
+
+// Crear un elemento de texto en el SVG para mostrar el texto "Sen Slope Minimo:"
+var textMin = svg.append("text")
+    .attr("x", 650) 
+    .attr("y", -10) 
+    .attr("font-family", "Arial")
+    .attr("font-size", 13)
+    .attr("fill", "black");
+
+// Agregar el texto "Sen Slope Minimo: "
+textMin.append("tspan")
+    .text("Sen Slope Minimo: ");
+
+// Crear un tspan para el valor de ValorSen_Min
+textMin.append("tspan")
+    .text(valorSen_min)
+    .attr("fill", "blue");
+  
+    text.append("tspan")
+    .attr("x", 790) 
+    .attr("y", -10) 
+    .text(" (m/año)");
+    
+        
 }

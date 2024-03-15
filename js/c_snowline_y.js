@@ -160,4 +160,52 @@ svg.append("line")
         .attr("y", -margin.left + 55)
         .attr("x", -margin.top + 50)
         .text("Elevación de línea de nieve (msnm)");
+
+
+// Ruta para el archivo CSV
+var sen_slope_csv = "csv\\sen_slope\\sen_slope_completo.csv";
+
+// Obtener los datos CSV
+const sen_slope_s = await d3.csv(sen_slope_csv);
+
+//console.log(sen_slope_s); 
+
+// Buscar el valor de SCA_Sen para el COD_CUEN correspondiente
+const filaEncontrada = sen_slope_s.find(d => d.COD_CUEN === `BNA_${watershed}`);
+
+//console.log(`BNA_${watershed}`); 
+//console.log(filaEncontrada); 
+
+// VAlor de la comuna:SCA_SEN
+    const valorSCA_Sen = filaEncontrada.snowline_Sen; 
+    // console.log(valorSCA_Sen);
+    // Crear un elemento de texto en el SVG para mostrar el valor
+var text =  svg.append("text")
+       .attr("x", + 260) 
+       .attr("y", - 10) 
+       .attr("font-family", "Arial")
+       .attr("font-size", "13")
+       .attr("fill", "black")
+       
+// Agregar el texto 
+text.append("tspan")
+    .text("Sen Slope: ");
+
+// Crear un tspan 
+text.append("tspan")
+    .text(valorSCA_Sen)
+    .attr("fill", "red");
+
+// %
+text.append("tspan")
+.text(" (m/año)");
+
+
+
+
+
+
+
+
+
 }

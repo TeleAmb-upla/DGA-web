@@ -1,28 +1,17 @@
 // Importar D3.js desde CDN
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-
-// Importar la paleta de colores
-import { myColor } from './myColor.js';
-
-
-
 // Función asincrónica para cargar y dibujar el gráfico
 export async function c_SCA_y_t_area(watershed) {
-    
-    // Ruta para el archivo CSV
+       // Ruta para el archivo CSV
     var text_ini = "csv\\year\\SCA_y_t_area_BNA_"
     var text_end =  ".csv"
- 
-    var watershed_selected = text_ini.concat(watershed).concat(text_end)
-
+     var watershed_selected = text_ini.concat(watershed).concat(text_end)
     // Obtener los datos CSV
     const data = await d3.csv(watershed_selected);
-
     // Definir las dimensiones y márgenes del gráfico
     const margin = { top: 80, right: 0, bottom: 60, left: 100 };
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
-
     // Crear el elemento SVG
     var svg = d3.select("#p05")
         .append("svg")
@@ -30,26 +19,46 @@ export async function c_SCA_y_t_area(watershed) {
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
         .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+   
+       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+   
+   
+ // Define las nuevas etiquetas
+var labels = ["<-10", "-9 - -8", "-8 - -7", "-7 - -6", "-6 - -5", "-5 - -4", "-4 - -3", "-3 - -2", "-2 - -1", "-1 - 0", "0 - 1", "1 - 2", "2 - 3", "3 - 4", "4 - 5", "5 - 6", "6 - 7", "7 - 8", "8 - 9", "9 - 10", ">10"];
 
-    // Escala X
-    var x = d3.scaleBand()
-        .range([0, width])
-        .domain(data.map(d => d.Sen_slope))
-        .padding(0.2);
-    svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .attr("transform", "translate(-10,0)rotate(-45)")
-        .style("text-anchor", "end");
+// Crea la escala X como antes
+var x = d3.scaleBand()
+    .range([0, width])
+    .domain(data.map(d => d.Sen_slope))
+    .padding(0.2);
 
+// Cuando llamas a d3.axisBottom(x), cambia las etiquetas del eje X
+svg.append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x).tickFormat((d, i) => labels[i]))
+    .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
+   
     // Escala Y
     var y = d3.scaleLinear()
     .domain([0, 1.05*d3.max(data, function(d) { return +d.area;} )])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
+    const myColor = d3.scaleThreshold()
+        .domain([
+            -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 
+             0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10
+        ])
+        .range([
+            "#FF0000", "#FF0303", "#FF1E1F", "#FE393A", "#FE5456", "#FD6F72", "#FD8B8D", 
+            "#FCA6A9", "#FCC1C5", "#FBDCE0", "#FBF7FC", "#FBF7FC", "#DFDEFC", "#C4C4FD", 
+            "#A8ABFD", "#8D92FD", "#7178FE", "#565FFE", "#3A46FE", "#1F2CFF", 
+            "#0313FF", "#0000FF"
+        ]);
+       
 
     // Barras
     svg.selectAll("mybar")

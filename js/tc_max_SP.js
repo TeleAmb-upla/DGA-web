@@ -5,7 +5,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_max_SP() {
 
-    const margin = { top: 50, right: 0, bottom: 40, left: 10 };
+    const margin = { top: 10, right: 0, bottom: 40, left: 10 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
@@ -106,12 +106,12 @@ export async function tc_max_SP() {
 
 // Add title to graph
 svg.append("text")
-.attr("x", 30)
-.attr("y", 540)
+.attr("x", 70)
+.attr("y", 585)
 .attr("text-anchor", "center")
 .style("font-size", "14px")
 .attr("font-family","Arial")
-.text("Anomalias max SCA 2023");
+.text("Anomalías");
 
 
     }

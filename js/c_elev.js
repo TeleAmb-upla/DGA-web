@@ -27,7 +27,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
 
     // Add X axis
     const x = d3.scaleLinear()
-        .domain([0, 1.05*d3.max(data, function(d) { return +d.area;} )])
+        .domain([0, 1.05*d3.max(data, function(d) { return +d.Area;} )])
         .range([0, width])
 
     svg.append("g")
@@ -39,7 +39,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
 
     // Y axis
     const y = d3.scaleBand()
-        .domain(data.map(d => d.elevation))
+        .domain(data.map(d => d.Elevation))
         .range([height, 0])
         .padding(0.1);
 
@@ -60,7 +60,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
         .enter()
         .append("rect")
         .attr("x", x(0))
-        .attr("y", d => y(d.elevation))
+        .attr("y", d => y(d.Elevation))
         .attr("width", d => x(d.Area))
         .attr("height", y.bandwidth())
         .attr("fill", "#FFAA00");

@@ -4,7 +4,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función para dibujar el gráfico 
 export async function tc_SP_SCA(index) {
-    const margin = { top: 50, right: 0, bottom: 40, left: 65 };
+    const margin = { top: 10, right: 0, bottom: 40, left: 65 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
@@ -119,7 +119,7 @@ export async function tc_SP_SCA(index) {
 // Add title to graph
 svg.append("text")
 .attr("x", -10)
-.attr("y", 540)
+.attr("y", 585)
 .attr("text-anchor", "center")
 .style("font-size", "14px")
 .attr("font-family","Arial")
@@ -134,14 +134,14 @@ svg.append("text")
     for (let i = 0; i < legendData.length; i++) {
         svg.append("rect")
             .attr("x", 9)
-            .attr("y", 19 + 25 * i)
+            .attr("y", 80 + 22 * i)
             .attr('height', 8)
             .attr('width', 8)
             .style("fill", legendColors[i]);
 
         svg.append("text")
             .attr("x", 21)
-            .attr("y", 17 + 22 * i)
+            .attr("y", 85 + 22 * i)
             .text(legendTexts[i])
             .style("font-size", "11px")
             .attr("font-family", "Arial")

@@ -4,7 +4,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_ca_area() {
 
-    const margin = { top: 50, right: 0, bottom: 40, left: 10 };
+    const margin = { top: 10, right: 0, bottom: 40, left: 10 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
@@ -24,7 +24,7 @@ export async function tc_ca_area() {
         .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
 
     const x = d3.scaleLinear()
-        .rangeRound([0, width]);
+        .rangeRound([11, width]);
 
     const color = d3.scaleOrdinal()
                 .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
@@ -105,7 +105,7 @@ export async function tc_ca_area() {
  // TITULO PARA AGREGARLE EL ELEVADO AL 2
  var text = svg.append("text")
  .attr("x", 40)
- .attr("y", 540)
+ .attr("y", 585)
  .attr("text-anchor", "center")
  .style("font-size", "14px")
  .attr("font-family","Arial");
