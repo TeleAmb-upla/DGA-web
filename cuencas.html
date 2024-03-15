@@ -90,7 +90,7 @@ crossorigin=""></script>
                   <a class="nav-link" href="cuencas.html">Cuencas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="metodo.html">Metodologia</a>
+                  <a class="nav-link" href="metodo.html">Metodología</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="equipo.html">Equipo</a>
@@ -104,20 +104,47 @@ crossorigin=""></script>
     <!-- end header section -->
   </div>
 
-  <!-- service section -->
 
+<!-- INICIO SECCIÓN TÍTULO PRINCIPAL -->
   <section >
+    <p> </p>
     <div class="container">
       <div class="custom_heading-container">
-        <h3 class=" ">
-          Analisis a nivel de cuencas
+        
+        <h3 class="" style="margin: 20px 0;"> <!-- Aquí '20px' es la separación arriba y abajo -->
+          Análisis a nivel de cuencas
         </h3>
       </div>
-      <p class="">
+      <p> </p>
+<!-- DESARROLLO TÍTULO PRINCIPAL -->
+      <p style=text-align:justify;>
         Se establecieron un total de 46 cuencas de un total de 101 analizadas que poseían al menos un 5% de SCA en todo el periodo de medición (2000-2022) o que sea posible determinar una línea de nieve (SCI>5%) todos los años de medición.
       </p>
+      <p> </p>
+    <p style=text-align:justify;>
+      Todos las figuras y mapas generados a continuación consideran la información de la cuenca seleccionada.
+    </p>
 
-      <p> Seleccione una cuenca:
+    <ol start="1">
+      <li><p style=text-align:justify;> Mapa referencial de ubicación. </li>
+      <li><p style=text-align:justify;> Mapa de frecuencia de porcentaje de cobertura de nieve 2000-2023 a nivel de pixel. </li>
+      <li><p style=text-align:justify;> Mapa de tasa de cambio de la frecuencia de nieve 2000-2023 a partir de la tendencia significativa (pendiente de Sen, p ≤ 0.05) a nivel de pixel. </li>
+      <li><p style=text-align:justify;> Evolución de la cobertura de nieve promedio anual 2000-2023. La línea muestra la tendencia (pendiente de Sen, p ≤ 0.05) y se indica si es significativa.</li>
+      <li><p style=text-align:justify;> Superficie (km2) de cobertura de nieve por rangos de tendencia significativa. En la figura 3 se presenta esta misma información, pero espacializada.</li>
+      <li><p style=text-align:justify;> Gráfico ráster de la Persistencia de nieve anual por elevación de 2000 a 2023 y el promedio 2000-2023.</li>
+      <li><p style=text-align:justify;> Área (km2) de la cuenca por bandas de elevación (msnm).</li>
+      <li><p style=text-align:justify;> Serie de tiempo de la línea de nieve promedio anual 2000-2023. La línea de nieve se define como el límite mínimo en elevación del snow cover index al 5%. Se muestra la línea de tendencia 2000-2023 (pendiente de Sen).</li>
+      <li><p style=text-align:justify;> Tendencia de cobertura de nieve 2000-2023 por elevación. Esta figura permite observar que altitud es la más afectada. </li>
+      <li><p style=text-align:justify;> Serie de tiempo del porcentaje de cobertura de nieve promedio mensual 2000-2023. El área sombreada considera los percentiles 25 y 75.</li>
+      <li><p style=text-align:justify;> Gráfico ráster del porcentaje de cobertura de nieve promedio mensual 2000-2023 por elevación. </li>
+      <li><p style=text-align:justify;> Gráfico ráster del porcentaje de cobertura de nieve por año y mes 2000-2023. Se puede observar la evolución de cada uno de los meses a través de los años.</li>
+      <li><p style=text-align:justify;> Tendencia 2000-2023 para cada mes del porcentaje de cobertura de nieve. </li>
+      <li><p style=text-align:justify;> Serie de tiempo del porcentaje de cobertura de nieve mensual 2000-2023. Se observa las líneas de tendencia del valor máximo y mínimo anual. </li>
+      <li><p style=text-align:justify;> Gráfico ráster de la Persistencia de nieve mensual por elevación 2000-2023 por bandas de elevación (msnm). </li>
+      <li><p style=text-align:justify;> Serie de tiempo de la línea de nieve promedio mensual 2000 -2023. a línea de nieve se define como el límite mínimo en elevación del snow cover index al 5%. Se muestran las líneas de tendencia 2000-2023 (pendiente de Sen) de los máximos y mínimos.</li>
+    </ol>
+  </p>
+      <p> <b>Seleccione una cuenca:</b>
         <select id="BNA_cod">
             <option value="010">010-Altiplánica</option>
             <option value="023">023-Fronterizas salares Atacama-Socompa</option>
@@ -167,16 +194,17 @@ crossorigin=""></script>
             <option value="129">129-Islas del sur Canal Beagle y Territorio Antartico</option>
         </select>
     </p>
-
+  
+    
       </div>
-
     </div>
   </section>
 
-  <!-- end service section -->
+<!-- FIN SECCIÓN TÍTULO PRINCIPAL -->
 
 
 
+<!-- INICIO SECCIÓN GRAFICOS  -->
   <script type="module"> 
 
     import {c_map_location } from './js/c_map_location.js'          // p01
@@ -438,128 +466,142 @@ crossorigin=""></script>
   
   </section>
 
+<!-- INICIO SECCIÓN GRAFICOS  -->
 
-
-
-
-
-
-
-
-
-
-
-  <!-- info section -->
-  <section class="info_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info-logo">
-            <h2>
-              Cobertura nieve
-            </h2>
-            <p>
-              Es un proyecto ejecutado por el Laboratorio de Teledeteccion Ambiental (TeleAmb) del la Universidad de Playa Ancha (UPLA)
-            </p>
-          </div>
+ <!-- INICIO SECCIÓN BANNER PARTE FINAL DE LA PAGINA -->
+<section class="info_section layout_padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Cobertura nieve
+          </h2>
+          <p style="text-align: rigth;">
+            Es un proyecto ejecutado por el Laboratorio de Teledetección Ambiental (TeleAmb) de la Universidad de Playa Ancha (UPLA)
+          </p>
         </div>
-        <div class="col-md-3">
-          <div class="info-nav">
-            <h4>
-              Navigacion
-            </h4>
-            <ul>
-              <li>
-                <a href="index.html">
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="nacional.html">
-                  Nacional
-                </a>
-              </li>
-              <li>
-                <a href="cuencas.html">
-                  Cuencas
-                </a>
-              </li>
-              <li>
-                <a href="metodo.html">
-                  Metodologia
-                </a>
-              </li>
-              <li>
-                <a href="equipo.html">
-                  Equipo
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info-contact">
-            <h4>
-              Informacion de contacto
-            </h4>
-            <div class="location">
-              <h6>
-                Ubicacion:
-              </h6>
-              <a href="">
-                <img src="images/location.png" alt="">
-                <span>
-                  Subida Carvallo 270, Playa Ancha, Valparaiso, Chile
-                </span>
+      </div>
+
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Navegación
+          </h2>
+          <ul>
+            <li>
+              <a href="index.html">
+                Inicio
               </a>
-            </div>
-            <div class="call">
-              <h6>
-                Contacto:
-              </h6>
-              <a href="">
-                <img src="images/telephone.png" alt="">
-                <span>
-                  ( +056 0000000000 )
-                </span>
+            </li>
+            <li>
+              <a href="nacional.html">
+                Nacional
               </a>
-            </div>
+            </li>
+            <li>
+              <a href="cuencas.html">
+                Cuencas
+              </a>
+            </li>
+            <li>
+              <a href="metodo.html">
+                Metodología
+              </a>
+            </li>
+            <li>
+              <a href="equipo.html">
+                Equipo
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Contacto
+          </h2>
+          <div class="location">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+              Subida Carvallo 270, Playa Ancha, Valparaíso, Chile
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="call">
+            <a href="tel: +56322205511">
+              <img src="images/telephone.png" alt="">
+              <span>
+                +56322205511
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="mail">
+            
+            <a href="mailto:teleamb@upla.cl">
+              <img src="images/location.png" alt="">
+              <span>
+                teleamb@upla.cl
+              </span>
+            </a>
           </div>
         </div>
-        
+      </div>
 
-        <div id="map"></div>
-        <script>
-            const map = L.map('map').setView([-33.021059, -71.641600], 13);
+      <div id="map"></div>
+      <script>
+        const map = L.map('map').setView([-33.021059, -71.641600], 13);
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         const marker = L.marker([-33.021059, -71.641600]).addTo(map);
         marker.bindPopup("TeleAmb").openPopup();       
-        </script>
-        </div>
-
-
-      </div>
+      </script>
     </div>
-  </section>
+  </div>
+</section>
+
+  <!-- FIN SECCIÓN BANNER PARTE FINAL DE LA PAGINA -->
 
 
+<!-- end info_section -->
 
-  <!-- end info_section -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 
-  <!-- footer section -->
-  <section class="container-fluid footer_section">
-    <p>
-      Copyright &copy; 2019 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </section>
-  <!-- footer section -->
+<!-- INICIO SECCIÓN LOGOS -->
+<section>
+  <table align="center">
+    <td>
+      <a href="https://dga.mop.gob.cl/Paginas/default.aspx">
+          <img src="images\Imagenes_logo/DGA.jpg" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+      </a>
+  </td>
+  <td>
+    <a href="https://www.upla.cl/portada/">
+        <img src="images\Imagenes_logo/UPLA.png" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+    </a>
+</td>
+<td>
+  <a href="https://teleamb.cl/">
+      <img src="images\Imagenes_logo/TeleAmb.png" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+  </a>
+</td>
+<td>
+  <a href="https://hubambientalupla.cl/">
+      <img src="images\Imagenes_logo/HUB-LOGO COLOR.jpg" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 180px">
+  </a>
+</td>
+    </tr> 
+  </table>
+</section>
+<!-- FIN SECCIÓN LOGOS -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
 </body>
-
-</html>

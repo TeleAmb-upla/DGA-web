@@ -2,22 +2,12 @@
 <html>
 
 <head>
-
-
   <style>
     #map { height: 250px; 
            width: 250px;}
           
-  
-
+     
   </style>
-
-
-
-
-
-
-
 
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -28,9 +18,6 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
-
-
-
 
   <!-- Basic -->
   <meta charset="utf-8" />
@@ -123,7 +110,7 @@ crossorigin=""></script>
                   <a class="nav-link" href="cuencas.html">Cuencas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="metodo.html">Metodologia</a>
+                  <a class="nav-link" href="metodo.html">Metodología</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="equipo.html">Equipo</a>
@@ -137,39 +124,37 @@ crossorigin=""></script>
     <!-- end header section -->
   </div>
 
-  <!-- service section -->
-
+<!-- INICIO SECCIÓN TÍTULO PRINCIPAL -->
   <section >
+    <p> </p>
     <div class="container">
       <div class="custom_heading-container">
-        <h3 class=" ">
-          Analisis nacional
+        
+        <h3 class="" style="margin: 20px 0;"> <!-- Aquí '20px' es la separación arriba y abajo -->
+          Análisis nacional
         </h3>
       </div>
+      <p> </p>
+ <!-- DESARROLLO TÍTULO PRINCIPAL -->
       <p style=text-align:justify;>
         Se colectaron casi 16 mil imágenes de Terra (2000-2023) y Aqua (2002-2023) para analizar la variabilidad espacio temporal de la cobertura de nieve sobre las 101 cuencas del BNA. Se fusionaron las imágenes de Aqua y Terra de un mismo día para reducir la presencia de nubes en un 10%. Se estableció la frecuencia de nieve por pixel para todo el periodo de medición y se analizó la información a escala anual. Se resumió la información para todas las cuencas y se seleccionaron aquellas cuencas que presentaron al menos un 5% cobertura promedio en el periodo de medición y que poseen al menos área con un 5% de frecuencia de nieve anualmente para establecer una representación de la línea de nieve. Bajo este criterio se seleccionaron un total de 46 cuencas. Se evaluó la permanencia de nieve como intermitente si se encuentra entre un 5 y 30% de frecuencia, como estacional entre un 30 y 90 % de frecuencia y como permanente sobre un 90% de frecuencia. Un 33% de la superficie nacional continental posee algún nivel de permanencia de nieve.
       </p>
 
       <p style=text-align:justify;>
         Se identificaron áreas con disminución y aumento significativos en la frecuencia anual de nieves, concentrándose la reducción entre las latitudes 29-34° S y el aumento en las Macrozonas Sur y Austral. Sin embargo, se advierte que las altas presencias de nubes podrían afectar estos datos, sugiriendo la necesidad de reducir la interferencia de las nubes antes de realizar conclusiones más sólidas. Se estableció una representación de la línea de nieve promedio anual y se evaluó en cada cuenca seleccionada. El mayor aumento en la elevación de la línea de nieve se encontró en la zona sur de la Macrozona Sur y el Norte de la Macrozona Central (29-34° S), con valores entre 20-30 metros de elevación por año de medición.
-
       </p>
-
-
-
       </div>
     </div>
     </div>
   </section>
 
-  <!-- end service section -->
+   <!-- FIN SECCIÓN TÍTULO PRINCIPAL -->
 
-
+ <!-- INICIO SECCIÓN MAPAS  -->
 <section>
-
-
   <table style="width:80%">
     <tr >
+      
       <td rowspan="3" style="vertical-align: top;">
         <div id="p01">
             <img src="images/chile_map.png">
@@ -181,10 +166,12 @@ crossorigin=""></script>
         
       </div>  </th>
       <th colspan="3">  <div class="custom_heading-test">
-        Cambios acumulado 2000-2023 </div> </th>
+        Cambios acumulados 2000-2023 </div> </th>
      
-        <th> Título Test </th>
-  
+        <th> <div class="custom_heading-test">
+          Anomalías max SCA 2023  </div> </th>
+          
+        
     </tr>
     <tr>
       <td><div id="p02"></td>
@@ -205,126 +192,153 @@ crossorigin=""></script>
 
 </table>
 </section>
+<!-- FIN SECCIÓN MAPAS  -->
 
-
-
-
-
-
-
-
-
-
-
-  <!-- info section -->
-  <section class="info_section layout_padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="info-logo">
-            <h2>
-              Cobertura nieve
-            </h2>
-            <p>
-              Es un proyecto ejecutado por el Laboratorio de Teledeteccion Ambiental (TeleAmb) del la Universidad de Playa Ancha (UPLA)
-            </p>
-          </div>
+  <!-- INICIO SECCIÓN BANNER PARTE FINAL DE LA PAGINA -->
+<section class="info_section layout_padding">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Cobertura nieve
+          </h2>
+          <p style="text-align: rigth;">
+            Es un proyecto ejecutado por el Laboratorio de Teledetección Ambiental (TeleAmb) de la Universidad de Playa Ancha (UPLA)
+          </p>
         </div>
-        <div class="col-md-3">
-          <div class="info-nav">
-            <h4>
-              Navegación
-            </h4>
-            <ul>
-              <li>
-                <a href="index.html">
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="nacional.html">
-                  Nacional
-                </a>
-              </li>
-              <li>
-                <a href="cuencas.html">
-                  Cuencas
-                </a>
-              </li>
-              <li>
-                <a href="metodo.html">
-                  Metodologia
-                </a>
-              </li>
-              <li>
-                <a href="equipo.html">
-                  Equipo
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="info-contact">
-            <h4>
-              Informacion de contacto
-            </h4>
-            <div class="location">
-              <h6>
-                Ubicacion:
-              </h6>
-              <a href="">
-                <img src="images/location.png" alt="">
-                <span>
-                  Subida Carvallo 270, Playa Ancha, Valparaiso, Chile
-                </span>
+      </div>
+
+      <div class="col-md-3 mr-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Navegación
+          </h2>
+          <ul>
+            <li>
+              <a href="index.html">
+                Inicio
               </a>
-            </div>
-            <div class="call">
-              <h6>
-                Contacto:
-              </h6>
-              <a href="">
-                <img src="images/telephone.png" alt="">
-                <span>
-                  ( +056 0000000000 )
-                </span>
+            </li>
+            <li>
+              <a href="nacional.html">
+                Nacional
               </a>
-            </div>
+            </li>
+            <li>
+              <a href="cuencas.html">
+                Cuencas
+              </a>
+            </li>
+            <li>
+              <a href="metodo.html">
+                Metodología
+              </a>
+            </li>
+            <li>
+              <a href="equipo.html">
+                Equipo
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex flex-column align-items-center">
+        <div class="info-logo">
+          <h2>
+            Contacto
+          </h2>
+          <div class="location">
+            
+            <a href="">
+              <img src="images/location.png" alt="">
+              <span>
+              Subida Carvallo 270, Playa Ancha, Valparaíso, Chile
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="call">
+            <a href="tel: +56322205511">
+              <img src="images/telephone.png" alt="">
+              <span>
+                +56322205511
+              </span>
+            </a>
+          </div>
+          <p> </p>
+          <div class="mail">
+            
+            <a href="mailto:teleamb@upla.cl">
+              <img src="images/location.png" alt="">
+              <span>
+                teleamb@upla.cl
+              </span>
+            </a>
           </div>
         </div>
-        
-        <div id="map"></div>
-        <script>
-            const map = L.map('map').setView([-33.021059, -71.641600], 13);
+      </div>
+
+      <div id="map"></div>
+      <script>
+        const map = L.map('map').setView([-33.021059, -71.641600], 13);
         const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          maxZoom: 19,
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         const marker = L.marker([-33.021059, -71.641600]).addTo(map);
         marker.bindPopup("TeleAmb").openPopup();       
-        </script>
-        </div>
-
-      </div>
+      </script>
     </div>
-  </section>
+  </div>
+</section>
+
+  <!-- FIN SECCIÓN BANNER PARTE FINAL DE LA PAGINA -->
 
 
+<!-- end info_section -->
 
-  <!-- end info_section -->
+<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 
-  <!-- footer section -->
-  <section class="container-fluid footer_section">
-    <p>
-      Copyright &copy; 2019 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
-    </p>
-  </section>
-  <!-- footer section -->
+<!-- INICIO SECCIÓN LOGOS -->
+<section>
+  <table align="center">
+    <td>
+      <a href="https://dga.mop.gob.cl/Paginas/default.aspx">
+          <img src="images\Imagenes_logo/DGA.jpg" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+      </a>
+  </td>
+  <td>
+    <a href="https://www.upla.cl/portada/">
+        <img src="images\Imagenes_logo/UPLA.png" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+    </a>
+</td>
+<td>
+  <a href="https://teleamb.cl/">
+      <img src="images\Imagenes_logo/TeleAmb.png" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 280px">
+  </a>
+</td>
+<td>
+  <a href="https://hubambientalupla.cl/">
+      <img src="images\Imagenes_logo/HUB-LOGO COLOR.jpg" alt="Logo de mi sitio web" style="left: calc(340px); top: 0; max-width: 180px">
+  </a>
+</td>
+    </tr> 
+  </table>
+</section>
+<!-- FIN SECCIÓN LOGOS -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+
 </body>
 
-</html>
+
+
+
+
+
+
+
+
+
