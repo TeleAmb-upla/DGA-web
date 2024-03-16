@@ -29,19 +29,19 @@ export async function c_SCA_y_elev(watershed) {
     const myVars = Array.from(new Set(data.map(d => d.variable)));
    
 
-    // Build X scales and axis:
-    const x = d3.scaleBand()
-      .range([0, width])
-      .domain(myGroups)
-      .padding(0.05);
-    svg.append("g")
-      .style("font-size", 10) //Modifica el tamaño de la letra 
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(x).tickSize(3))// linea pequeña de los ejes
-      .selectAll("text") //manter
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");//mantener para mover de grados
-    
+// Build X scales and axis:
+const x = d3.scaleBand()
+    .range([0, width])
+    .domain(myGroups)
+    .padding(0.05);
+svg.append("g")
+    .style("font-size", 10) //Modifica el tamaño de la letra 
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x).tickFormat(d3.format(".0f")).tickSize(3)) // Aquí se formatean los ticks
+    .selectAll("text") //manter
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end"); //mantener para mover de grados
+
       // Build Y scales and axis:
     const y = d3.scaleBand()
       .range([height, 0])

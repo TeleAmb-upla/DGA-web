@@ -46,13 +46,13 @@ export async function c_SCA_m_trend(watershed) {
 
     // Build Y scales and axis:
     const y = d3.scaleBand()
-        .range([ height, -5 ])
-        .domain(myVars)
-        .padding(0.05);
-    svg.append("g")
-        .style("font-size", 11)
-        .call(d3.axisLeft(y).tickSize(0))
-        .select(".domain").remove();
+    .range([ height, -5 ])
+    .domain(myVars)
+    .padding(0.05);
+svg.append("g")
+    .style("font-size", 11)
+    .call(d3.axisLeft(y).tickFormat(d3.format(".0f")).tickSize(0)) // Aquí se formatean los ticks
+    .select(".domain").remove();
 
     // create a tooltip
     const tooltip = d3.select("#p15")

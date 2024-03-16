@@ -24,13 +24,14 @@ export async function c_SCA_m_elev(watershed) {
     const myVars = Array.from(new Set(data.map(d => d.variable)));
     // Build X scales and axis:
     const x = d3.scaleBand()
-        .range([ 0, width ])
-        .domain(myGroups)
-        .padding(0.05);
-    svg.append("g")
-        .style("font-size", 12)
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x).tickSize(3));
+    .range([ 0, width ])
+    .domain(myGroups)
+    .padding(0.05);
+svg.append("g")
+    .style("font-size", 12)
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x).tickFormat(d3.format(".0f")).tickSize(3)); // Aquí se formatean los ticks
+
       // Build Y scales and axis:
     const y = d3.scaleBand()
         .range([ height, 0 ])

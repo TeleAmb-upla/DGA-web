@@ -26,16 +26,18 @@ export async function c_snowline_y(watershed) {
         return { date: d.date, value: +d.value };
     });
     // Add X axis
-    const x = d3.scaleBand()
-        .range([0, width])
-        .domain(data.map(function(d) { return d.date; }))
-        .padding(0.2);
-    svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .attr("transform", "translate(-10,0)rotate(-45)")
-        .style("text-anchor", "end");
+// Add X axis
+const x = d3.scaleBand()
+    .range([0, width])
+    .domain(data.map(function(d) { return d.date; }))
+    .padding(0.2);
+svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).tickFormat(d3.format(".0f"))) // Aquí se formatean los ticks
+    .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
 
         // Prueba QUIERO QUE PARTA DESDE EL MENOR VALOR Y 
    
