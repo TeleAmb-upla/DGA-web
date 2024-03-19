@@ -20,7 +20,7 @@ export async function tm_sp_area() {
     {Macrozona: "Austral", Intermitente: 183726, Estacional: 52435, Permanente: 24642}
   ];
   */
-    const data = await d3.csv("csv/total/tm_sp_area.csv");
+    const data = await d3.csv("csv/total/tm_SP_area.csv");
 
   var series = d3.stack()
   .keys(["Intermitente","Estacional","Permanente"])
