@@ -25,7 +25,7 @@ export async function tc_ca_snowline() {
         .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
 
     const x = d3.scaleLinear()
-        .rangeRound([0, width]);
+        .rangeRound([15, width]);
 
     const color = d3.scaleOrdinal()
                 .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);

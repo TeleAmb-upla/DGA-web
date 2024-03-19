@@ -265,7 +265,7 @@ svg.append("text")
         .attr("fill", "blue");
 
         text.append("tspan")
-        .attr("x", 790) 
+        .attr("x",795) 
         .attr("y", -10) 
         .text(" (%/año)");
         

@@ -5,7 +5,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_max_SP() {
 
-    const margin = { top: 10, right: 0, bottom: 40, left: 10 };
+    const margin = { top: 10, right: 0, bottom: 40, left: 30 };
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
@@ -15,7 +15,7 @@ export async function tc_max_SP() {
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
         .append("g")
-        .attr("transform", "translate(0," + margin.top + ")");
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     const data = await d3.csv("csv/total/tc_max_SP.csv");
 
@@ -25,7 +25,7 @@ export async function tc_max_SP() {
         .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
 
     const x = d3.scaleLinear()
-        .rangeRound([15, width]);
+        .rangeRound([0, width]);
 
     const color = d3.scaleOrdinal()
                 .range(["#c7001e", "#f6a580", "#cccccc", "#92c6db", "#086fad"]);
@@ -36,7 +36,7 @@ export async function tc_max_SP() {
     .ticks(5)
     //.tickFormat(function(d) { return d*(-1); });
 
-    const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
+    const yAxis = d3.axisLeft(y);
 
     data.forEach(function(d) {
         d["Strongly disagree"] = +d[1];
@@ -111,7 +111,7 @@ svg.append("text")
 .attr("text-anchor", "center")
 .style("font-size", "14px")
 .attr("font-family","Arial")
-.text("Anomalías");
+.text("(%) Anomalías");
 
 
     }

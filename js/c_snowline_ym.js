@@ -229,7 +229,7 @@ svg.append("line")
         .text("Altura de la linea de nieve (m)");
 
 
-// Ruta para el archivo CSV
+
 // Ruta para el archivo CSV
 var sen_slope_csv = "csv\\sen_slope\\sen_slope_sca_ym_bna.csv";
 

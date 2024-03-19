@@ -4,18 +4,16 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // Función para dibujar el gráfico 
 export async function tc_SP_SCA(index) {
-    const margin = { top: 10, right: 0, bottom: 40, left: 65 };
-    const width = 200 - margin.left - margin.right;
+    const margin = { top: 10, right: 0, bottom: 40, left:90 };
+    const width = 300 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
-    // Crear un nuevo SVG y agregarlo al cuerpo del documento
     const svg = d3.select("#p02").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("id", "d3-plot")
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("id", "d3-plot")
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     const data = await d3.csv("csv/total/tc_SP_SCA.csv");
 
     const y = d3.scaleBand()
@@ -24,7 +22,7 @@ export async function tc_SP_SCA(index) {
         .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
 
     const x = d3.scaleLinear()
-        .rangeRound([0, width]);
+        .rangeRound([0, width ]);
 
     const color = d3.scaleOrdinal()
         .range(["blue", "orange", "yellow", "orange", "blue"]);
@@ -65,7 +63,7 @@ export async function tc_SP_SCA(index) {
     
     svg.append("g")
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")") // saca la linea del eje X
+    .attr("transform", "translate(0," + height + ")") 
     .call(xAxis);
 
 
@@ -111,14 +109,14 @@ export async function tc_SP_SCA(index) {
         .attr("font-family","Arial")
         .attr("font-size","12")
         .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 20)
-        .attr("x", -margin.top - 150)
+        .attr("y", -margin.left + 50)
+        .attr("x", -margin.top - 180)
         .text("Cuencas (cod BNA)");
 
 
 // Add title to graph
 svg.append("text")
-.attr("x", -10)
+.attr("x", 20)
 .attr("y", 585)
 .attr("text-anchor", "center")
 .style("font-size", "14px")

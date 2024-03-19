@@ -12,18 +12,18 @@ export async function tm_sp_area() {
     .attr("id", "d3-plot")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+/*
   var data = [
     {Macrozona: "Norte",   Intermitente:  24173, Estacional:  3374, Permanente:   15},
     {Macrozona: "Centro",  Intermitente:   8979, Estacional: 12154, Permanente:   436},
     {Macrozona: "Sur",     Intermitente:  24044, Estacional:  3691, Permanente:   275},
     {Macrozona: "Austral", Intermitente: 183726, Estacional: 52435, Permanente: 24642}
   ];
-  
-   // const data = await d3.csv("csv/total/tc_SP_SCA.csv");
+  */
+    const data = await d3.csv("csv/total/tm_sp_area.csv");
 
   var series = d3.stack()
-    .keys(["Intermitente","Intermitente","Permanente"])
+  .keys(["Intermitente","Estacional","Permanente"])
     .offset(d3.stackOffsetDiverging)
     (data);
   

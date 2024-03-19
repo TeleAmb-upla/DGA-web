@@ -1,29 +1,22 @@
-
-
-// Ahora puedes utilizar D3.js o cualquier otra biblioteca de gráficos para dibujar dentro de este SVG
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-// Función para dibujar el gráfico 
 export async function tc_ca_sca() {
-
-    const margin = { top: 10, right: 0, bottom: 40, left: 10 };
+    const margin = { top: 10, right: 10, bottom: 40, left: 30};
     const width = 200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
-    // Crear un nuevo SVG y agregarlo al cuerpo del documento
     const svg = d3.select("#p04").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
         .append("g")
-        .attr("transform", "translate(0," + margin.top + ")");
-
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     const data = await d3.csv("csv/total/tc_ca_sca.csv");
 
     const y = d3.scaleBand()
         .rangeRound([0, height], .3)
-        .paddingInner(0.1) // Agrega un pequeño espacio entre las bandas
-        .paddingOuter(0.2); // Agrega espacio adicional en los bordes del eje Y
+        .paddingInner(0.1)
+        .paddingOuter(0.2);
 
     const x = d3.scaleLinear()
         .rangeRound([0, width]);
@@ -35,7 +28,7 @@ export async function tc_ca_sca() {
 
     const xAxis = d3.axisBottom(x).ticks(5);
 
-    const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
+    const yAxis = d3.axisLeft(y);
 
     data.forEach(function(d) {
         d["Strongly disagree"] = +d[1];
@@ -59,7 +52,7 @@ export async function tc_ca_sca() {
     });
 
     x.domain([min_val, max_val]).nice();
-  
+
     y.domain(data.map(function(d) { return d.Question; }));
 
     svg.append("g")
@@ -71,7 +64,7 @@ export async function tc_ca_sca() {
         .attr("class", "y axis")
         .call(yAxis);
 
-    const vakken = svg.selectAll(".question")
+        const vakken = svg.selectAll(".question")
         .data(data)
         .enter().append("g")
         .attr("class", "bar")
@@ -82,7 +75,7 @@ export async function tc_ca_sca() {
         .enter().append("g").attr("class", "subbar");
 
     bars.append("rect")
-        .attr("height", y.bandwidth()* 1) // "sombra a las barras
+        .attr("height", y.bandwidth()* 1)
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
         .style("fill", function(d) { return color(d.name); });
@@ -102,17 +95,11 @@ export async function tc_ca_sca() {
         .attr("x2", x(0))
         .attr("y2", height);
 
-        
-// Add title to graph
-svg.append("text")
-.attr("x", 40)
-.attr("y", 585)
-.attr("text-anchor", "center")
-.style("font-size", "14px")
-.attr("font-family","Arial")
-.text("Cobertura de nieve (%)");
-
-
-
-
-    }
+    svg.append("text")
+    .attr("x", 40)
+    .attr("y", 585)
+    .attr("text-anchor", "center")
+    .style("font-size", "14px")
+    .attr("font-family","Arial")
+    .text("Cobertura de nieve (%)");
+}
