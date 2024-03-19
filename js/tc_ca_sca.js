@@ -96,7 +96,7 @@ export async function tc_ca_sca() {
         .attr("y2", height);
 
     svg.append("text")
-    .attr("x", 40)
+    .attr("x", 20)
     .attr("y", 585)
     .attr("text-anchor", "center")
     .style("font-size", "14px")
