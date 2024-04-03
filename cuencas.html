@@ -118,7 +118,7 @@ crossorigin=""></script>
       <p> </p>
 <!-- DESARROLLO TÍTULO PRINCIPAL -->
       <p style=text-align:justify;>
-        Se establecieron un total de 46 cuencas de un total de 101 analizadas que poseían al menos un 5% de SCA en todo el periodo de medición (2000-2022) o que sea posible determinar una línea de nieve (SCI>5%) todos los años de medición.
+        Se establecieron un total de 46 cuencas de un total de 101 analizadas que poseían al menos un 5% de SCA en todo el periodo de medición (2000-2023) o que sea posible determinar una línea de nieve (SCI>5%) todos los años de medición.
       </p>
       <p> </p>
     <p style=text-align:justify;>
@@ -194,8 +194,9 @@ crossorigin=""></script>
             <option value="129">129-Islas del sur Canal Beagle y Territorio Antartico</option>
         </select>
     </p>
-  
-    
+    <script type="module"> 
+
+    </script>
       </div>
     </div>
   </section>
@@ -207,7 +208,7 @@ crossorigin=""></script>
 <!-- INICIO SECCIÓN GRAFICOS  -->
   <script type="module"> 
 
-    import {c_map_location } from './js/c_map_location.js'          // p01
+    import {c_map_location } from './js/c_map_location.js';         // p01
     import {c_SCA_map } from './js/c_SCA_map.js';                   // p02
     import {c_SCA_trend_map } from './js/c_SCA_trend_map.js';       // p03
     import { c_SCA_y } from './js/c_SCA_y.js';                      // p04
@@ -216,15 +217,15 @@ crossorigin=""></script>
     import { c_SCA_elev } from './js/c_SCA_elev.js';                // p07
     import { c_elev } from './js/c_elev.js';                        // p08
     import {c_SCA_y_t_elev } from './js/c_SCA_y_t_elev.js';         // p09
-       import { c_snowline_y } from './js/c_snowline_y.js';            // p11
+    import { c_snowline_y } from './js/c_snowline_y.js';            // p11
     import { c_SCA_m } from './js/c_SCA_m.js';                      // p12
     import { c_SCA_m_elev } from './js/c_SCA_m_elev.js';            // p13
     import {c_SCA_y_m} from './js/c_SCA_y_m.js';                    // p14
     import {c_SCA_m_trend} from './js/c_SCA_m_trend.js';            // p15
-       import { c_SCA_ym } from './js/c_SCA_ym.js';                    // p17
+    import { c_SCA_ym } from './js/c_SCA_ym.js';                    // p17
     import {c_SCA_ym_elev } from './js/c_SCA_ym_elev.js';           // p18
     import { c_snowline_ym } from './js/c_snowline_ym.js';          // p19
-    import { leyenda_PN } from './js/leyenda_PN.js';                      // leyenda
+    import { leyenda_PN } from './js/leyenda_PN.js';                // leyenda
     //Se obtiene el valor ingresado en el input
     const input = document.querySelector("#BNA_cod"); 
 
@@ -244,18 +245,16 @@ crossorigin=""></script>
         document.getElementById("p07").innerHTML = "";
         document.getElementById("p08").innerHTML = "";
         document.getElementById("p09").innerHTML = "";
-        //document.getElementById("p10").innerHTML = "";
         document.getElementById("p11").innerHTML = "";
         document.getElementById("p12").innerHTML = "";
         document.getElementById("p13").innerHTML = "";
         document.getElementById("p14").innerHTML = "";
         document.getElementById("p15").innerHTML = "";
-        //document.getElementById("p16").innerHTML = "";
         document.getElementById("p17").innerHTML = "";
         document.getElementById("p18").innerHTML = "";
         document.getElementById("p19").innerHTML = "";
         document.getElementById("leyenda_PN").innerHTML = "";
-
+   
         // run de JS
         c_map_location(watershed);    // p01
         c_SCA_trend_map(watershed);   // p02 
@@ -266,17 +265,16 @@ crossorigin=""></script>
 	      c_SCA_elev(watershed);        // p07
         c_SCA_y_t_elev(watershed)     // p08	      
         c_elev(watershed);            // p09
-	      //c_SCA_y_t_a_elev(watershed);  // p10
         c_snowline_y(watershed);      // p11
         c_SCA_m(watershed);           // p12
         c_SCA_m_elev(watershed);      // p13
         c_SCA_y_m(watershed);         // p14
         c_SCA_m_trend(watershed);     // p15
-        //c_SCA_m_t_area(watershed);    // p16
         c_SCA_ym(watershed);          // p17
         c_SCA_ym_elev(watershed)      // p18
         c_snowline_ym(watershed);     // p19
-        leyenda_PN(watershed);           // leyenda_2
+        leyenda_PN(watershed);        // leyenda_2
+
         
     })
   
@@ -419,7 +417,7 @@ crossorigin=""></script>
     <tr>
       <td colspan="14" &nbsp;><div id="p14"></div></td>
       <td colspan="leyenda_PN" &nbsp;><div id="leyenda_PN"></div></td>
-      <td><div id="p15"></div></td>
+          <td><div id="p15"></div></td>
       <td colspan="2" &nbsp;><div id="p16"></div></td>
       <td></td>
       <td colspan="2" &nbsp;></td>
