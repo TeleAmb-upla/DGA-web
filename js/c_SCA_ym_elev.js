@@ -26,8 +26,8 @@ export async function c_SCA_ym_elev(watershed) {
     const data = await d3.csv(watershed_selected);
 
     // Labels
-    const myGroups = Array.from(new Set(data.map(d => d.group))); // mantiene solo el primer mes de cada año
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myGroups = Array.from(new Set(data.map(d => d.Year))); // mantiene solo el primer mes de cada año
+    const myVars = Array.from(new Set(data.map(d => d.Elevation)));
 
     // Build X scales and axis:
     const x = d3.scaleBand()
@@ -100,13 +100,13 @@ var mouseover = function(d) {
       .style("opacity", 1)
   }
   var mousemove = function (event, d) {
-    var value = Number(d.value); // Convertir cadena a número
-    var dateComponents = d.group.split("-"); // Dividir la fecha
+    var SCA = Number(d.SCA); // Convertir cadena a número
+    var dateComponents = d.Year.split("-"); // Dividir la fecha
     var yearMonth = dateComponents[0] + "-" + dateComponents[1]; // Reconstruir la fecha
     tooltip
         .html( "Fecha: " + yearMonth + "<br>" 
-              + "Elevación: " + d.variable + "<br>" 
-              + "Persistencia: " + value.toFixed(1) + " unidades"  // Definir cantidad de decimales
+              + "Elevación: " + d.Elevation + "<br>" 
+              + "Cobertura: " + SCA.toFixed(1) + " unidades"  // Definir cantidad de decimales
              )
         .style("left", (event.pageX + 30) + "px") 
         .style("top", (event.pageY - 28) + "px")  // Ajustar posición para evitar solapamiento
@@ -121,14 +121,14 @@ var mouseover = function(d) {
   }
     // Add the squares
     svg.selectAll()
-        .data(data, function (d) { return d.group + ':' + d.variable; })
+        .data(data, function (d) { return d.Year + ':' + d.Elevation; })
         .enter()
         .append("rect")
-        .attr("x", function (d) { return x(d.group); })
-        .attr("y", function (d) { return y(d.variable); })
+        .attr("x", function (d) { return x(d.Year); })
+        .attr("y", function (d) { return y(d.Elevation); })
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .style("fill", function (d) { return colorScaleThreshold(d.value); })
+            .style("fill", function (d) { return colorScaleThreshold(d.SCA); })
             .style("stroke-width", 4)
             .style("stroke", "none")
             .style("opacity", 0.8)
@@ -145,7 +145,7 @@ var mouseover = function(d) {
    .attr("font-size", "20px")
    .attr("x", 200)
    .attr("y", -25)
-   .text("15. Persistencia de nieve por año, mes y elevación");
+   .text("15. Cobertura de nieve promedio por año, mes y elevación");
 
    // Etiqueta SUb titulo
 svg.append("text")
@@ -369,6 +369,33 @@ svg.append("text")
 
 
 
+        
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_De_Nieve_Promedio_Por_Año_Mes_Y_Elevación_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 
 
 

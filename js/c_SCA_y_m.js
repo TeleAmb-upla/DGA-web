@@ -1,4 +1,4 @@
-    import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 // Función para dibujar el gráfico 
 export async function c_SCA_y_m(watershed) {
@@ -21,8 +21,8 @@ export async function c_SCA_y_m(watershed) {
     // Read the data
     const data = await d3.csv(watershed_selected);
     // Labels
-    const myGroups = Array.from(new Set(data.map(d => d.group)));
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myGroups = Array.from(new Set(data.map(d => d.Year)));
+    const myVars = Array.from(new Set(data.map(d => d.Month)));
    
     // Build X scales and axis:
     const x = d3.scaleBand()
@@ -69,11 +69,11 @@ export async function c_SCA_y_m(watershed) {
               .style("opacity", 1)
           }
          var mousemove = function (event, d) {
-            var value = Number(d.value); 
+            var SCA = Number(d.SCA); 
             tooltip
-                .html(  "Persistencia: " + value.toFixed(1) + "<br>" 
-                     +  "Mes: " + d.variable + "<br>"
-                     +  "Año: " + d.group + "<br>")
+                .html(  "Cobertura: " + SCA.toFixed(1) + "<br>" 
+                     +  "Mes: " + d.Month + "<br>"
+                     +  "Año: " + d.Year + "<br>")
                 .style("left", (event.pageX + 30) + "px") 
                 .style("top", (event.pageY) + "px")
           }
@@ -86,14 +86,14 @@ export async function c_SCA_y_m(watershed) {
           }
     // Add the squares
     svg.selectAll()
-        .data(data, d => `${d.group}:${d.variable}`)
+        .data(data, d => `${d.Year}:${d.Month}`)
         .enter()
         .append("rect")
-            .attr("x", d => x(d.group))
-            .attr("y", d => y(d.variable))
+            .attr("x", d => x(d.Year))
+            .attr("y", d => y(d.Month))
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .style("fill",function (d) { return colorScaleThreshold(d.value); })
+            .style("fill",function (d) { return colorScaleThreshold(d.SCA); })
             .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
@@ -105,9 +105,9 @@ export async function c_SCA_y_m(watershed) {
             .attr("text-anchor", "center")
             .attr("font-family", "Arial")
             .attr("font-size", "20px")
-            .attr("x", width / 2  - 140)
+            .attr("x", -50)
             .attr("y", -25)
-            .text("12. Cobertura de nieve por año y mes");
+            .text("12. Cobertura de nieve promedio por año y mes");
 
 // Etiqueta SUb titulo
             svg.append("text")
@@ -115,7 +115,7 @@ export async function c_SCA_y_m(watershed) {
             .attr("font-family", "Arial")
             .attr("font-size", "16px")
             .style("fill", "grey")
-            .attr("x", width / 2  - 40)
+            .attr("x", + 20)
             .attr("y", -10)
             .text("Cuenca: "+ watershed);
 
@@ -137,6 +137,44 @@ export async function c_SCA_y_m(watershed) {
             .attr("y", -25)
             .attr("x", -80)
             .text("Meses");
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_De_Nieve_Por_Año_y_Mes_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
+
+
+
+
+
+
+
+
+
 
 
 

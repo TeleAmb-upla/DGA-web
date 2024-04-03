@@ -25,12 +25,12 @@ export async function c_snowline_ym(watershed) {
 //Read the data 
 const csvData = await d3.csv(watershed_selected);
 const data = csvData.map(d => ({
-    date: d3.timeParse("%Y-%m-%d")(d.date),
-    value: +d.value
+  Year: d3.timeParse("%Y-%m-%d")(d.Year),
+  Snowline_elev: +d.Snowline_elev
 }));
     // Add X axis --> it is a date format
     const x = d3.scaleBand()
-    .domain(data.map(d => d.date)) // Use the dates in your data for the domain
+    .domain(data.map(d => d.Year)) // Use the dates in your data for the domain
     .range([0, width])
     .padding(0.05);
 svg.append("g")
@@ -61,19 +61,19 @@ svg.append("g")
 
 // Prueba QUIERO QUE PARTA DESDE EL MENOR VALOR Y 
 
-let menor = data[0].value;
+let menor = data[0].Snowline_elev;
 
 data.forEach(element => {
-  if(element.value < menor){
-    menor = element.value*.95;
+  if(element.Snowline_elev < menor){
+    menor = element.Snowline_elev*.95;
   }
 });
 
-let mayor = data[0].value;
+let mayor = data[0].Snowline_elev;
 
 data.forEach(element => {
-  if(element.value > mayor){
-    mayor = element.value*1.05;
+  if(element.Snowline_elev > mayor){
+    mayor = element.Snowline_elev*1.05;
   }
 });
 
@@ -96,14 +96,14 @@ const Ymax = [menor, mayor];
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
-        .x(d => x(d.date))
-        .y(d => y(d.value))
+        .x(d => x(d.Year))
+        .y(d => y(d.Snowline_elev))
       );
 
 
 // Agrupar los datos por año y calcular el valor máximo para cada año
-const groupedData = d3.group(data, d => d.date.getFullYear());
-const maxValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.max(values, d => d.value)}));
+const groupedData = d3.group(data, d => d.Year.getFullYear());
+const maxValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.max(values, d => d.Snowline_elev)}));
 
 // Filtrar los valores máximos para los años 2000 a 2023
 const maxValues2000To2023 = maxValues.filter(d => d.year >= 2000 && d.year <= 2023);
@@ -131,8 +131,8 @@ var Y_fin_max = 2023*(slope_max) + ( intercept_max);
 //console.log(Y_fin_max) 
 
 
-const Y_sti_ini_max = (([1.05*d3.max(data, d => +d.value)] -Y_ini_max) / (1.05*d3.max(data, d => +d.value))) *height;
-const Y_sti_fin_max = (([1.05*d3.max(data, d => +d.value)] -Y_fin_max) / (1.05*d3.max(data, d => +d.value))) *height;
+const Y_sti_ini_max = (([1.05*d3.max(data, d => +d.Snowline_elev)] -Y_ini_max) / (1.05*d3.max(data, d => +d.Snowline_elev))) *height;
+const Y_sti_fin_max = (([1.05*d3.max(data, d => +d.Snowline_elev)] -Y_fin_max) / (1.05*d3.max(data, d => +d.Snowline_elev))) *height;
 
 // Añadir la línea de tendencia para el promedio de los valores máximos
 svg.append("line")
@@ -147,7 +147,7 @@ svg.append("line")
 
   // MINIMOS
 
-  const minValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.min(values, d => d.value)}));
+  const minValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.min(values, d => d.Snowline_elev)}));
 
   // Filtrar los valores mínimos para los años 2000 a 2023
   const minValues2000To2023 = minValues.filter(d => d.year >= 2000 && d.year <= 2023);
@@ -197,7 +197,7 @@ svg.append("line")
     .attr("font-size", "20px")
     .attr("x", width / 2  - 120)
     .attr("y", -25)
-    .text("16. Lineas de nieve por año y mes");
+    .text("16. Líneas de nieve por año y mes");
  
     // Etiqueta SUb titulo
     svg.append("text")
@@ -226,7 +226,7 @@ svg.append("line")
         .attr("transform", "rotate(-90)")
         .attr("y", -40)
         .attr("x", -80)
-        .text("Altura de la linea de nieve (m)");
+        .text("Altura de la línea de nieve (m)");
 
 
 
@@ -252,7 +252,7 @@ var text = svg.append("text")
 
 // Agregar el texto 
 text.append("tspan")
-    .text("Sen Slope Maximo: ");
+    .text("Pendiente Sen máxima: ");
 
 // Crear un tspan 
 text.append("tspan")
@@ -268,7 +268,7 @@ text.append("tspan")
 
 // Crear un elemento de texto en el SVG para mostrar el texto "Sen Slope Minimo:"
 var textMin = svg.append("text")
-    .attr("x", 650) 
+    .attr("x", 630) 
     .attr("y", -10) 
     .attr("font-family", "Arial")
     .attr("font-size", 13)
@@ -276,7 +276,7 @@ var textMin = svg.append("text")
 
 // Agregar el texto "Sen Slope Minimo: "
 textMin.append("tspan")
-    .text("Sen Slope Minimo: ");
+    .text("Pendiente Sen mínima: ");
 
 // Crear un tspan para el valor de ValorSen_Min
 textMin.append("tspan")
@@ -287,6 +287,33 @@ textMin.append("tspan")
     .attr("x", 790) 
     .attr("y", -10) 
     .text(" (m/año)");
+            
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+.attr("width", 30) // ancho del botón
+.attr("height", 40) // alto del botón
+.attr("x", width - 25) // posiciona el botón en el eje x
+.attr("y",-48) // posiciona el botón en el eje Y
+.append("xhtml:body")
+.html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+.on("click", function() {
+    var columnNames = Object.keys(data[0]); 
+
+    // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+    var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
     
+    var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var fileName = "Linea_De_Nieve_Por_Año_Y_Mes_" + watershed + ".csv";
+    
+    var link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+
         
 }

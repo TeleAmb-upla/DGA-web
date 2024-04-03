@@ -25,8 +25,8 @@ export async function c_SCA_y_elev(watershed) {
     const data = await d3.csv(watershed_selected);
 
     // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-    const myGroups = Array.from(new Set(data.map(d => d.group)));
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myGroups = Array.from(new Set(data.map(d => d.Year)));
+    const myVars = Array.from(new Set(data.map(d => d.Elevation)));
    
 
 // Build X scales and axis:
@@ -78,11 +78,11 @@ svg.append("g")
         .style("opacity", 1)
     }
     var mousemove = function (event, d) {
-      var value = Number(d.value); // era una cadena y habla que pasarla a numero
+      var SCA = Number(d.SCA); // era una cadena y habla que pasarla a numero
       tooltip
-          .html( "Elevación: " + d.variable + "<br>" 
-               + "Persistencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
-               + "Año: " + d.group)
+          .html( "Elevación: " + d.Elevation + "<br>" 
+               + "Cobertura: " + SCA.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
+               + "Año: " + d.Year)
           .style("left", (event.pageX + 30) + "px") 
           .style("top", (event.pageY) + "px")
     }
@@ -99,16 +99,16 @@ svg.append("g")
     
     // add the squares
     svg.selectAll()
-        .data(data, function (d) { return d.group + ':' + d.variable; })
+        .data(data, function (d) { return d.Year + ':' + d.Elevation; })
         .enter()
         .append("rect")
-        .attr("x", function (d) { return x(d.group); })
-        .attr("y", function (d) { return y(d.variable); })
+        .attr("x", function (d) { return x(d.Year); })
+        .attr("y", function (d) { return y(d.Elevation); })
         //.attr("rx", 4)
         //.attr("ry", 4)
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
-        .style("fill", function (d) { return colorScaleThreshold(d.value); })
+        .style("fill", function (d) { return colorScaleThreshold(d.SCA); })
         .style("stroke-width", 1)
         .style("stroke", "none")
         .style("opacity", 0.8)
@@ -117,17 +117,20 @@ svg.append("g")
         .on("mouseleave", mouseleave);
 
     // Add title to graph
+
+    var x_title = 0;
+
     svg.append("text")
-        .attr("x", 60)
+        .attr("x", x_title - 30)
         .attr("y", -20)
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .style("font-size", "20px")
-        .text("6. Persistencia de nieve por elevación");
+        .text("6. Cobertura de nieve promedio por elevación");
 
     // Add subtitle to graph
     svg.append("text")
-        .attr("x", 160)
+        .attr("x", x_title + 20)
         .attr("y", -5)
         .attr("text-anchor", "center")
         .style("font-size", "16px")
@@ -154,6 +157,33 @@ svg.append("g")
         .attr("x", width / 2 + 30)
         .attr("y", height + 40)
         .text("Años");
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-40) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_De_Nieve_Promedio_Por_Elevacíon_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 
 
       }

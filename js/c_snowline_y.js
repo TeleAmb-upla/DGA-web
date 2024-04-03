@@ -23,13 +23,13 @@ export async function c_snowline_y(watershed) {
 
     //Read the data
     const data = await d3.csv(watershed_selected, function(d) {
-        return { date: d.date, value: +d.value };
+        return { Year: d.Year, Snowline_elev: +d.Snowline_elev };
     });
     // Add X axis
 // Add X axis
 const x = d3.scaleBand()
     .range([0, width])
-    .domain(data.map(function(d) { return d.date; }))
+    .domain(data.map(function(d) { return d.Year; }))
     .padding(0.2);
 svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -42,19 +42,19 @@ svg.append("g")
         // Prueba QUIERO QUE PARTA DESDE EL MENOR VALOR Y 
    
 
-    let menor = data[0].value;
+    let menor = data[0].Snowline_elev;
 
     data.forEach(element => {
-      if(element.value < menor){
-        menor = element.value*.95;
+      if(element.Snowline_elev < menor){
+        menor = element.Snowline_elev*.95;
       }
     });
     
-    let mayor = data[0].value;
+    let mayor = data[0].Snowline_elev;
     
     data.forEach(element => {
-      if(element.value > mayor){
-        mayor = element.value*1.02;
+      if(element.Snowline_elev > mayor){
+        mayor = element.Snowline_elev*1.02;
       }
     });
     
@@ -79,20 +79,20 @@ svg.append("g")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 1.5)
         .attr("d", d3.line()
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.value); })
+            .x(function(d) { return x(d.Year); })
+            .y(function(d) { return y(d.Snowline_elev); })
             .curve(d3.curveCatmullRom.alpha(0.5))
         );
 
 // Agrupar los datos por año y calcular el valor máximo para cada año
-const groupedData = d3.group(data, d => d.value);
+const groupedData = d3.group(data, d => d.Snowline_elev);
 
 // Suponiendo que 'data' es un array de objetos con 'date' y 'value'
 let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0, n = data.length; //número total de registros en los datos.
 
 data.forEach(d => {
-    let year = +d.date; // Convertir la fecha a número, si es necesario
-    let value = d.value;
+    let year = +d.Year; // Convertir la fecha a número, si es necesario
+    let value = d.Snowline_elev;
     sumX += year;
     sumY += value;
     sumXY += year * value;
@@ -123,16 +123,13 @@ svg.append("line")
     .attr("stroke", "red")
     .attr("stroke-width", 1);
 
-
-
-
-        
+      
           // Etiqueta title
     svg.append("text")
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .attr("font-size", "20px")
-        .attr("x", width / 2  - 120)
+        .attr("x", 0)
         .attr("y", -25)
         .text("8. Elevación línea de nieve anual");
           // Etiqueta SUb titulo
@@ -141,7 +138,7 @@ svg.append("line")
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 40)
+        .attr("x", 23)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
         // Etiqueta del eje X
@@ -175,15 +172,13 @@ const sen_slope_s = await d3.csv(sen_slope_csv);
 // Buscar el valor de SCA_Sen para el COD_CUEN correspondiente
 const filaEncontrada = sen_slope_s.find(d => d.COD_CUEN === `BNA_${watershed}`);
 
-//console.log(`BNA_${watershed}`); 
-//console.log(filaEncontrada); 
 
 // VAlor de la comuna:SCA_SEN
     const valorSCA_Sen = filaEncontrada.snowline_Sen; 
-    // console.log(valorSCA_Sen);
+
     // Crear un elemento de texto en el SVG para mostrar el valor
 var text =  svg.append("text")
-       .attr("x", + 260) 
+       .attr("x", + 230) 
        .attr("y", - 10) 
        .attr("font-family", "Arial")
        .attr("font-size", "13")
@@ -191,7 +186,7 @@ var text =  svg.append("text")
        
 // Agregar el texto 
 text.append("tspan")
-    .text("Sen Slope: ");
+    .text("Pendiente Sen:");
 
 // Crear un tspan 
 text.append("tspan")
@@ -204,6 +199,32 @@ text.append("tspan")
 
 
 
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Elevación_Línea_De_Nieve_Anual_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 
 
 

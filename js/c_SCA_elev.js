@@ -1,14 +1,12 @@
-
-
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 
 // Función async para cargar los datos
 async function loadData(watershed_selected) {
   const csvData = await d3.csv(watershed_selected);
   const data = csvData.map(d => ({
-    group: d.group,
-    variable: d.variable,
-    value: +d.value
+    group: "Tred",
+    Elevation: d.Elevation,
+    SCA: +d.SCA
   }));
   return data;
 }
@@ -39,10 +37,10 @@ export async function c_SCA_elev(watershed) {
 
     //Read the data 
     const data = await loadData(watershed_selected);
-
+    var group = "Trend"
     // Labels of row and columns
     const myGroups = Array.from(new Set(data.map(d => d.group)));
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myVars = Array.from(new Set(data.map(d => d.Elevation)));
 
     // Build X scales and axis:
     const x = d3.scaleBand()
@@ -74,10 +72,6 @@ const colorScaleThreshold = d3
   .domain([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
   .range(["#FFFFE6", "#FFFFB4", "#FFEBBE", "#FFD37F", "#FFAA00", "#E69800", "#70A800", "#00A884", "#0084A8", "#004C99"])
 
-
-
-
-
     // create a tooltip
     const tooltip = d3.select("#p07")
         .append("div")
@@ -88,6 +82,7 @@ const colorScaleThreshold = d3
         .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "5px");
+
 // Three function that change the tooltip when user hover / move / leave a cell
 
 var mouseover = function(d) {
@@ -98,10 +93,10 @@ var mouseover = function(d) {
     .style("opacity", 1)
 }
 var mousemove = function (event, d) {
-  var value = Number(d.value); // era una cadena y habla que pasarla a numero
+  var SCA = Number(d.SCA); // era una cadena y habla que pasarla a numero
   tooltip
-      .html( "Elevación: " + d.variable + "<br>" 
-           + "Persistencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
+      .html( "Elevación: " + d.Elevation + "<br>" 
+           + "Persistencia: " + SCA.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
            )
       .style("left", (event.pageX + 30) + "px") 
       .style("top", (event.pageY) + "px")
@@ -118,16 +113,16 @@ var mouseleave = function(d) {
   
       // add the squares
       svg.selectAll()
-          .data(data, function (d) { return d.group + ':' + d.variable; })
+          .data(data, function (d) { return d.group + ':' + d.Elevation; })
           .enter()
           .append("rect")
           .attr("x", function (d) { return x(d.group); })
-          .attr("y", function (d) { return y(d.variable); })
+          .attr("y", function (d) { return y(d.Elevation); })
           //.attr("rx", 4)
           //.attr("ry", 4)
           .attr("width", x.bandwidth())
           .attr("height", y.bandwidth())
-          .style("fill", function (d) { return colorScaleThreshold(d.value); })
+          .style("fill", function (d) { return colorScaleThreshold(d.SCA); })
           .style("stroke-width", 1)
           .style("stroke", "none")
           .style("opacity", 0.8)

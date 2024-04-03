@@ -6,7 +6,7 @@ import { myColor } from './myColor.js';
 // Función para dibujar el gráfico 
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
-    const margin = {top: 80, right: 100, bottom: 60, left: 200};
+    const margin = {top: 80, right: 150, bottom: 60, left: 200};
     const width = 25 ;
     const height = 400 - margin.top - margin.bottom;
 
@@ -29,9 +29,10 @@ export async function c_SCA_y_t_elev(watershed) {
     // Read the data
     const data = await d3.csv(watershed_selected);
 
+    var group = "Trend"
     // Labels
-    const myGroups = Array.from(new Set(data.map(d => d.group)));
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myGroups = Array.from(new Set(data.map(d => group)));
+    const myVars = Array.from(new Set(data.map(d => d.Elevation)));
 
     // Build X scales and axis:
     const x = d3.scaleBand()
@@ -73,9 +74,9 @@ export async function c_SCA_y_t_elev(watershed) {
               .style("opacity", 1)
           }
           var mousemove = function (event, d) {
-            var value = Number(d.value); // era una cadena y habia que pasarla a numero
+            var value = Number(d.Tendencia); // era una cadena y habia que pasarla a numero
             tooltip
-                .html(   "Elevación: " + d.variable + "<br>" 
+                .html(   "Elevación: " + d.Elevation + "<br>" 
                      + "Tendencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
                      )
                 .style("left", (event.pageX +30) + "px") 
@@ -90,14 +91,14 @@ export async function c_SCA_y_t_elev(watershed) {
           }
     // Add the squares
     svg.selectAll()
-        .data(data, d => `${d.group}:${d.variable}`)
+        .data(data, d => `${d.Elevation}`)
         .enter()
         .append("rect")
-            .attr("x", d => x(d.group))
-            .attr("y", d => y(d.variable))
+            .attr("x", d => x(d.myGroups))
+            .attr("y", d => y(d.Elevation))
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .style("fill", d => myColor(d.value))
+            .style("fill", d => myColor(d.Tendencia))
             .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
@@ -117,7 +118,7 @@ export async function c_SCA_y_t_elev(watershed) {
 
     // Add title to graph
     svg.append("text")
-        .attr("x", -112)
+        .attr("x", -90)
         .attr("y", -25)
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
@@ -130,7 +131,7 @@ export async function c_SCA_y_t_elev(watershed) {
             .attr("font-family", "Arial")
             .attr("font-size", "16px")
             .style("fill", "grey")
-            .attr("x", width / 2  - 20)
+            .attr("x", width / 2  - 60)
             .attr("y", -10)
             .text("Cuenca: "+ watershed);
 
@@ -205,4 +206,40 @@ svg.append("text")
 .style("font-size", "10px") // Tamaño de la fuente del texto
 .attr("font-family", "Arial") // Fuente del texto
 .attr("alignment-baseline", "middle") // Alineación vertical del texto
+
+
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width + 125) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Tendencia_Por_Elevación_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
+
+
+
+
+
 }

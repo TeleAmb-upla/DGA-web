@@ -20,8 +20,8 @@ export async function c_SCA_m_elev(watershed) {
     // Read the data
     const data = await d3.csv(watershed_selected);
     // Labels
-    const myGroups = Array.from(new Set(data.map(d => d.group)));
-    const myVars = Array.from(new Set(data.map(d => d.variable)));
+    const myGroups = Array.from(new Set(data.map(d => d.Month)));
+    const myVars = Array.from(new Set(data.map(d => d.Elevation)));
     // Build X scales and axis:
     const x = d3.scaleBand()
     .range([ 0, width ])
@@ -65,11 +65,11 @@ var mouseover = function(d) {
       .style("opacity", 1)
   }
   var mousemove = function (event, d) {
-    var value = Number(d.value); // era una cadena y habia que pasarla a numero
+    var SCA = Number(d.SCA); // era una cadena y habia que pasarla a numero
     tooltip
-        .html("Elevación: " + d.variable + "<br>" 
-             + "Persistencia: " + value.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
-             +"Mes: " + d.group + "<br>" )
+        .html("Elevación: " + d.Elevation + "<br>" 
+             + "Cobertura: " + SCA.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
+             +"Mes: " + d.Month + "<br>" )
         .style("left", (event.pageX+30) + "px") 
         .style("top", (event.pageY) + "px")
   }
@@ -82,16 +82,16 @@ var mouseover = function(d) {
   }
           // Add the squares
     svg.selectAll()
-         .data(data, function (d) { return d.group + ':' + d.variable; })
+         .data(data, function (d) { return d.Month + ':' + d.Elevation; })
         .enter()
         .append("rect")
-        .attr("x", function (d) { return x(d.group); })
-        .attr("y", function (d) { return y(d.variable); })
+        .attr("x", function (d) { return x(d.Month); })
+        .attr("y", function (d) { return y(d.Elevation); })
             //.attr("rx", 4)
             //.attr("ry", 4)
             .attr("width", x.bandwidth())
             .attr("height", y.bandwidth())
-            .style("fill",  function (d) {return colorScaleThreshold(d.value); })
+            .style("fill",  function (d) {return colorScaleThreshold(d.SCA); })
             .style("stroke-width", 1)
             .style("stroke", "none")
             .style("opacity", 0.8)
@@ -106,7 +106,7 @@ var mouseover = function(d) {
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .attr("font-size", "20px")
-        .attr("x", 30)
+        .attr("x", 0)
         .attr("y", -25)
         .text("11. Cobertura de nieve por elevación");
 
@@ -116,7 +116,7 @@ var mouseover = function(d) {
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 40)
+        .attr("x", + 35)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
 
@@ -326,6 +326,48 @@ var mouseover = function(d) {
   .style("font-size", "10px")
   .attr("font-family", "Arial")
   .attr("alignment-baseline", "middle")
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width + 30) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_De_Nieve_Por_Elevación_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 

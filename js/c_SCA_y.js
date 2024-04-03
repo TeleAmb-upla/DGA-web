@@ -95,21 +95,24 @@ svg.append("line")
     .attr("y2", Y_sti_fin_max)
     .attr("stroke", "red")
     .attr("stroke-width", 1);
+
+    var x_title = 0;
+
     // Etiqueta title
     svg.append("text")
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .attr("font-size", "20px")
-        .attr("x", width / 2  - 120)
+        .attr("x", x_title)
         .attr("y", -25)
-        .text("4. Cobertura de nieve promedio");
+        .text("4. Cobertura promedio de nieve anual");
        // Etiqueta SUb titulo
     svg.append("text")
         .attr("text-anchor", "center")
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 80)
+        .attr("x", x_title + 23)
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
     // Etiqueta del eje X
@@ -156,14 +159,14 @@ const filaEncontrada = sen_slope_s.find(d => d.COD_CUEN === `BNA_${watershed}`);
    // console.log(valorSCA_Sen);
     // Crear un elemento de texto en el SVG para mostrar el valor
  var text =  svg.append("text")
-       .attr("x", + 255) 
+       .attr("x", + 220) 
        .attr("y", - 10) 
         .attr("font-family", "Arial")
        .attr("font-size", "13")
        .attr("fill", "black")
     // Agregar el texto 
 text.append("tspan")
-.text("Sen Slope: ");
+.text("Pendiente Sen: ");
 
       // Crear un tspan 
 text.append("tspan")
@@ -173,5 +176,36 @@ text.append("tspan")
 // %
 text.append("tspan")
 .text(" (%/año)");
+
+
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_Promedio_De_Nieve_Anual_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
 
 }

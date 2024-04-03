@@ -5,7 +5,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 // Función para dibujar el gráfico 
 export async function tc_SP_SCA(index) {
     const margin = { top: 10, right: 0, bottom: 40, left:90 };
-    const width = 300 - margin.left - margin.right;
+    const width = 230 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     const svg = d3.select("#p02").append("svg")
@@ -116,7 +116,7 @@ export async function tc_SP_SCA(index) {
 
 // Add title to graph
 svg.append("text")
-.attr("x", 20)
+.attr("x", -10)
 .attr("y", 585)
 .attr("text-anchor", "center")
 .style("font-size", "14px")

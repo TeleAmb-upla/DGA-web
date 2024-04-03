@@ -5,7 +5,7 @@ export async function c_elev(watershed) {
     // set the dimensions and margins of the graph
 
 const margin = { top: 80, right: 0, bottom: 60, left: 80 };
-    const width = 200 - margin.left - margin.right;
+    const width = 250 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
     // append the svg object to the body of the page
     const svg = d3.select("#p08")
@@ -81,7 +81,7 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
         .attr("font-family", "Arial")
         .attr("font-size", "16px")
         .style("fill", "grey")
-        .attr("x", width / 2  - 50)
+        .attr("x", -36 )
         .attr("y", -10)
         .text("Cuenca: "+ watershed);
 
@@ -120,5 +120,30 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
         .attr("x", -80)
         .text("Elevación (msnm)");
 
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
 
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Área_Por_Elevación_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 }

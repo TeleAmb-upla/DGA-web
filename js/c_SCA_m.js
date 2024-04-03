@@ -40,7 +40,7 @@ export async function c_SCA_m(watershed) {
 
         // Add Y axis
         var y = d3.scaleLinear()
-          .domain([0, 1.2*d3.max(data, function(d) { return +d.CI_right; })]) // Eje Y cambiar
+          .domain([0, 1.2*d3.max(data, function(d) { return +d.P75; })]) // Eje Y cambiar
           .range([ height, 0 ]);
 
         svg.append("g")
@@ -52,9 +52,9 @@ export async function c_SCA_m(watershed) {
           .attr("fill", "#cce5df")
           .attr("stroke", "none")
           .attr("d", d3.area()
-            .x(function(d) { return x(d.x) })
-            .y0(function(d) { return y(d.CI_right) })
-            .y1(function(d) { return y(d.CI_left) })
+            .x(function(d) { return x(d.Month) })
+            .y0(function(d) { return y(d.P75) })
+            .y1(function(d) { return y(d.P25) })
             .curve(d3.curveCatmullRom.alpha(0.5))
             )
 
@@ -66,8 +66,8 @@ export async function c_SCA_m(watershed) {
           .attr("stroke", "steelblue")
           .attr("stroke-width", 1.5)
           .attr("d", d3.line()
-            .x(function(d) { return x(d.x) })
-            .y(function(d) { return y(d.y) })
+            .x(function(d) { return x(d.Month) })
+            .y(function(d) { return y(d.Mean) })
             .curve(d3.curveCatmullRom.alpha(0.5))
             );
 
@@ -76,9 +76,9 @@ export async function c_SCA_m(watershed) {
           .attr("text-anchor", "center")
           .attr("font-family", "Arial")
           .attr("font-size", "20px")
-          .attr("x", 70)
-          .attr("y", -25)
-          .text("10. Cobertura de nieve mensual");
+          .attr("x", -10)
+          .attr("y", -30)
+          .text("10. Cobertura de nieve promedio mensual");
         // Etiqueta SUb titulo
 
           svg.append("text")
@@ -86,7 +86,7 @@ export async function c_SCA_m(watershed) {
           .attr("font-family", "Arial")
           .attr("font-size", "16px")
           .style("fill", "grey")
-          .attr("x", width / 2  - 40)
+          .attr("x", + 40)
           .attr("y", -10)
           .text("Cuenca: "+ watershed);
 
@@ -109,9 +109,39 @@ export async function c_SCA_m(watershed) {
           .attr("x", -60)
           .text("Cobertura de nieve (%)");
 
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_De_Nieve_Mensual_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
 
     } catch (error) {
         console.error('Error loading data:', error);
     }
+
+
+
 }
 

@@ -43,7 +43,7 @@ svg.append("g")
    
     // Escala Y
     var y = d3.scaleLinear()
-    .domain([0, 1.05*d3.max(data, function(d) { return +d.area;} )])
+    .domain([0, 1.05*d3.max(data, function(d) { return +d.Area;} )])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
@@ -75,11 +75,14 @@ svg.append("g")
 
     // Etiqueta title  X =  Área (km2)
    // Etiqueta title
+   
+   var x_title = 0;
+   
    svg.append("text")
    .attr("text-anchor", "center")
    .attr("font-family", "Arial")
    .attr("font-size", "20px")
-   .attr("x", width / 2  - 120)
+   .attr("x", x_title)
    .attr("y", -25)
    .text("5. Superficie por tendencia anual");
 
@@ -89,7 +92,7 @@ svg.append("text")
    .attr("font-family", "Arial")
    .attr("font-size", "16px")
    .style("fill", "grey")
-   .attr("x", width / 2  - 40)
+   .attr("x", x_title + 23)
    .attr("y", -10)
    .text("Cuenca: "+ watershed);
 
@@ -137,7 +140,38 @@ svg.append("text")
     svg.selectAll("rect")
         .transition()
         .duration(800)
-        .attr("y", d => y(d.area))
-        .attr("height", d => height - y(d.area))
+        .attr("y", d => y(d.Area))
+        .attr("height", d => height - y(d.Area))
         .delay((d, i) => i * 100);
+
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", width - 25) // posiciona el botón en el eje x
+    .attr("y",-48) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(data[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(data.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Superficie_Por_Tendencia_Anual_" + watershed + ".csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
+
 }

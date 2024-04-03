@@ -31,7 +31,7 @@ export async function tc_ca_area() {
 
     color.domain(["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]);
 
-    const xAxis = d3.axisBottom(x).ticks(5);
+    const xAxis = d3.axisBottom(x).ticks(3);
 
     const yAxis = d3.axisLeft(y).tickFormat(function (d) { return ''; });
 
