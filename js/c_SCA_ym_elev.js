@@ -106,7 +106,7 @@ var mouseover = function(d) {
     tooltip
         .html( "Fecha: " + yearMonth + "<br>" 
               + "Elevación: " + d.Elevation + "<br>" 
-              + "Cobertura: " + SCA.toFixed(1) + " unidades"  // Definir cantidad de decimales
+              + "Cobertura: " + SCA.toFixed(1)   // Definir cantidad de decimales
              )
         .style("left", (event.pageX + 30) + "px") 
         .style("top", (event.pageY - 28) + "px")  // Ajustar posición para evitar solapamiento

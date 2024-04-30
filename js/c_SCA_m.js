@@ -1,7 +1,5 @@
-
     // Load d3.js module
     import * as d3 from 'https://cdn.skypack.dev/d3@7';
-
 
 export async function c_SCA_m(watershed) {
     // set the dimensions and margins of the graph
@@ -17,9 +15,18 @@ export async function c_SCA_m(watershed) {
       .append("g")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
-
-
-    // Text to create .csv file
+// Crear el tooltip
+var tooltip = d3.select("#p12")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("position", "absolute");
+              // Text to create .csv file
     var text_ini = "csv//month//SCA_m_BNA_"
     var text_end =  ".csv"
 
@@ -29,7 +36,6 @@ export async function c_SCA_m(watershed) {
     //Read the data
     try {
         const data = await d3.csv(watershed_selected);
-
         // Add X axis --> it is a date format
         var x = d3.scaleLinear()
           .domain([1,12])
@@ -37,15 +43,12 @@ export async function c_SCA_m(watershed) {
         svg.append("g")
           .attr("transform", "translate(0," + height + ")")
           .call(d3.axisBottom(x));
-
         // Add Y axis
         var y = d3.scaleLinear()
           .domain([0, 1.2*d3.max(data, function(d) { return +d.P75; })]) // Eje Y cambiar
           .range([ height, 0 ]);
-
         svg.append("g")
           .call(d3.axisLeft(y));
-
         // Show confidence interval
         svg.append("path")
           .datum(data)
@@ -57,7 +60,6 @@ export async function c_SCA_m(watershed) {
             .y1(function(d) { return y(d.P25) })
             .curve(d3.curveCatmullRom.alpha(0.5))
             )
-
         // Add the line
         svg
           .append("path")
@@ -70,7 +72,41 @@ export async function c_SCA_m(watershed) {
             .y(function(d) { return y(d.Mean) })
             .curve(d3.curveCatmullRom.alpha(0.5))
             );
-
+// Crear puntos en la línea para el tooltip
+svg.selectAll("myCircles")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("fill", "steelblue")
+    .attr("stroke", "none")
+    .attr("cx", function(d) { return x(d.Month); })
+    .attr("cy", function(d) { return y(d.Mean); })
+    .attr("r", 4)
+    .style("opacity", 0) // Hacer los puntos invisibles al principio
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .html("Mes: " + Math.round(d.Month) + "<br>" + "Cobertura de nieve promedio: " + Math.floor(d.Mean))
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .attr("r", 6)
+            .style("fill", "red")
+            .style("opacity", 1); // Mostrar el punto cuando el mouse está sobre él
+    })
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .attr("r", 4)
+            .style("fill", "steelblue")
+            .style("opacity", 0); // Hacer el punto invisible de nuevo cuando el mouse sale de él
+    });
         // Etiqueta title
         svg.append("text")
           .attr("text-anchor", "center")

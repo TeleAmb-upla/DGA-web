@@ -14,6 +14,17 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
+    // Crear el tooltip
+    var tooltip = d3.select("#p08")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
 
     // Text to create .csv file
     const text_ini = "csv//elev//elev_BNA_";
@@ -49,21 +60,38 @@ const margin = { top: 80, right: 0, bottom: 60, left: 80 };
       const gX = svg.append("g").call(yAxis);
 
 
-    //svg.append("g")
-    //    .call(d3.axisLeft(y))
-    //    .selectAll("text")
-    //    .style("font-size", "7px"); 
-
-    // Bars
-    svg.selectAll("myRect")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", x(0))
-        .attr("y", d => y(d.Elevation))
-        .attr("width", d => x(d.Area))
-        .attr("height", y.bandwidth())
-        .attr("fill", "#FFAA00");
+// Barras con tooltip
+svg.selectAll("myRect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("x", x(0))
+    .attr("y", d => y(d.Elevation))
+    .attr("width", d => x(d.Area))
+    .attr("height", y.bandwidth())
+    .attr("fill", "#FFAA00")
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .html("Elevación: " + d.Elevation + "<br>" + "Área: " + Math.round(d.Area))
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1);
+    })
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8);
+    });
 
     // Título principal del gráfico
      // Etiqueta title

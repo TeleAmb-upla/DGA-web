@@ -15,6 +15,19 @@ export async function c_snowline_y(watershed) {
             .attr("height", height + margin.top + margin.bottom)
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Crear el tooltip
+var tooltip = d3.select("#p11")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("border", "solid")
+.style("border-width", "2px")
+.style("border-radius", "5px")
+.style("padding", "5px")
+.style("position", "absolute");
+
     // Text to create .csv file
     const text_ini = "csv//year//snowline_y_BNA_";
     const text_end = ".csv";
@@ -37,33 +50,20 @@ svg.append("g")
     .selectAll("text")
     .attr("transform", "translate(-10,0)rotate(-45)")
     .style("text-anchor", "end");
-
-
         // Prueba QUIERO QUE PARTA DESDE EL MENOR VALOR Y 
-   
-
     let menor = data[0].Snowline_elev;
-
     data.forEach(element => {
       if(element.Snowline_elev < menor){
         menor = element.Snowline_elev*.95;
       }
     });
-    
     let mayor = data[0].Snowline_elev;
-    
     data.forEach(element => {
       if(element.Snowline_elev > mayor){
         mayor = element.Snowline_elev*1.02;
       }
     });
-    
-    //console.log(menor)
-    //console.log(mayor)
-
-
     // Add Y axis
-
     const Ymax = [menor, mayor];
     var y = d3.scaleLinear()
     .domain(Ymax)
@@ -83,6 +83,48 @@ svg.append("g")
             .y(function(d) { return y(d.Snowline_elev); })
             .curve(d3.curveCatmullRom.alpha(0.5))
         );
+
+// Crear puntos en la línea para el tooltip
+// Crear puntos en la línea para el tooltip
+svg.selectAll("myCircles")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("fill", "steelblue")
+    .attr("stroke", "none")
+    .attr("cx", function(d) { return x(d.Year); })
+    .attr("cy", function(d) { return y(d.Snowline_elev); })
+    .attr("r", 4)
+    .style("opacity", 0) // Hacer los puntos invisibles al principio
+    .on("mouseover", function(event, d) {
+        // Convertir el año y la elevación de la línea de nieve a números enteros
+        var year = Math.round(d.Year);
+        var snowlineElev = Math.floor(d.Snowline_elev);
+    
+        tooltip
+            .style("opacity", 1)
+            .html("Año: " + year + "<br>" + "Elevación de la línea de nieve: " + snowlineElev)
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .attr("r", 6)
+            .style("fill", "red")
+            .style("opacity", 1);
+    })
+    
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .attr("r", 4)
+            .style("fill", "steelblue")
+            .style("opacity", 0); // Hacer el punto invisible de nuevo cuando el mouse sale de él
+    });
 
 // Agrupar los datos por año y calcular el valor máximo para cada año
 const groupedData = d3.group(data, d => d.Snowline_elev);
@@ -107,9 +149,6 @@ let intercept = (sumY - slope * sumX) / n;
 var Y_ini_max = 2000*(slope) + (intercept);
 var Y_fin_max = 2023*(slope) + (intercept);
 
-
-//console.log(Y_ini_max)  
-//console.log(Y_fin_max) 
 
 const Y_sti_ini_max = ((Y_ini_max - mayor)/ (menor-mayor)) *height; 
 const Y_sti_fin_max = ((Y_fin_max - mayor) / (menor-mayor)) *height;

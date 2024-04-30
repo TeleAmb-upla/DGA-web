@@ -1,12 +1,9 @@
-
-// Ahora puedes utilizar D3.js o cualquier otra biblioteca de gráficos para dibujar dentro de este SVG
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-// Función para dibujar el gráfico 
 export async function tc_max_SP() {
 
     const margin = { top: 10, right: 0, bottom: 40, left: 30 };
-    const width = 200 - margin.left - margin.right;
+    const width = 180 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
@@ -16,6 +13,18 @@ export async function tc_max_SP() {
         .attr("id", "d3-plot")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Creación del tooltip
+    var tooltip = d3.select("#p07")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
 
     const data = await d3.csv("csv/total/tc_max_SP.csv");
 
@@ -47,7 +56,7 @@ export async function tc_max_SP() {
         let x0 = -1*(d["Neither agree nor disagree"]/2+d["Disagree"]+d["Strongly disagree"]);
         let idx = 0;
         d.boxes = color.domain().map(function(name) {
-            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1] };
+            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1], data: d };
         });
     });
 
@@ -86,7 +95,33 @@ export async function tc_max_SP() {
         .attr("height", y.bandwidth()* 1) // "sombra a las barras
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-        .style("fill", function(d) { return color(d.name); });
+        .style("fill", function(d) { return color(d.name); })
+        .on("mouseover", function(d) {
+            tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1);
+        })
+        .on("mousemove", function(event, d) {
+            let cobertura = -(d.data["1"] ? parseFloat(d.data["1"]) : 0) + (d.data["5"] ? parseFloat(d.data["5"]) : 0);
+            // Redondea hacia abajo para obtener un número entero
+            cobertura = Math.floor(cobertura);
+            tooltip
+                .html("Cuenca: " + d.data.Question + "<br>" + 
+                      "Anomalia cobertura: " +  cobertura + " %"
+                      )
+                .style("left", (event.pageX + 30) + "px")
+                .style("top", (event.pageY + 30) + "px");
+        })
+        
+        .on("mouseout", function(d) {
+            tooltip
+                .style("opacity", 0);
+            d3.select(this)
+                .style("stroke", "none")
+                .style("opacity", 0.8);
+        });
 
     vakken.insert("rect", ":first-child")
         .attr("height", y.bandwidth())
@@ -103,15 +138,50 @@ export async function tc_max_SP() {
         .attr("x2", x(0))
         .attr("y2", height);
 
-
-// Add title to graph
-svg.append("text")
-.attr("x", 70)
-.attr("y", 585)
-.attr("text-anchor", "center")
-.style("font-size", "14px")
-.attr("font-family","Arial")
-.text("(%) Anomalías");
+    svg.append("text")
+    .attr("x", 40)
+    .attr("y", 585)
+    .attr("text-anchor", "center")
+    .style("font-size", "14px")
+    .attr("font-family","Arial")
+    .text("(%) Anomalías");
 
 
-    }
+
+// CSV Persistencia de nieve 2000-2023,Cambios acumulados 2000-2023, Anomalías Cobertura Maxima 2023
+
+
+const info = "csv\\total\\Cobertura_Area_Nacional.csv";
+const T_csv = await d3.csv(info);
+
+
+// Crear un botón de exportación dentro del SVG
+
+// Crear un botón de exportación dentro del SVG
+var button = svg.append("foreignObject")
+    .attr("width", 30) // ancho del botón
+    .attr("height", 40) // alto del botón
+    .attr("x", 125 ) // posiciona el botón en el eje x
+    .attr("y", -10 ) // posiciona el botón en el eje Y
+    .append("xhtml:body")
+    .html('<button type="button" style="width:100%; height:100%; border: 0px; border-radius:5px; background-color: transparent;"><img src="images/descarga.png" alt="descarga" width="20" height="20"></button>')
+    .on("click", function() {
+        var columnNames = Object.keys(T_csv[0]); 
+
+        // Crea una nueva fila con los nombres de las columnas y agrega tus datos
+        var csvData = [columnNames].concat(T_csv.map(row => Object.values(row))).join("\n");
+        
+        var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        var url = URL.createObjectURL(blob);
+        var fileName = "Cobertura_Area_Nacional.csv";
+        
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", fileName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+}

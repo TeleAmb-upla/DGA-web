@@ -13,7 +13,17 @@ export async function c_SCA_ym(watershed) {
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
+       // Tooltip
+        var tooltip = d3.select("#p17")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
     // Text to create .csv file
     const text_ini = "csv//yearMonth//SCA_ym_BNA_";
     const text_end = ".csv";
@@ -80,14 +90,55 @@ const Ymax = [0, 1.05*d3.max(data, d => d.SCA)];
         .x(d => x(d.Year))
         .y(d => y(d.SCA))
       );
-
+// Crear puntos en la línea para el tooltip
+svg.selectAll("myCircles")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("fill", "steelblue")
+    .attr("stroke", "none")
+    .attr("cx", function(d) { return x(d.Year); })
+    .attr("cy", function(d) { return y(d.SCA); })
+    .attr("r", 4)
+    .style("opacity", 0) // Hacer los puntos invisibles al principio
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .html("Mes: " + (d.Year.getMonth() + 1) + "<br>" + "Año: " + d.Year.getFullYear() + "<br>" + "Cobertura de nieve promedio: " + Math.floor(d.SCA))
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .attr("r", 6)
+            .style("fill", "red")
+            .style("opacity", 1); // Mostrar el punto cuando el mouse está sobre él
+    })
+    
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .attr("r", 4)
+            .style("fill", "steelblue")
+            .style("opacity", 0); // Hacer el punto invisible de nuevo cuando el mouse sale de él
+    });
     
 // Agrupar los datos por año y calcular el valor máximo para cada año
 const groupedData = d3.group(data, d => d.Year.getFullYear());
-const maxValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.max(values, d => d.SCA)}));
 
-// Filtrar los valores máximos para los años 2000 a 2023
-const maxValues2000To2023 = maxValues.filter(d => d.year >= 2000 && d.year <= 2023);
+
+const maxValues = Array.from(groupedData, ([year, values]) => ({
+    year: year,
+    value: d3.max(values.filter(d => d.SCA !== 0 && !isNaN(d.SCA)), d => d.SCA)
+  }));
+
+/// 
+const maxValues2000To2023 = maxValues.filter(d => d.year >= 2000 && d.year <= 2023 && d.value !== 0 && !isNaN(d.value));
+
 var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0; //
 
 for (var i = 0; i < maxValues2000To2023.length; i++) {
@@ -127,10 +178,15 @@ svg.append("line")
     .attr("stroke-width", 1);
 
 
-const minValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.min(values, d => d.SCA)}));
+
+const minValues = Array.from(groupedData, ([year, values]) => ({
+    year: year,
+    value: d3.min(values.filter(d => d.SCA !== 0 && !isNaN(d.SCA)), d => d.SCA)
+  }));
+  
 
 // Filtrar los valores mínimos para los años 2000 a 2023
-const minValues2000To2023 = minValues.filter(d => d.year >= 2000 && d.year <= 2023);
+const minValues2000To2023 = minValues.filter(d => d.year >= 2000 && d.year <= 2023 && d.value !== 0 && !isNaN(d.value));
  
 var sumXmin = 0, sumYmin = 0, sumXYmin = 0, sumX2min = 0;
 //console.log (minValues2000To2023)
@@ -300,15 +356,5 @@ var button = svg.append("foreignObject")
         link.click();
         document.body.removeChild(link);
     });
-
-
-
-
-
-
-
-
-
-
 
 }

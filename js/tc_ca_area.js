@@ -1,11 +1,9 @@
-// Ahora puedes utilizar D3.js o cualquier otra biblioteca de gráficos para dibujar dentro de este SVG
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-// Función para dibujar el gráfico 
 export async function tc_ca_area() {
 
     const margin = { top: 10, right: 0, bottom: 40, left: 10 };
-    const width = 200 - margin.left - margin.right;
+    const width = 160 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     // Crear un nuevo SVG y agregarlo al cuerpo del documento
@@ -15,6 +13,18 @@ export async function tc_ca_area() {
         .attr("id", "d3-plot")
         .append("g")
         .attr("transform", "translate(0," + margin.top + ")");
+
+    // Creación del tooltip
+    var tooltip = d3.select("#p05")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
 
     const data = await d3.csv("csv/total/tc_ca_area.csv");
 
@@ -44,7 +54,7 @@ export async function tc_ca_area() {
         let x0 = -1*(d["Neither agree nor disagree"]/2+d["Disagree"]+d["Strongly disagree"]);
         let idx = 0;
         d.boxes = color.domain().map(function(name) {
-            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1] };
+            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1], data: d };
         });
     });
 
@@ -78,13 +88,42 @@ export async function tc_ca_area() {
     const bars = vakken.selectAll("rect")
         .data(function(d) { return d.boxes; })
         .enter().append("g").attr("class", "subbar");
-
-    bars.append("rect")
+    
+    
+     function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+          }
+    
+          bars.append("rect")
         .attr("height", y.bandwidth()* 1) // "sombra a las barras
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-        .style("fill", function(d) { return color(d.name); });
-
+        .style("fill", function(d) { return color(d.name); })
+        .on("mouseover", function(d) {
+            tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1);
+        })
+        .on("mousemove", function(event, d) {
+            let cobertura = -(d.data["1"] ? parseFloat(d.data["1"]) : 0) + (d.data["5"] ? parseFloat(d.data["5"]) : 0);
+            tooltip
+                .html("Cuenca: " + d.data.Question + "<br>" + 
+                      "Cambio área de nieve: " + formatNumber(Math.round(cobertura)) + " km²"
+                      )
+                .style("left", (event.pageX + 30) + "px")
+                .style("top", (event.pageY + 30) + "px");
+        })
+        
+        .on("mouseout", function(d) {
+            tooltip
+                .style("opacity", 0);
+            d3.select(this)
+                .style("stroke", "none")
+                .style("opacity", 0.8);
+        });
+    
     vakken.insert("rect", ":first-child")
         .attr("height", y.bandwidth())
         .attr("x", "1")
@@ -92,37 +131,35 @@ export async function tc_ca_area() {
         .attr("fill-opacity", "0.5")
         .style("fill", "#F5F5F5")
         .attr("class", function(d,index) { return index % 2 == 0 ? "even" : "uneven"; });
-
+    
     svg.append("g")
         .attr("class", "y axis")
         .append("line")
         .attr("x1", x(0))
         .attr("x2", x(0))
         .attr("y2", height);
-
-// Add title to graph
-
- // TITULO PARA AGREGARLE EL ELEVADO AL 2
- var text = svg.append("text")
- .attr("x", 40)
- .attr("y", 585)
- .attr("text-anchor", "center")
- .style("font-size", "14px")
- .attr("font-family","Arial");
-
- text.append("tspan")
- .text("Área de nieve (km");
-
- text.append("tspan")
- .attr("baseline-shift", "super")
- .attr("font-size", "10px")
- .text("2");
-
- text.append("tspan")
- .attr("baseline-shift", "baseline")
- .attr("font-size", "14px")
- .text(")");
-
-
-
+    
+    // Add title to graph
+    
+    // TITULO PARA AGREGARLE EL ELEVADO AL 2
+    var text = svg.append("text")
+    .attr("x", 20)
+    .attr("y", 585)
+    .attr("text-anchor", "center")
+    .style("font-size", "14px")
+    .attr("font-family","Arial");
+    
+    text.append("tspan")
+    .text("Área de nieve (km");
+    
+    text.append("tspan")
+    .attr("baseline-shift", "super")
+    .attr("font-size", "10px")
+    .text("2");
+    
+    text.append("tspan")
+    .attr("baseline-shift", "baseline")
+    .attr("font-size", "14px")
+    .text(")");
     }
+    

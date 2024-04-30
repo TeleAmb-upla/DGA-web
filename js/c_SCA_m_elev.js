@@ -58,28 +58,32 @@ svg.append("g")
         .style("padding", "5px") 
 // Tres funciones que cambian la información sobre herramientas cuando el usuario pasa el cursor/mueve/sale de una celda
 var mouseover = function(d) {
-    tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function (event, d) {
-    var SCA = Number(d.SCA); // era una cadena y habia que pasarla a numero
-    tooltip
-        .html("Elevación: " + d.Elevation + "<br>" 
-             + "Cobertura: " + SCA.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
-             +"Mes: " + d.Month + "<br>" )
-        .style("left", (event.pageX+30) + "px") 
-        .style("top", (event.pageY) + "px")
-  }
-  var mouseleave = function(d) {
-    tooltip
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
+  tooltip
+    .style("opacity", 1);
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1);
+};
+
+var mousemove = function (event, d) {
+  var SCA = Number(d.SCA); // Convertir a número
+  tooltip
+      .html("Elevación: " + d.Elevation + "<br>" 
+           + "Cobertura: " + SCA.toFixed(1) + "<br>"
+           + "Mes: " + Math.floor(d.Month + 1)) // Redondear al número entero más cercano
+      .style("left", (event.pageX + 30) + "px") 
+      .style("top", (event.pageY) + "px");
+};
+
+
+var mouseleave = function(d) {
+  tooltip
+    .style("opacity", 0);
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8);
+};
+
           // Add the squares
     svg.selectAll()
          .data(data, function (d) { return d.Month + ':' + d.Elevation; })

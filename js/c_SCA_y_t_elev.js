@@ -1,9 +1,7 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
 // Importar la paleta de colores
 import { myColor } from './myColor.js';
-// Importar la función Leyenda
-// import { leyenda_tend } from './leyenda_tend.js'; //  
-// Función para dibujar el gráfico 
+
 export async function c_SCA_y_t_elev(watershed) {
     // set the dimensions and margins of the graph
     const margin = {top: 80, right: 150, bottom: 60, left: 200};

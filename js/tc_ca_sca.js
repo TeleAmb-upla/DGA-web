@@ -2,7 +2,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export async function tc_ca_sca() {
     const margin = { top: 10, right: 10, bottom: 40, left: 30};
-    const width = 200 - margin.left - margin.right;
+    const width = 180 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
     const svg = d3.select("#p04").append("svg")
@@ -11,6 +11,19 @@ export async function tc_ca_sca() {
         .attr("id", "d3-plot")
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Creación del tooltip
+    var tooltip = d3.select("#p04")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        .style("position", "absolute");
+
     const data = await d3.csv("csv/total/tc_ca_sca.csv");
 
     const y = d3.scaleBand()
@@ -39,7 +52,7 @@ export async function tc_ca_sca() {
         let x0 = -1*(d["Neither agree nor disagree"]/2+d["Disagree"]+d["Strongly disagree"]);
         let idx = 0;
         d.boxes = color.domain().map(function(name) {
-            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1] };
+            return { name: name, x0: x0, x1: x0 += +d[name], N: +d.N, n: +d[idx += 1], data: d };
         });
     });
 
@@ -64,7 +77,7 @@ export async function tc_ca_sca() {
         .attr("class", "y axis")
         .call(yAxis);
 
-        const vakken = svg.selectAll(".question")
+    const vakken = svg.selectAll(".question")
         .data(data)
         .enter().append("g")
         .attr("class", "bar")
@@ -78,7 +91,31 @@ export async function tc_ca_sca() {
         .attr("height", y.bandwidth()* 1)
         .attr("x", function(d) { return x(d.x0); })
         .attr("width", function(d) { return x(d.x1) - x(d.x0); })
-        .style("fill", function(d) { return color(d.name); });
+        .style("fill", function(d) { return color(d.name); })
+        .on("mouseover", function(d) {
+            tooltip
+                .style("opacity", 1)
+            d3.select(this)
+                .style("stroke", "black")
+                .style("opacity", 1);
+        })
+        .on("mousemove", function(event, d) {
+            let cobertura = -(d.data["1"] ? parseFloat(d.data["1"]) : 0) + (d.data["5"] ? parseFloat(d.data["5"]) : 0);
+            tooltip
+                .html("Cuenca: " + d.data.Question + "<br>" + 
+                      "Cambio de cobertura: " + cobertura.toFixed(2) + " %"
+                      )
+                .style("left", (event.pageX + 30) + "px")
+                .style("top", (event.pageY + 30) + "px");
+        })
+        
+        .on("mouseout", function(d) {
+            tooltip
+                .style("opacity", 0);
+            d3.select(this)
+                .style("stroke", "none")
+                .style("opacity", 0.8);
+        });
 
     vakken.insert("rect", ":first-child")
         .attr("height", y.bandwidth())
@@ -96,7 +133,7 @@ export async function tc_ca_sca() {
         .attr("y2", height);
 
     svg.append("text")
-    .attr("x", 20)
+    .attr("x", 0)
     .attr("y", 585)
     .attr("text-anchor", "center")
     .style("font-size", "14px")

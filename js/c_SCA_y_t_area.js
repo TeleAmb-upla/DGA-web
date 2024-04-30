@@ -19,10 +19,20 @@ export async function c_SCA_y_t_area(watershed) {
         .attr("height", height + margin.top + margin.bottom)
         .attr("id", "d3-plot")
         .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
    
-       .attr("transform", `translate(${margin.left}, ${margin.top})`);
-   
-   
+   // Crear el tooltip
+var tooltip = d3.select("#p05")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("border", "solid")
+.style("border-width", "2px")
+.style("border-radius", "5px")
+.style("padding", "5px")
+.style("position", "absolute");
+
  // Define las nuevas etiquetas
 var labels = ["<-10", "-9 - -8", "-8 - -7", "-7 - -6", "-6 - -5", "-5 - -4", "-4 - -3", "-3 - -2", "-2 - -1", "-1 - 0", "0 - 1", "1 - 2", "2 - 3", "3 - 4", "4 - 5", "5 - 6", "6 - 7", "7 - 8", "8 - 9", "9 - 10", ">10"];
 
@@ -60,18 +70,54 @@ svg.append("g")
         ]);
        
 
-    // Barras
-    svg.selectAll("mybar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", d => x(d.Sen_slope))
-        .attr("width", x.bandwidth())
-        .attr("fill", d => myColor(d.Sen_slope)) // Usar la paleta de colores aquí
-        .attr("height", d => height - y(0))
-        .attr("y", d => y(0))
-        .attr("stroke", "black") // Color del borde
-        .attr("stroke-width", 0.5); // Ancho del borde
+  // Barras con tooltip
+svg.selectAll("mybar")
+.data(data)
+.enter()
+.append("rect")
+.attr("x", d => x(d.Sen_slope))
+.attr("width", x.bandwidth())
+.attr("fill", d => myColor(d.Sen_slope))
+.attr("height", d => height - y(0))
+.attr("y", d => y(0))
+.attr("stroke", "black")
+.attr("stroke-width", 0.5)
+.on("mouseover", function(event, d) {
+    // Calcular el rango de tendencias para esta barra
+    var lowerBound = Math.floor(d.Sen_slope);
+    var upperBound = Math.ceil(d.Sen_slope);
+    var trendRange = lowerBound + "-" + upperBound;
+
+    // Convertir el valor del área a un número entero
+    var area = Math.round(d.Area);
+
+    tooltip
+        .style("opacity", 1)
+        .html("Tendencia: " + trendRange + "<br>" + "Superficie: " + area)
+        .style("left", (event.pageX + 30) + "px")
+        .style("top", (event.pageY + 30) + "px");
+    d3.select(this)
+        .style("stroke", "black")
+        .style("opacity", 1);
+})
+
+.on("mousemove", function(event, d) {
+    tooltip
+        .style("left", (event.pageX + 30) + "px")
+        .style("top", (event.pageY + 30) + "px");
+})
+.on("mouseout", function(d) {
+    tooltip
+        .style("opacity", 0);
+    d3.select(this)
+        .style("stroke", "none")
+        .style("opacity", 0.8);
+})
+.transition()
+.duration(800)
+.attr("y", d => y(d.Area))
+.attr("height", d => height - y(d.Area))
+.delay((d, i) => i * 100);
 
     // Etiqueta title  X =  Área (km2)
    // Etiqueta title

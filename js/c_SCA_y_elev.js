@@ -79,10 +79,11 @@ svg.append("g")
     }
     var mousemove = function (event, d) {
       var SCA = Number(d.SCA); // era una cadena y habla que pasarla a numero
+      var Year = Math.round(d.Year); // Convertir el año a un número entero
       tooltip
           .html( "Elevación: " + d.Elevation + "<br>" 
                + "Cobertura: " + SCA.toFixed(1) + "<br>"  //tofixed es para definir la cantiada de decimales al mostrar.
-               + "Año: " + d.Year)
+               + "Año: " + Year) // Mostrar el año como un número entero
           .style("left", (event.pageX + 30) + "px") 
           .style("top", (event.pageY) + "px")
     }

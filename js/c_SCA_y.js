@@ -18,14 +18,27 @@ export async function c_SCA_y(watershed) {
     const width = 500 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
-    // Crear el elemento SVG
-    var svg = d3.select("#p04")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("id", "d3-plot")
-        .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+// Crear el elemento SVG
+var svg = d3.select("#p04")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("id", "d3-plot")
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// Crear el tooltip
+var tooltip = d3.select("#p04")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("position", "absolute");
+
 
     // Escala X
     var x = d3.scaleBand()
@@ -48,16 +61,45 @@ export async function c_SCA_y(watershed) {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-   // Barras
-    svg.selectAll("mybar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("x", d => x(d.Year))
-        .attr("width", x.bandwidth())
-        .attr("fill", "#004C99")
-        .attr("height", d => height - y(0))
-        .attr("y", d => y(0));
+// Barras
+svg.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("x", d => x(d.Year))
+    .attr("width", x.bandwidth())
+    .attr("fill", "#004C99")
+    // Iniciar con la altura en 0 para la animación
+    .attr("height", d => height - y(0))
+    .attr("y", d => y(0))
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .html("Año: " + d.Year + "<br>" + "Cobertura Promedio: " + d.SCA)
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1);
+    })
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8);
+    })
+    .transition()
+    .duration(800)
+    .attr("y", d => y(d.SCA))
+    .attr("height", d => height - y(d.SCA))
+    .delay((d, i) => i * 100);
+
 
 // Agrupar los datos por año y calcular el valor máximo para cada año
 const groupedData = d3.group(data, d => d.Year);
@@ -205,7 +247,6 @@ var button = svg.append("foreignObject")
         link.click();
         document.body.removeChild(link);
     });
-
 
 
 }

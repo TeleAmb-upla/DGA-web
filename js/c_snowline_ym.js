@@ -14,6 +14,17 @@ export async function c_snowline_ym(watershed) {
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
+// Crear el tooltip
+var tooltip = d3.select("#p19")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+    .style("position", "absolute");
 
     // Text to create .csv file
     const text_ini = "csv//yearMonth//snowline_ym_BNA_";
@@ -77,8 +88,6 @@ data.forEach(element => {
   }
 });
 
-//console.log(menor)
-//console.log(mayor)
 
 const Ymax = [menor, mayor];
 
@@ -89,24 +98,31 @@ const Ymax = [menor, mayor];
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    // Add the line
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(d => x(d.Year))
-        .y(d => y(d.Snowline_elev))
-      );
+// Agregar la línea solo para los datos disponibles
+svg.append("path")
+  .datum(data)
+  .attr("fill", "none")
+  .attr("stroke", "steelblue")
+  .attr("stroke-width", 1.5)
+  .attr("d", d3.line()
+    .defined(d => d.Snowline_elev) // Solo dibujar la línea si Snowline_elev está definido
+    .x(d => x(d.Year))
+    .y(d => y(d.Snowline_elev))
+  );
 
-
-// Agrupar los datos por año y calcular el valor máximo para cada año
+  // Agrupar los datos por año y calcular el valor máximo para cada año
 const groupedData = d3.group(data, d => d.Year.getFullYear());
-const maxValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.max(values, d => d.Snowline_elev)}));
+
+
+const maxValues = Array.from(groupedData, ([year, values]) => ({
+  year: year,
+  value: d3.max(values.filter(d => d.Snowline_elev !== 0 && !isNaN(d.Snowline_elev)), d => d.Snowline_elev)
+}));
 
 // Filtrar los valores máximos para los años 2000 a 2023
-const maxValues2000To2023 = maxValues.filter(d => d.year >= 2000 && d.year <= 2023);
+const maxValues2000To2023 = maxValues.filter(d => d.year >= 2000 && d.year <= 2023 && d.value !== 0 && !isNaN(d.value));
+ console.log(maxValues2000To2023)
+
 var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0; //
 
 for (var i = 0; i < maxValues2000To2023.length; i++) {
@@ -127,8 +143,6 @@ var intercept_max = (sumY - slope_max * sumX) / maxValues2000To2023.length;
 var Y_ini_max = 2000*(slope_max) + ( intercept_max);
 var Y_fin_max = 2023*(slope_max) + ( intercept_max);
 
-//console.log(Y_ini_max)  
-//console.log(Y_fin_max) 
 
 
 const Y_sti_ini_max = (([1.05*d3.max(data, d => +d.Snowline_elev)] -Y_ini_max) / (1.05*d3.max(data, d => +d.Snowline_elev))) *height;
@@ -147,13 +161,17 @@ svg.append("line")
 
   // MINIMOS
 
-  const minValues = Array.from(groupedData, ([year, values]) => ({year: year, value: d3.min(values, d => d.Snowline_elev)}));
-
+  const minValues = Array.from(groupedData, ([year, values]) => ({
+    year: year,
+    value: d3.min(values.filter(d => d.Snowline_elev !== 0 && !isNaN(d.Snowline_elev)), d => d.Snowline_elev)
+  }));
+  
   // Filtrar los valores mínimos para los años 2000 a 2023
-  const minValues2000To2023 = minValues.filter(d => d.year >= 2000 && d.year <= 2023);
+ const minValues2000To2023 = minValues.filter(d => d.year >= 2000 && d.year <= 2023 && d.value !== 0 && !isNaN(d.value));
+
    
   var sumXmin = 0, sumYmin = 0, sumXYmin = 0, sumX2min = 0;
-  //console.log (minValues2000To2023)
+console.log (minValues2000To2023)
   for (var i = 0; i < minValues2000To2023.length; i++) {
   
     sumXmin += minValues2000To2023[i].year;
@@ -314,6 +332,40 @@ var button = svg.append("foreignObject")
     link.click();
     document.body.removeChild(link);
 });
-
+// Crear puntos en la línea para el tooltip
+svg.selectAll("myCircles")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("fill", "steelblue")
+    .attr("stroke", "none")
+    .attr("cx", function(d) { return x(d.Year); })
+    .attr("cy", function(d) { return y(d.Snowline_elev); })
+    .attr("r", 4)
+    .style("opacity", 0) // Hacer los puntos invisibles al principio
+    .on("mouseover", function(event, d) {
+        tooltip
+            .style("opacity", 1)
+            .html("Mes: " + (d.Year.getMonth() + 1) + "<br>" + "Año: " + d.Year.getFullYear() + "<br>" + "Elevación de la línea de nieve: " + Math.floor(d.Snowline_elev))
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+        d3.select(this)
+            .attr("r", 6)
+            .style("fill", "red")
+            .style("opacity", 1); // Mostrar el punto cuando el mouse está sobre él
+    })
+    .on("mousemove", function(event, d) {
+        tooltip
+            .style("left", (event.pageX + 30) + "px")
+            .style("top", (event.pageY + 30) + "px");
+    })
+    .on("mouseout", function(d) {
+        tooltip
+            .style("opacity", 0);
+        d3.select(this)
+            .attr("r", 4)
+            .style("fill", "steelblue")
+            .style("opacity", 0); // Hacer el punto invisible de nuevo cuando el mouse sale de él
+    });
         
 }
